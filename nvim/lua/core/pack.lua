@@ -8,12 +8,13 @@ local data_dir = global.data_dir
 local use_ssh = global.use_ssh
 local vim_path = global.vim_path
 local modules_dir = vim_path .. "/lua/modules"
-local packer_compiled = data_dir .. "plugin/_compiled.lua"
-local bak_compiled = data_dir .. "plugin/bak_compiled.lua"
+local packer_compiled = data_dir .. "lua/_compiled.lua"
+local bak_compiled = data_dir .. "lua/bak_compiled.lua"
 
 -- Packer plugin manager
 local packer = nil
 local Packer = {}
+Packer.__index = Packer
 
 -- Load all plugins with packer.nvim
 function Packer:load_plugins()
@@ -126,6 +127,9 @@ end
 
 function plugins.load_compile()
     if vim.fn.filereadable(packer_compiled) == 1 then
+        -- since we customized the compilation path for packer
+        -- we need to manually load '_compiled.lua'
+        -- <:h startup> for more info to require path
         require("_compiled")
     else
         plugins.back_compile()

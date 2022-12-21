@@ -5,7 +5,7 @@
 local leader_key = " "
 
 --------------------------------------------
------------ USERPROFILE END --------------
+----------- USERPROFILE END ----------------
 --------------------------------------------
 local global = {}
 local os_name = vim.loop.os_uname().sysname

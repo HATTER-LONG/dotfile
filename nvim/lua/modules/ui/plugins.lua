@@ -1,9 +1,7 @@
 local ui = {}
 local conf = require("modules.ui.config")
--- This plugin provides the same icons as well as colors for each icon.
 ui["kyazdani42/nvim-web-devicons"] = { opt = false }
 
---
 ui["shaunsingh/nord.nvim"] = { opt = false, config = conf.nord }
 ui["rebelot/kanagawa.nvim"] = { opt = false, config = conf.kanagawa }
 ui["sainnhe/edge"] = { opt = false, config = conf.edge }
@@ -58,6 +56,7 @@ ui["dstein64/nvim-scrollview"] = {
 	event = { "BufReadPost" },
 	config = conf.scrollview,
 }
+-- TODO: change this to lua type
 ui["mbbill/undotree"] = {
 	opt = true,
 	cmd = "UndotreeToggle",

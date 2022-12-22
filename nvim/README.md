@@ -19,3 +19,6 @@
 | [lewis6991/gitsigns.nvim](https://github.com/lewis6991/gitsigns.nvim) | Super fast git decorations implemented purely in lua/teal. |
 | [lukas-reineke/indent-blankline.nvim](https://github.com/lukas-reineke/indent-blankline.nvim) | This plugin adds indentation guides to all lines (including empty lines). |
 | [akinsho/bufferline.nvim](https://github.com/akinsho/bufferline.nvim) | This plugin adds indentation guides to all lines (including empty lines). |
+| [dstein64/nvim-scrollview](https://github.com/dstein64/nvim-scrollview) | A Neovim plugin that displays interactive vertical scrollbars. |
+| [mbbill/undotree](https://github.com/mbbill/undotree) | The undo history visualizer for VIM. |
+| [j-hui/fidget.nvim](https://github.com/j-hui/fidget.nvim) | Standalone UI for nvim-lsp progress. |

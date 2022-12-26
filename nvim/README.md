@@ -1,5 +1,11 @@
 # Nvim Config
 
+## thirdpart
+
+### command
+
+1. [rg](https://github.com/BurntSushi/ripgrep): default search tools which replace grep.
+
 ## Plugin
 
 ### UI

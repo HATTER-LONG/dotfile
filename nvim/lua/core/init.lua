@@ -11,6 +11,8 @@ local load_core = function()
 	-- load vim ctrl mapping
 	require("core.mapping")
 	pack.load_compile()
+	-- vim.api.nvim_command([[set background=light]])
+	vim.api.nvim_command([[colorscheme kanagawa]])
 end
 
 load_core()

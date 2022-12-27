@@ -37,11 +37,9 @@ function Packer:load_plugins()
 
     local plugins_file = get_plugins_list()
     for _, m in ipairs(plugins_file) do
-        if m ~= "" then
-            local repos = require(m:sub(0, #m - 4))
-            for repo, conf in pairs(repos) do
-                self.repos[#self.repos + 1] = vim.tbl_extend("force", { repo }, conf)
-            end
+        local repos = require(m:sub(0, #m - 4))
+        for repo, conf in pairs(repos) do
+            self.repos[#self.repos + 1] = vim.tbl_extend("force", { repo }, conf)
         end
     end
 end

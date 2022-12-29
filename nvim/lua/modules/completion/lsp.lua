@@ -89,20 +89,36 @@ for _, server in ipairs(mason_lsp.get_installed_servers()) do
 			},
 		})
 	elseif server == "clangd" then
-		nvim_lsp.clangd.setup({
-			capabilities = vim.tbl_deep_extend("keep", { offsetEncoding = { "utf-16", "utf-8" } }, capabilities),
+		local copy_capabilities = capabilities
+		copy_capabilities.offsetEncoding = { "utf-16" }
+		local clangdopts = {
+			capabilities = copy_capabilities,
 			single_file_support = true,
-			on_attach = custom_attach,
-			cmd = {
-				"clangd",
+			on_attach = function(client, bufnr)
+				local function buf_set_keymap(...)
+					vim.api.nvim_buf_set_keymap(bufnr, ...)
+				end
+
+				-- local function buf_set_option(...)
+				-- 	vim.api.nvim_buf_set_option(bufnr, ...)
+				-- end
+				client.server_capabilities.document_formatting = true
+				local opts = { noremap = true, silent = true }
+				buf_set_keymap("n", "<leader>bg", "<cmd>CMakeGenerate<CR>", opts)
+				buf_set_keymap("n", "<leader>bb", "<cmd>CMakeBuild<CR>", opts)
+				buf_set_keymap("n", "<leader>bc", "<cmd>CMakeClose<CR>", opts)
+				buf_set_keymap("n", "<leader>i", "<cmd>ClangdSwitchSourceHeader<CR>", opts)
+				custom_attach(client, bufnr)
+			end,
+			args = {
 				"--background-index",
 				"--pch-storage=memory",
 				"--clang-tidy",
 				"--all-scopes-completion",
+				"--cross-file-rename",
 				"--completion-style=detailed",
 				"--header-insertion-decorators",
 				"--header-insertion=iwyu",
-				"--cross-file-rename",
 				"--include-ineligible-results",
 			},
 			commands = {
@@ -123,6 +139,42 @@ for _, server in ipairs(mason_lsp.get_installed_servers()) do
 						switch_source_header_splitcmd(0, "split")
 					end,
 					description = "Open source/header in a new split",
+				},
+			},
+		}
+		require("clangd_extensions").setup({
+			server = clangdopts,
+			extensions = {
+				inlay_hints = {
+					-- whether to align to the length of the longest line in the file
+					max_len_align = false,
+					-- padding from the left if max_len_align is true
+					max_len_align_padding = 1,
+					-- whether to align to the extreme right or not
+					right_align = false,
+					-- padding from the right if right_align is true
+					right_align_padding = 7,
+					-- The color of the hints
+					-- highlight = "Exception",
+				},
+				ast = {
+					role_icons = {
+						type = "",
+						declaration = "ﴯ",
+						expression = "",
+						specifier = "ﰠ",
+						statement = "",
+						["template argument"] = "",
+					},
+					kind_icons = {
+						Compound = "",
+						Recovery = "ﰠ",
+						TranslationUnit = "",
+						PackExpansion = "",
+						TemplateTypeParm = "",
+						TemplateTemplateParm = "",
+						TemplateParamObject = "",
+					},
 				},
 			},
 		})

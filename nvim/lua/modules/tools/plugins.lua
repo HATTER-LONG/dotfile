@@ -67,5 +67,13 @@ tools["mrjones2014/legendary.nvim"] = {
 		"folke/which-key.nvim",
 	},
 }
-
+tools["cdelledonne/vim-cmake"] = {
+	opt = true,
+	cmd = { "CMakeGenerate", "CMakeClean", "CMakeBuild", "CMakeOpen", "CMakeClose" },
+	config = function()
+		vim.g.cmake_command = "cmake"
+		vim.g.cmake_default_config = "Debug"
+		vim.g.cmake_build_dir_location = "./build"
+	end,
+}
 return tools

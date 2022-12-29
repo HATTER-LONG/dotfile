@@ -66,5 +66,4 @@ completion["zbirenbaum/copilot-cmp"] = {
 		require("copilot_cmp").setup()
 	end,
 }
-
 return completion

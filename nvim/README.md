@@ -2,15 +2,17 @@
 
 ## thirdpart
 
-### command
+### depend
 
 1. [rg](https://github.com/BurntSushi/ripgrep): default search tools which replace grep.
+2. [macos-macism](https://github.com/laishulu/macism): change input method.
+3. [rust-analyzer](https://rust-analyzer.github.io/manual.html#rustup): rust language server.
 
 ## Plugin
 
 ### UI
 
-| name| func |
+| Plugin | Description |
 |----| ----|
 | [rebelot/kanagawa.nvim](https://github.com/rebelot/kanagawa.nvim) | Neovim theme |
 | [catppuccin/nvim](https://github.com/catppuccin/nvim) | Neovim theme |

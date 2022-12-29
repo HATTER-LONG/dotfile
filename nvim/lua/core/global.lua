@@ -13,6 +13,8 @@ local wildignorecase = true
 local wildignore = ".git,.hg,.svn,*.pyc,*.o,*.out,*.jpg,*.jpeg,*.png,*.gif,*.zip,**/tmp/**,*.DS_Store,**/node_modules/**,**/bower_modules/**"
 local virtualedit = "block"
 local history = 2000
+local use_ssh = true
+local format_on_save = true
 
 --------------------------------------------
 ----------- USERPROFILE END ----------------
@@ -38,8 +40,8 @@ function global:load_variables()
     -- Module installed path variables
     self.data_dir = string.format("%s/site/", vim.fn.stdpath("data"))
 
-    self.use_ssh = true
-    self.format_on_save = true
+    self.use_ssh = use_ssh
+    self.format_on_save = format_on_save
 end
 
 -- Global config to load before packer loaded

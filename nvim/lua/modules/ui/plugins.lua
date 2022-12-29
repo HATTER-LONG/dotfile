@@ -59,6 +59,11 @@ ui["j-hui/fidget.nvim"] = {
     event = "BufReadPost",
     config = conf.fidget,
 }
---TODO: add neodim plugin
+ui["zbirenbaum/neodim"] = {
+    opt = true,
+    event = "LspAttach",
+    requires = "nvim-treesitter",
+    config = conf.neodim,
+}
 --TODO: add todo tree plugin
 return ui

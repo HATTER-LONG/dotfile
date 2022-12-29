@@ -76,7 +76,7 @@ function config.alpha()
         button("<leader> f r", " File frecency", leader, "<cmd>Telescope frecency<cr>"),
         button("<leader> f e", " File history", leader, "<cmd>Telescope oldfiles<cr>"),
         button("<leader> f p", " Project find", leader, "<cmd>Telescope project<cr>"),
-        button("<leader> f f", " File find", leader, "<cmd>Telescope find_files<cr>"),
+        button("<Ctrl> p", " File find", leader, "<cmd>Telescope find_files<cr>"),
         button("<leader> f n", " File new", leader, "<cmd>enew<cr>"),
         button("<leader> f w", " Word find", leader, "<cmd>Telescope live_grep<cr>"),
     }
@@ -682,6 +682,25 @@ end
 function config.fidget()
     require("fidget").setup({
         window = { blend = 0 },
+    })
+end
+
+function config.neodim()
+    local normal_background = vim.api.nvim_get_hl_by_name("Normal", true).background
+    local blend_color = normal_background ~= nil and string.format("#%06x", normal_background) or "#000000"
+
+    require("neodim").setup({
+        alpha = 0.45,
+        blend_color = blend_color,
+        update_in_insert = {
+            enable = true,
+            delay = 100,
+        },
+        hide = {
+            virtual_text = true,
+            signs = false,
+            underline = false,
+        },
     })
 end
 

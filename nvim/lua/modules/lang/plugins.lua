@@ -14,4 +14,13 @@ lang["iamcco/markdown-preview.nvim"] = {
 	run = "cd app && yarn install",
 }
 lang["chrisbra/csv.vim"] = { opt = true, ft = "csv" }
+
+lang["saecki/crates.nvim"] = {
+	opt = true,
+	event = { "BufRead Cargo.toml" },
+	requires = { "nvim-lua/plenary.nvim", opt = true },
+	config = function()
+		require("crates").setup()
+	end,
+}
 return lang

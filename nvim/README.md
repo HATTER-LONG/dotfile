@@ -27,4 +27,3 @@
 | [j-hui/fidget.nvim](https://github.com/j-hui/fidget.nvim)                                     | Standalone UI for nvim-lsp progress.                                                         |
 | [mbbill/undotree](https://github.com/mbbill/undotree)                                         | The undo history visualizer for VIM.                                                         |
 | [zbirenbaum/neodim](https://github.com/zbirenbaum/neodim)                                     | This plugin for dimming the highlights of unused functions, variables, parameters, and more. |
-

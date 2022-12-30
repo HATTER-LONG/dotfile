@@ -22,6 +22,7 @@ mason_lsp.setup({
 		"sumneko_lua",
 		"clangd",
 		"pyright",
+		"taplo",
 	},
 })
 
@@ -234,6 +235,28 @@ for _, server in ipairs(mason_lsp.get_installed_servers()) do
 					},
 				},
 			},
+		})
+	elseif server == "taplo" then
+		nvim_lsp.taplo.setup({
+			capabilities = capabilities,
+			on_attach = function(client, bufnr)
+				local function show_documentation()
+					local filetype = vim.bo.filetype
+					if vim.tbl_contains({ "vim", "help" }, filetype) then
+						vim.cmd("h " .. vim.fn.expand("<cword>"))
+					elseif vim.tbl_contains({ "man" }, filetype) then
+						vim.cmd("Man " .. vim.fn.expand("<cword>"))
+					elseif vim.fn.expand("%:t") == "Cargo.toml" and require("crates").popup_available() then
+						require("crates").show_popup()
+					else
+					end
+				end
+
+				client.server_capabilities.document_formatting = true
+				local opts = { noremap = true, silent = true, buffer = bufnr } -- set special buffer
+				vim.keymap.set("n", "K", show_documentation, opts)
+				custom_attach(client, bufnr)
+			end,
 		})
 	elseif server ~= "efm" then
 		nvim_lsp[server].setup({

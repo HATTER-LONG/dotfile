@@ -165,12 +165,4 @@ editor["ur4ltz/surround.nvim"] = {
 	end,
 }
 
-editor["saecki/crates.nvim"] = {
-	opt = true,
-	event = { "BufRead Cargo.toml" },
-	requires = { "nvim-lua/plenary.nvim", opt = true },
-	config = function()
-		require("crates").setup()
-	end,
-}
 return editor

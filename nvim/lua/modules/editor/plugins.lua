@@ -11,6 +11,10 @@ editor["terrortylor/nvim-comment"] = {
 	opt = false,
 	config = conf.nvim_comment,
 }
+editor["JoosepAlviste/nvim-ts-context-commentstring"] = {
+	opt = true,
+	after = "nvim-treesitter",
+}
 editor["nvim-treesitter/nvim-treesitter"] = {
 	opt = true,
 	run = ":TSUpdate",
@@ -24,19 +28,6 @@ editor["nvim-treesitter/nvim-treesitter-textobjects"] = {
 editor["p00f/nvim-ts-rainbow"] = {
 	opt = true,
 	after = "nvim-treesitter",
-}
-editor["JoosepAlviste/nvim-ts-context-commentstring"] = {
-	opt = true,
-	after = "nvim-treesitter",
-}
-editor["mfussenegger/nvim-ts-hint-textobject"] = {
-	opt = true,
-	after = "nvim-treesitter",
-}
-editor["windwp/nvim-ts-autotag"] = {
-	opt = true,
-	after = "nvim-treesitter",
-	config = conf.autotag,
 }
 editor["andymass/vim-matchup"] = {
 	opt = true,
@@ -113,18 +104,6 @@ editor["famiu/bufdelete.nvim"] = {
 	opt = true,
 	cmd = { "Bdelete", "Bwipeout", "Bdelete!", "Bwipeout!" },
 }
--- editor["edluffy/specs.nvim"] = {
--- 	opt = true,
--- 	event = "CursorMoved",
--- 	config = conf.specs,
--- }
-editor["abecodes/tabout.nvim"] = {
-	opt = true,
-	event = "InsertEnter",
-	wants = "nvim-treesitter",
-	after = "nvim-cmp",
-	config = conf.tabout,
-}
 editor["sindrets/diffview.nvim"] = {
 	opt = true,
 	cmd = { "DiffviewOpen", "DiffviewClose" },
@@ -138,7 +117,6 @@ editor["ibhagwan/smartyank.nvim"] = {
 	event = "BufReadPost",
 	config = conf.smartyank,
 }
-
 -- only for fcitx5 user who uses non-English language during coding
 editor["brglng/vim-im-select"] = {
 	opt = true,

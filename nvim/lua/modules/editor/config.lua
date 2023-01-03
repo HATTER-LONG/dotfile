@@ -108,19 +108,6 @@ function config.hop()
 	require("hop").setup({ keys = "etovxqpdygfblzhckisuran" })
 end
 
-function config.autotag()
-	require("nvim-ts-autotag").setup({
-		filetypes = {
-			"html",
-			"xml",
-			"javascript",
-			"typescriptreact",
-			"javascriptreact",
-			"vue",
-		},
-	})
-end
-
 function config.nvim_colorizer()
 	require("colorizer").setup()
 end
@@ -424,26 +411,6 @@ function config.specs()
 	})
 end
 
-function config.tabout()
-	require("tabout").setup({
-		tabkey = "<A-l>",
-		backwards_tabkey = "<A-h>",
-		ignore_beginning = false,
-		act_as_tab = true,
-		enable_backward = true,
-		completion = true,
-		tabouts = {
-			{ open = "'", close = "'" },
-			{ open = '"', close = '"' },
-			{ open = "`", close = "`" },
-			{ open = "(", close = ")" },
-			{ open = "[", close = "]" },
-			{ open = "{", close = "}" },
-		},
-		exclude = {},
-	})
-end
-
 function config.imselect()
 	local global = require("core.global")
 	if global.is_mac then
@@ -503,6 +470,7 @@ function config.clever_f()
 	vim.g.clever_f_mark_direct_color = "CleverChar"
 	vim.g.clever_f_mark_direct = true
 	vim.g.clever_f_timeout_ms = 1500
+	vim.g.clever_f_fix_key_direction = true
 end
 
 function config.smartyank()

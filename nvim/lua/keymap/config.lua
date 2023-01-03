@@ -23,15 +23,15 @@ _G.enhance_align = function(key)
 	return t(map[key])
 end
 
-local _lazygit = nil
-_G.toggle_lazygit = function()
-	if not _lazygit then
+local _gitui = nil
+_G.toggle_gitui = function()
+	if not _gitui then
 		local Terminal = require("toggleterm.terminal").Terminal
-		_lazygit = Terminal:new({
-			cmd = "lazygit",
+		_gitui = Terminal:new({
+			cmd = "gitui",
 			hidden = true,
 			direction = "float",
 		})
 	end
-	_lazygit:toggle()
+	_gitui:toggle()
 end

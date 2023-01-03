@@ -60,8 +60,8 @@ local plug_map = {
 	["n|<leader>te"] = map_cr([[execute v:count . "ToggleTerm direction=float"]]):with_noremap():with_silent(),
 	-- ["i|<leader>te"] = map_cmd("<Esc><Cmd>ToggleTerm direction=float<CR>"):with_noremap():with_silent(),
 	["t|<leader>te"] = map_cmd("<Esc><Cmd>ToggleTerm<CR>"):with_noremap():with_silent(),
-	["n|<leader>g"] = map_cr("lua toggle_lazygit()"):with_noremap():with_silent(),
-	["t|<leader>g"] = map_cmd("<Esc><Cmd>lua toggle_lazygit()<CR>"):with_noremap():with_silent(),
+	["n|<leader>g"] = map_cr("lua toggle_gitui()"):with_noremap():with_silent(),
+	["t|<leader>g"] = map_cmd("<Esc><Cmd>lua toggle_gitui()<CR>"):with_noremap():with_silent(),
 	["n|<leader>G"] = map_cu("Git"):with_noremap():with_silent(),
 	-- Plugin trouble
 	["n|gt"] = map_cr("TroubleToggle"):with_noremap():with_silent(),
@@ -86,6 +86,8 @@ local plug_map = {
 	["n|<leader>fg"] = map_cu("Telescope git_files"):with_noremap():with_silent(),
 	["n|<leader>fz"] = map_cu("Telescope zoxide list"):with_noremap():with_silent(),
 	["n|<leader>fb"] = map_cu("Telescope buffers"):with_noremap():with_silent(),
+	["n|<Leader>o"] = map_cu("Telescope lsp_document_symbols"):with_noremap():with_silent(),
+	["n|<Leader>as"] = map_cu("Telescope lsp_dynamic_workspace_symbols"):with_noremap():with_silent(),
 	-- Plugin accelerate-jk
 	["n|j"] = map_cmd("v:lua.enhance_jk_move('j')"):with_silent():with_expr(),
 	["n|k"] = map_cmd("v:lua.enhance_jk_move('k')"):with_silent():with_expr(),

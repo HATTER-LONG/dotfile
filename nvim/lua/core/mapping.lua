@@ -24,7 +24,7 @@ local def_map = {
 	["n|<A-'>"] = map_cr("resize +2"):with_silent(),
 	["n|<C-q>"] = map_cmd(":wq<CR>"),
 	["n|<A-S-q>"] = map_cmd(":q!<CR>"),
-	["n|<leader>o"] = map_cr("setlocal spell! spelllang=en_us"),
+	["n|<leader>sp"] = map_cr("setlocal spell! spelllang=en_us"),
 	["n|H"] = map_cmd("^"),
 	["n|L"] = map_cmd("$"),
 	["n|<C-w>z"] = map_cr("tab split"):with_noremap():with_silent(),

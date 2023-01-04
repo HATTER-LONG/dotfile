@@ -39,7 +39,7 @@ tools["nvim-telescope/telescope-live-grep-args.nvim"] = {
 tools["michaelb/sniprun"] = {
 	opt = true,
 	run = "bash ./install.sh",
-	cmd = { "SnipRun", "'<,'>SnipRun" },
+	cmd = { "SnipClose", "SnipRun", "'<,'>SnipRun" },
 }
 tools["folke/trouble.nvim"] = {
 	opt = true,

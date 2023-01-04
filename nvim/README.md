@@ -8,6 +8,7 @@
 2. [macos-macism](https://github.com/laishulu/macism): change input method.
 3. [rust-analyzer](https://rust-analyzer.github.io/manual.html#rustup): rust language server.
 4. [gitui](https://github.com/extrawurst/gitui): ctrl git.
+5. [zoxide](https://github.com/ajeetdsouza/zoxide): A smarter cd command. Supports all major shells..
 
 ## Plugin
 
@@ -58,3 +59,24 @@
 | ( FIXME: neovim ver0.9 will support splitkeep replace this plugin ) [luukvbaal/stabilize.nvim](https://github.com/luukvbaal/stabilize.nvim) | Neovim plugin to stabilize window open/close events.                                                                                  |
 | ( TODO: add tmux buffer list support ) [ibhagwan/smartyank.nvim](https://github.com/ibhagwan/smartyank.nvim)                                | Better yank support.                                                                                                                  |
 | ( TODO: add description shortkey ) [ur4ltz/surround.nvim](https://github.com/ur4ltz/surround.nvim)                                          | A surround text object plugin for neovim written in lua.                                                                              |
+
+### Tools
+
+| Plugin                                                                                                  | Description                                                                                                                |
+| ------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| [nvim-lua/plenary.nvim](https://github.com/nvim-lua/plenary.nvim)                                       | Infra about lua plugin which depend this.                                                                                  |
+| [nvim-telescope/telescope.nvim](https://github.com/nvim-telescope/telescope.nvim)                       | Highly extendable fuzzy finder over lists.                                                                                 |
+| [nvim-lua/popup.nvim](https://github.com/nvim-lua/popup.nvim)                                           | An implementation of the Popup API from vim in Neovim. Hope to upstream when complete                                      |
+| [debugloop/telescope-undo.nvim](https://github.com/debugloop/telescope-undo.nvim)                       | A telescope extension to view and search your undo tree.                                                                   |
+| [ahmedkhalf/project.nvim](https://github.com/ahmedkhalf/project.nvim)                                   | The superior project management solution for neovim.                                                                       |
+| [nvim-telescope/telescope-fzf-native.nvim](https://github.com/nvim-telescope/telescope-fzf-native.nvim) | FZF sorter for telescope written in c.                                                                                     |
+| [nvim-telescope/telescope-frecency.nvim](https://github.com/nvim-telescope/telescope-frecency.nvim)     | A telescope.nvim extension that offers intelligent prioritization when selecting files from your editing history.          |
+| [jvgrootveld/telescope-zoxide](https://github.com/jvgrootveld/telescope-zoxide)                         | An extension for telescope.nvim that allows you operate zoxide within Neovim.                                              |
+| [michaelb/sniprun](https://github.com/michaelb/sniprun)                                                 | A neovim plugin to run lines/blocs of code.                                                                                |
+| [folke/trouble.nvim](https://github.com/folke/trouble.nvim)                                             | A pretty diagnostics, references, telescope results, quickfix and location list.                                           |
+| [folke/todo-comments.nvim](https://github.com/folke/todo-comments.nvim)                                 | Highlight and search for todo comments.                                                                                    |
+| [gelguy/wilder.nvim](https://github.com/gelguy/wilder.nvim)                                             | A more adventurous wildmenu.                                                                                               |
+| [folke/which-key.nvim](https://github.com/folke/which-key.nvim)                                         | WhichKey is a lua plugin for Neovim 0.5 that displays a popup with possible keybindings of the command you started typing. |
+| [mrjones2014/legendary.nvim](https://github.com/mrjones2014/legendary.nvim)                             | A legend for your keymaps, commands, and autocmds, with which-key.nvim integration.                                        |
+| [cdelledonne/vim-cmake](https://github.com/cdelledonne/vim-cmake)                                       | Vim/Neovim plugin for working with CMake projects.                                                                         |
+

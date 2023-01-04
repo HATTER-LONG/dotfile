@@ -8,13 +8,6 @@ function config.kanagawa()
 		colors = {},
 		overrides = {},
 	})
-	require("kanagawa").setup({
-		functionStyle = { bold = true, italic = true },
-		transparent = true, -- do not set background color
-		dimInactive = true, -- dim inactive window `:h hl-NormalNC`
-		colors = {},
-		overrides = {},
-	})
 end
 
 function config.catppuccin()
@@ -82,7 +75,7 @@ function config.alpha()
 		button("<leader> f c", " Scheme change", leader, "<cmd>Telescope colorscheme<cr>"),
 		button("<leader> f r", " File frecency", leader, "<cmd>Telescope frecency<cr>"),
 		button("<leader> f e", " File history", leader, "<cmd>Telescope oldfiles<cr>"),
-		button("<leader> f p", " Project find", leader, "<cmd>Telescope project<cr>"),
+		button("<leader> f p", " Project find", leader, "<cmd>Telescope projects<cr>"),
 		button("<Ctrl> p", " File find", leader, "<cmd>Telescope find_files<cr>"),
 		button("<leader> f n", " File new", leader, "<cmd>enew<cr>"),
 		button("<leader> f w", " Word find", leader, "<cmd>Telescope live_grep<cr>"),
@@ -242,7 +235,7 @@ function config.lualine()
 			theme = "catppuccin",
 			disabled_filetypes = {},
 			component_separators = "|",
-			--section_separators = { left = "", right = "" },
+			section_separators = { left = "", right = "" },
 		},
 		sections = {
 			lualine_a = { { "mode" } },

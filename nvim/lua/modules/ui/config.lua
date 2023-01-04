@@ -306,7 +306,7 @@ function config.nvim_tree()
 		disable_netrw = false,
 		hijack_cursor = true,
 		hijack_netrw = true,
-		hijack_unnamed_buffer_when_opening = false,
+		hijack_unnamed_buffer_when_opening = true,
 		ignore_buffer_on_setup = false,
 		open_on_setup = false,
 		open_on_setup_file = false,
@@ -611,6 +611,7 @@ function config.fidget()
 end
 
 function config.neodim()
+	vim.api.nvim_command([[packadd nvim-treesitter]])
 	local normal_background = vim.api.nvim_get_hl_by_name("Normal", true).background
 	local blend_color = normal_background ~= nil and string.format("#%06x", normal_background) or "#000000"
 

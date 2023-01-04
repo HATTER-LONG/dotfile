@@ -17,11 +17,6 @@ editor["JoosepAlviste/nvim-ts-context-commentstring"] = {
 }
 editor["nvim-treesitter/nvim-treesitter"] = {
 	opt = true,
-	module = {
-		"nvim-treesitter",
-		"nvim-treesitter.parsers",
-		"nvim-treesitter.ts_utils",
-	},
 	run = ":TSUpdate",
 	event = "BufReadPost",
 	config = conf.nvim_treesitter,
@@ -105,9 +100,9 @@ editor["rcarriga/nvim-dap-ui"] = {
 	config = conf.dapui,
 }
 editor["tpope/vim-fugitive"] = { opt = true, cmd = { "Git", "G" } }
-editor["famiu/bufdelete.nvim"] = {
+editor["ojroques/nvim-bufdel"] = {
 	opt = true,
-	cmd = { "Bdelete", "Bwipeout", "Bdelete!", "Bwipeout!" },
+	event = "BufReadPost",
 }
 editor["sindrets/diffview.nvim"] = {
 	opt = true,

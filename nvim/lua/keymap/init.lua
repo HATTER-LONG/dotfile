@@ -6,8 +6,8 @@ require("keymap.config")
 
 -- Plug key mappings
 local plug_map = {
-	-- bufdelete.nvim
-	["n|<C-q>"] = map_cmd(":Bwipeout<CR>"):with_noremap():with_silent(),
+	-- nvim-bufdel
+	["n|<C-q>"] = map_cr("BufDel"):with_noremap():with_silent(),
 	-- Bufferline
 	["n|gb"] = map_cr("BufferLinePick"):with_noremap():with_silent(),
 	["n|<C-j>"] = map_cr("BufferLineCycleNext"):with_noremap():with_silent(),
@@ -132,9 +132,6 @@ local plug_map = {
 	["n|<leader>do"] = map_cr("lua require('dap').step_out()"):with_noremap():with_silent(),
 	["n|<leader>dl"] = map_cr("lua require('dap').repl.open()"):with_noremap():with_silent(),
 	["o|m"] = map_cu([[lua require('tsht').nodes()]]):with_silent(),
-	-- Plugin Tabout
-	["i|<A-l>"] = map_cmd([[<Plug>(TaboutMulti)]]):with_silent(),
-	["i|<A-h>"] = map_cmd([[<Plug>(TaboutBackMulti)]]):with_silent(),
 	-- Plugin Diffview
 	["n|<leader>D"] = map_cr("DiffviewOpen"):with_silent():with_noremap(),
 	["n|<leader><leader>D"] = map_cr("DiffviewClose"):with_silent():with_noremap(),

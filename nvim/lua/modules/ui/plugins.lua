@@ -63,7 +63,7 @@ ui["j-hui/fidget.nvim"] = {
 ui["zbirenbaum/neodim"] = {
 	opt = true,
 	event = "LspAttach",
-	requires = "nvim-treesitter",
+	requires = "nvim-treesitter/nvim-treesitter",
 	config = conf.neodim,
 }
 return ui

@@ -29,8 +29,8 @@ local load_core = function()
 	require("core.event")
 	pack.load_compile()
 	-- vim.api.nvim_command([[set background=light]])
-	-- vim.api.nvim_command([[colorscheme kanagawa]])
-	vim.api.nvim_command([[colorscheme catppuccin]])
+	-- vim.api.nvim_command([[colorscheme catppuccin]])
+	vim.api.nvim_command([[colorscheme kanagawa]])
 end
 
 load_core()

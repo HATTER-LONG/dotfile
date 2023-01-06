@@ -10,6 +10,11 @@
 4. [gitui](https://github.com/extrawurst/gitui): ctrl git.
 5. [zoxide](https://github.com/ajeetdsouza/zoxide): A smarter cd command. Supports all major shells..
 
+## Shortcut key
+
+| Shortcut Key | Description |
+| ------------ | ----------- |
+
 ## Plugin
 
 ### UI
@@ -79,3 +84,29 @@
 | [folke/which-key.nvim](https://github.com/folke/which-key.nvim)                                         | WhichKey is a lua plugin for Neovim 0.5 that displays a popup with possible keybindings of the command you started typing. |
 | [mrjones2014/legendary.nvim](https://github.com/mrjones2014/legendary.nvim)                             | A legend for your keymaps, commands, and autocmds, with which-key.nvim integration.                                        |
 | [cdelledonne/vim-cmake](https://github.com/cdelledonne/vim-cmake)                                       | Vim/Neovim plugin for working with CMake projects.                                                                         |
+
+### LSP
+
+| Plugin                                                                                                    | Description                                                                                                          |
+| --------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| [neovim/nvim-lspconfig](https://github.com/neovim/nvim-lspconfig)                                         | Quickstart configs for Nvim LSP.                                                                                     |
+| [creativenull/efmls-configs-nvim](https://github.com/creativenull/efmls-configs-nvim)                     | An unofficial collection of linters and formatters configured for efm-langserver to work with the built-in nvim-lsp. |
+| [williamboman/mason.nvim](https://github.com/williamboman/mason.nvim)                                     | Portable package manager for Neovim.                                                                                 |
+| [williamboman/mason-lspconfig.nvim](https://github.com/williamboman/mason-lspconfig.nvim)                 | Extension to mason.nvim that makes it easier to use lspconfig with mason.nvim.                                       |
+| [WhoIsSethDaniel/mason-tool-installer.nvim](https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim) | Install and upgrade third party tools automatically.                                                                 |
+| [glepnir/lspsaga.nvim](https://github.com/glepnir/lspsaga.nvim)                                           | A light-weight lsp plugin based on neovim's built-in lsp with a highly performant UI.                                |
+| [ray-x/lsp_signature.nvim](https://github.com/ray-x/lsp_signature.nvim)                                   | LSP signature hint as you type.                                                                                      |
+| [hrsh7th/nvim-cmp](https://github.com/hrsh7th/nvim-cmp)                                                   | A completion plugin for neovim coded in Lua.                                                                         |
+| [onsails/lspkind.nvim](https://github.com/onsails/lspkind.nvim)                                           | This tiny plugin adds vscode-like pictograms to neovim built-in lsp.                                                 |
+| [lukas-reineke/cmp-under-comparator](https://github.com/lukas-reineke/cmp-under-comparator)               | A tiny function for nvim-cmp to better sort completion items that start with one or more underlines.                 |
+| [saadparwaiz1/cmp_luasnip](https://github.com/saadparwaiz1/cmp_luasnip)                                   | Luasnip completion source for nvim-cmp.                                                                              |
+| [hrsh7th/cmp-nvim-lsp](https://github.com/hrsh7th/cmp-nvim-lsp)                                           | Nvim-cmp source for neovim's built-in language server client.                                                        |
+| [hrsh7th/cmp-nvim-lua](https://github.com/hrsh7th/cmp-nvim-lua)                                           | Nvim-cmp source for neovim Lua API.                                                                                  |
+| [andersevenrud/cmp-tmux](https://github.com/andersevenrud/cmp-tmux)                                       | Tmux completion source for nvim-cmp.                                                                                 |
+| [hrsh7th/cmp-path](https://github.com/hrsh7th/cmp-path)                                                   | Nvim-cmp source for filesystem paths.                                                                                |
+| [f3fora/cmp-spell](https://github.com/f3fora/cmp-spell)                                                   | Spell source for nvim-cmp based on vim's spellsuggest.                                                               |
+| [hrsh7th/cmp-buffer](https://github.com/hrsh7th/cmp-buffer)                                               | nvim-cmp source for buffer words.                                                                                    |
+| [kdheepak/cmp-latex-symbols](https://github.com/kdheepak/cmp-latex-symbols)                               | Add latex symbol support for nvim-cmp.                                                                               |
+| ( TODO: complete use this) [L3MON4D3/LuaSnip](https://github.com/L3MON4D3/LuaSnip)                        | Snippet Engine for Neovim written in Lua.                                                                            |
+| [windwp/nvim-autopairs](https://github.com/windwp/nvim-autopairs)                                         | A super powerful autopair plugin for Neovim that supports multiple characters.                                       |
+| [zbirenbaum/copilot.lua](https://github.com/zbirenbaum/copilot.lua)                                       | Fully featured & enhanced replacement for copilot.vim complete with API for interacting with Github Copilot.         |

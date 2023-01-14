@@ -219,7 +219,7 @@ function config.cmp()
 		},
 		-- You can set mappings if you want
 		mapping = cmp.mapping.preset.insert({
-			["<CR>"] = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false }),
+			["<CR>"] = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true }),
 			["<C-p>"] = cmp.mapping.select_prev_item(),
 			["<C-n>"] = cmp.mapping.select_next_item(),
 			["<C-d>"] = cmp.mapping.scroll_docs(-4),
@@ -354,6 +354,18 @@ end
 function config.copilot()
 	vim.defer_fn(function()
 		require("copilot").setup({
+			cmp = {
+				enabled = true,
+				method = "getCompletionsCycling",
+			},
+			panel = {
+				-- if true, it can interfere with completions in copilot-cmp
+				enabled = false,
+			},
+			suggestion = {
+				-- if true, it can interfere with completions in copilot-cmp
+				enabled = false,
+			},
 			filetypes = {
 				["dap-repl"] = false,
 			},

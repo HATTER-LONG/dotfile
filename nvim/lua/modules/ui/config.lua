@@ -253,9 +253,10 @@ function config.lualine()
 				},
 			},
 
-			lualine_x = { { get_cwd } },
+			-- lualine_x = { { get_cwd } },
+			lualine_x = {},
 			lualine_y = {
-				{ "filetype", colored = true, icon_only = true },
+				{ "filetype", colored = true, icon_only = false },
 				{ python_venv },
 				{ "encoding" },
 				{

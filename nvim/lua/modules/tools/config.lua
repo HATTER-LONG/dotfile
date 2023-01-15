@@ -174,7 +174,6 @@ function config.trouble()
 		use_diagnostic_signs = false, -- enabling this will use the signs defined in your lsp client
 	})
 end
-
 function config.sniprun()
 	require("sniprun").setup({
 		selected_interpreters = {}, -- " use those instead of the default for the current filetype
@@ -385,7 +384,8 @@ function config.legendary()
 				u = "packer: PackerUpdate",
 			},
 			s = {
-				name = "Session commands",
+				c = "lsp: Show cursor disgnostics",
+				l = "lsp: Show line disgnostics",
 				s = "sesson: Save session",
 				r = "sesson: Restore session",
 				d = "sesson: Delete session",
@@ -423,6 +423,8 @@ function config.legendary()
 		["[g"] = "git: Goto prev hunk",
 		["g["] = "lsp: Goto prev diagnostic",
 		["g]"] = "lsp: Goto next diagnostic",
+		["<leader>ci"] = "lsp: Incoming calls",
+		["<leader>co"] = "lsp: Outcoming calls",
 		["<leader>w"] = "jump: Goto word",
 		["<leader>j"] = "jump: Goto line",
 		["<leader>k"] = "jump: Goto line",

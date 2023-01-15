@@ -16,6 +16,8 @@ function config.nvim_treesitter()
 			"yaml",
 			"latex",
 			"make",
+			"markdown",
+			"markdown_inline",
 			"python",
 			"rust",
 		},

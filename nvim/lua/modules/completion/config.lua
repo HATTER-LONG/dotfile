@@ -57,6 +57,9 @@ function config.lspsaga()
 			keys = {
 				quit = "q",
 				exec = "<CR>",
+				mark = "x",
+				confirm = "<CR>",
+				whole_project = false,
 			},
 		},
 		lightbulb = {

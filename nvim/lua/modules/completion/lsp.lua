@@ -108,7 +108,7 @@ for _, server in ipairs(mason_lsp.get_installed_servers()) do
 				buf_set_keymap("n", "<leader>bg", "<cmd>CMakeGenerate<CR>", opts)
 				buf_set_keymap("n", "<leader>bb", "<cmd>CMakeBuild<CR>", opts)
 				buf_set_keymap("n", "<leader>bc", "<cmd>CMakeClose<CR>", opts)
-				buf_set_keymap("n", "<leader>i", "<cmd>ClangdSwitchSourceHeaderVSplit<CR>", opts)
+				buf_set_keymap("n", "<leader>i", "<cmd>ClangdSwitchSourceHeader<CR>", opts)
 				custom_attach(client, bufnr)
 			end,
 			args = {
@@ -326,6 +326,8 @@ efmls.setup({
 	lua = { formatter = stylua },
 	c = { formatter = clangfmt },
 	cpp = { formatter = clangfmt },
+	objc = { formatter = clangfmt },
+	objcpp = { formatter = clangfmt },
 	python = { formatter = black },
 	vue = { formatter = prettier },
 	typescript = { formatter = prettier, linter = eslint },

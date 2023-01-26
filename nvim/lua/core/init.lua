@@ -20,14 +20,13 @@ local load_core = function()
 	global:check_and_create_cache_dir()
 	global:load_options()
 	-- packer plugin manager init
-	local pack = require("core.pack")
-	pack.ensure_plugins()
 	neovide_config()
 	-- load vim ctrl mapping
 	require("core.mapping")
 	require("keymap")
 	require("core.event")
-	pack.load_compile()
+	require("core.lazy")
+
 	-- vim.api.nvim_command([[set background=light]])
 	-- vim.api.nvim_command([[colorscheme catppuccin]])
 	vim.api.nvim_command([[colorscheme kanagawa]])

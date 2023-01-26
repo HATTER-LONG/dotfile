@@ -3,7 +3,7 @@ local config = {}
 function config.kanagawa()
 	require("kanagawa").setup({
 		functionStyle = { bold = true, italic = true },
-		transparent = true, -- do not set background color
+		transparent = false, -- do not set background color
 		dimInactive = true, -- dim inactive window `:h hl-NormalNC`
 		colors = {},
 		overrides = {},
@@ -83,7 +83,8 @@ function config.alpha()
 	dashboard.section.buttons.opts.hl = "String"
 
 	local function footer()
-		local total_plugins = #vim.tbl_keys(packer_plugins)
+		local stats = require("lazy").stats()
+		local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
 		return "   Have Fun with neovim"
 			.. "   v"
 			.. vim.version().major
@@ -92,8 +93,10 @@ function config.alpha()
 			.. "."
 			.. vim.version().patch
 			.. "   "
-			.. total_plugins
-			.. " plugins"
+			.. stats.count
+			.. " plugins in "
+			.. ms
+			.. "ms"
 	end
 
 	dashboard.section.footer.val = footer()
@@ -114,6 +117,14 @@ function config.alpha()
 	}
 
 	alpha.setup(dashboard.opts)
+
+	vim.api.nvim_create_autocmd("User", {
+		pattern = "LazyVimStarted",
+		callback = function()
+			dashboard.section.footer.val = footer()
+			pcall(vim.cmd.AlphaRedraw)
+		end,
+	})
 end
 
 function config.notify()
@@ -611,7 +622,6 @@ function config.fidget()
 end
 
 function config.neodim()
-	vim.api.nvim_command([[packadd nvim-treesitter]])
 	local normal_background = vim.api.nvim_get_hl_by_name("Normal", true).background
 	local blend_color = normal_background ~= nil and string.format("#%06x", normal_background) or "#000000"
 

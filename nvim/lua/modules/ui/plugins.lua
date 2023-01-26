@@ -1,34 +1,43 @@
 local ui = {}
-
 local conf = require("modules.ui.config")
 
-ui["rebelot/kanagawa.nvim"] = { opt = false, config = conf.kanagawa }
+ui["rebelot/kanagawa.nvim"] = { lazy = false, config = conf.kanagawa }
 
 ui["catppuccin/nvim"] = {
-	opt = false,
-	as = "catppuccin",
+	lazy = false,
+	name = "catppuccin",
 	config = conf.catppuccin,
 }
 
+ui["rcarriga/nvim-notify"] = {
+	lazy = true,
+	event = "VeryLazy",
+	config = conf.notify,
+}
+
+ui["rcarriga/nvim-notify"] = {
+	lazy = true,
+	event = "VeryLazy",
+	config = conf.notify,
+}
+ui["zbirenbaum/neodim"] = {
+	lazy = true,
+	event = "LspAttach",
+	config = conf.neodim,
+}
+ui["nvim-lualine/lualine.nvim"] = {
+	lazy = true,
+	event = { "BufReadPost", "BufAdd", "BufNewFile" },
+	config = conf.lualine,
+}
 ui["goolord/alpha-nvim"] = {
-	opt = true,
+	lazy = true,
 	event = "BufWinEnter",
 	config = conf.alpha,
 }
 
-ui["rcarriga/nvim-notify"] = {
-	opt = false,
-	config = conf.notify,
-}
-ui["nvim-lualine/lualine.nvim"] = {
-	opt = false,
-	after = "nvim-lspconfig",
-	config = conf.lualine,
-}
-ui["kyazdani42/nvim-web-devicons"] = { opt = false }
-
 ui["nvim-tree/nvim-tree.lua"] = {
-	opt = true,
+	lazy = true,
 	cmd = {
 		"NvimTreeToggle",
 		"NvimTreeOpen",
@@ -37,33 +46,33 @@ ui["nvim-tree/nvim-tree.lua"] = {
 		"NvimTreeRefresh",
 	},
 	config = conf.nvim_tree,
+	dependencies = {
+		"s1n7ax/nvim-window-picker",
+		version = "v1.*",
+		config = function()
+			require("window-picker").setup()
+		end,
+	},
 }
+
 ui["lukas-reineke/indent-blankline.nvim"] = {
-	opt = true,
+	lazy = true,
 	event = "BufReadPost",
 	config = conf.indent_blankline,
 }
 ui["akinsho/bufferline.nvim"] = {
-	opt = true,
-	tag = "*",
-	event = "BufReadPost",
+	lazy = true,
+	event = { "BufReadPost", "BufAdd", "BufNewFile" },
 	config = conf.nvim_bufferline,
 }
 ui["dstein64/nvim-scrollview"] = {
-	opt = true,
-	event = { "BufReadPost" },
+	lazy = true,
+	event = "BufReadPost",
 	config = conf.scrollview,
 }
-
 ui["j-hui/fidget.nvim"] = {
-	opt = true,
+	lazy = true,
 	event = "BufReadPost",
 	config = conf.fidget,
-}
-ui["zbirenbaum/neodim"] = {
-	opt = true,
-	event = "LspAttach",
-	requires = "nvim-treesitter/nvim-treesitter",
-	config = conf.neodim,
 }
 return ui

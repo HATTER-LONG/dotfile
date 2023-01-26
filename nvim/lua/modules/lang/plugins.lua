@@ -2,23 +2,26 @@ local lang = {}
 local conf = require("modules.lang.config")
 
 lang["simrat39/rust-tools.nvim"] = {
-	opt = true,
+	lazy = true,
 	ft = "rust",
 	config = conf.rust_tools,
-	requires = "nvim-lua/plenary.nvim",
+	dependencies = { { "nvim-lua/plenary.nvim" } },
 }
-lang["p00f/clangd_extensions.nvim"] = { opt = false }
 lang["iamcco/markdown-preview.nvim"] = {
-	opt = true,
+	lazy = true,
 	ft = "markdown",
-	run = "cd app && yarn install",
+	build = "cd app && yarn install",
 }
-lang["chrisbra/csv.vim"] = { opt = true, ft = "csv" }
+lang["chrisbra/csv.vim"] = {
+	lazy = true,
+	ft = "csv",
+}
+lang["p00f/clangd_extensions.nvim"] = { lazy = true, ft = { "c", "cpp", "objc", "objcpp" } }
 
 lang["saecki/crates.nvim"] = {
-	opt = true,
+	lazy = true,
 	event = { "BufRead Cargo.toml" },
-	requires = { "nvim-lua/plenary.nvim", opt = true },
+	dependencies = { { "nvim-lua/plenary.nvim" } },
 	config = function()
 		require("crates").setup()
 	end,

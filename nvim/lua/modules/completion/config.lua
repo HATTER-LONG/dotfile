@@ -59,7 +59,6 @@ function config.lspsaga()
 				exec = "<CR>",
 				mark = "x",
 				confirm = "<CR>",
-				whole_project = false,
 			},
 		},
 		lightbulb = {
@@ -99,10 +98,10 @@ function config.lspsaga()
 			},
 		},
 		symbol_in_winbar = {
-			in_custom = true,
+			-- in_custom = true,
 			enable = true,
 			separator = " " .. icons.ui.Separator,
-			hide_keyword = true,
+			-- hide_keyword = true,
 			show_file = true,
 			-- define how to customize filename, eg: %:., %
 			-- if not set, use default value `%:t`

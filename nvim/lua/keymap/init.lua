@@ -63,9 +63,9 @@ local plug_map = {
 	["t|<F5>"] = map_cmd("<Esc><Cmd>ToggleTerm<CR>"):with_noremap():with_silent(),
 	["n|<leader>te"] = map_cr([[execute v:count . "ToggleTerm direction=float"]]):with_noremap():with_silent(),
 	-- ["i|<leader>te"] = map_cmd("<Esc><Cmd>ToggleTerm direction=float<CR>"):with_noremap():with_silent(),
-	["t|<leader>te"] = map_cmd("<Cmd>ToggleTerm<CR>"):with_noremap():with_silent(),
+	["t|<C-q>"] = map_cmd("<Cmd>ToggleTerm<CR>"):with_noremap():with_silent(),
 	["n|<leader>g"] = map_cr("lua toggle_gitui()"):with_noremap():with_silent(),
-	["t|<leader>g"] = map_cmd("<Esc><Cmd>lua toggle_gitui()<CR>"):with_noremap():with_silent(),
+	-- ["t|<leader>g"] = map_cmd("<Esc><Cmd>lua toggle_gitui()<CR>"):with_noremap():with_silent(),
 	["n|<leader>G"] = map_cu("Git"):with_noremap():with_silent(),
 	-- Plugin trouble
 	["n|gt"] = map_cr("TroubleToggle"):with_noremap():with_silent(),

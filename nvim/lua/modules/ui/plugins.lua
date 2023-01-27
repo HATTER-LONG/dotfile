@@ -40,7 +40,11 @@ ui["nvim-tree/nvim-tree.lua"] = {
 	},
 	config = conf.nvim_tree,
 }
-
+ui["lewis6991/gitsigns.nvim"] = {
+	lazy = true,
+	event = { "BufReadPost", "BufNewFile" },
+	config = conf.gitsigns,
+}
 ui["lukas-reineke/indent-blankline.nvim"] = {
 	lazy = true,
 	event = "BufReadPost",

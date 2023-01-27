@@ -162,7 +162,7 @@ function M.format(opts)
 			-- 	vim.log.levels.INFO,
 			-- 	{ title = "LSP Format Success!" }
 			-- )
-		else
+		elseif err then
 			vim.notify(
 				string.format("[LSP][%s] %s", client.name, err),
 				vim.log.levels.ERROR,

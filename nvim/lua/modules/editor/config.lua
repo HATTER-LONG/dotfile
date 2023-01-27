@@ -91,7 +91,6 @@ function config.illuminate()
 			"norg",
 			"NvimTree",
 			"Outline",
-			"packer",
 			"toggleterm",
 		},
 		under_cursor = false,
@@ -394,24 +393,6 @@ function config.dap()
 	}
 end
 
-function config.specs()
-	require("specs").setup({
-		show_jumps = true,
-		min_jump = 10,
-		popup = {
-			delay_ms = 0, -- delay before popup displays
-			inc_ms = 10, -- time increments used for fade/resize effects
-			blend = 10, -- starting blend, between 0-100 (fully transparent), see :h winblend
-			width = 10,
-			winhl = "PMenu",
-			fader = require("specs").pulse_fader,
-			resizer = require("specs").shrink_resizer,
-		},
-		ignore_filetypes = {},
-		ignore_buftypes = { nofile = true },
-	})
-end
-
 function config.imselect()
 	local global = require("core.global")
 	if global.is_mac then
@@ -499,24 +480,4 @@ function config.smartyank()
 	})
 end
 
-function config.tabout()
-	require("tabout").setup({
-		tabkey = "<Tab>", -- key to trigger tabout, set to an empty string to disable
-		backwards_tabkey = "<S-Tab>", -- key to trigger backwards tabout, set to an empty string to disable
-		act_as_tab = true, -- shift content if tab out is not possible
-		act_as_shift_tab = false, -- reverse shift content if tab out is not possible (if your keyboard/terminal supports <S-Tab>)
-		enable_backwards = true,
-		completion = true, -- if the tabkey is used in a completion pum
-		tabouts = {
-			{ open = "'", close = "'" },
-			{ open = '"', close = '"' },
-			{ open = "`", close = "`" },
-			{ open = "(", close = ")" },
-			{ open = "[", close = "]" },
-			{ open = "{", close = "}" },
-		},
-		ignore_beginning = true, -- if the cursor is at the beginning of a filled element it will rather tab out than shift the content
-		exclude = {}, -- tabout will ignore these filetypes
-	})
-end
 return config

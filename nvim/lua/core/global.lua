@@ -51,7 +51,7 @@ function global:load_variables()
 	self.palette_overwrite = {}
 end
 
--- Global config to load before packer loaded
+-- Global config to load before lazy loaded
 function global:vim_global_config()
 	-- disable neovim default menu loading
 	vim.g.did_install_default_menus = 1

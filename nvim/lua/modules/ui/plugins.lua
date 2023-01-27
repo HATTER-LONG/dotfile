@@ -14,12 +14,6 @@ ui["rcarriga/nvim-notify"] = {
 	event = "VeryLazy",
 	config = conf.notify,
 }
-
-ui["rcarriga/nvim-notify"] = {
-	lazy = true,
-	event = "VeryLazy",
-	config = conf.notify,
-}
 ui["zbirenbaum/neodim"] = {
 	lazy = true,
 	event = "LspAttach",
@@ -35,7 +29,6 @@ ui["goolord/alpha-nvim"] = {
 	event = "BufWinEnter",
 	config = conf.alpha,
 }
-
 ui["nvim-tree/nvim-tree.lua"] = {
 	lazy = true,
 	cmd = {
@@ -46,13 +39,6 @@ ui["nvim-tree/nvim-tree.lua"] = {
 		"NvimTreeRefresh",
 	},
 	config = conf.nvim_tree,
-	dependencies = {
-		"s1n7ax/nvim-window-picker",
-		version = "v1.*",
-		config = function()
-			require("window-picker").setup()
-		end,
-	},
 }
 
 ui["lukas-reineke/indent-blankline.nvim"] = {

@@ -29,7 +29,7 @@ vim.api.nvim_create_autocmd("BufEnter", {
 
 function autocmd.load_autocmds()
 	local definitions = {
-		packer = {},
+		lazy = {},
 		bufs = {
 			{ "BufWritePre", "/tmp/*", "setlocal noundofile" },
 			{ "BufWritePre", "COMMIT_EDITMSG", "setlocal noundofile" },

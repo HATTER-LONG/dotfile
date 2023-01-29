@@ -30,7 +30,7 @@ function config.lspsaga()
 	require("lspsaga").setup({
 		preview = {
 			lines_above = 1,
-			lines_below = 12,
+			lines_below = 17,
 		},
 		scroll_preview = {
 			scroll_down = "<C-j>",
@@ -69,9 +69,9 @@ function config.lspsaga()
 			virtual_text = true,
 		},
 		diagnostic = {
-			twice_into = false,
 			show_code_action = false,
 			show_source = true,
+			jump_num_shortcut = true,
 			keys = {
 				exec_action = "<CR>",
 				quit = "q",
@@ -80,6 +80,8 @@ function config.lspsaga()
 		},
 		rename = {
 			quit = "<C-c>",
+			mark = "x",
+			confirm = "<CR>",
 			exec = "<CR>",
 			in_select = true,
 		},
@@ -109,6 +111,10 @@ function config.lspsaga()
 			-- ## only valid after set `show_file = true`
 			file_formatter = "%t",
 		},
+		beacon = {
+			enable = true,
+			frequency = 12,
+		},
 		ui = {
 			theme = "round",
 			border = "single", -- Can be single, double, rounded, solid, shadow.
@@ -125,16 +131,6 @@ function config.lspsaga()
 				normal_bg = "#1D1536",
 				--title background color
 				title_bg = "#afd700",
-				red = "#e95678",
-				magenta = "#b33076",
-				orange = "#FF8700",
-				yellow = "#f7bb3b",
-				green = "#afd700",
-				cyan = "#36d0e0",
-				blue = "#61afef",
-				purple = "#CBA6F7",
-				white = "#d1d4cf",
-				black = "#1c1c19",
 			},
 			kind = {},
 		},

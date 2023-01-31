@@ -10,7 +10,15 @@ function autocmd.nvim_create_augroups(definitions)
 		vim.api.nvim_command("augroup END")
 	end
 end
-
+-- Fix fold issue of files opened by telescope
+vim.api.nvim_create_autocmd("BufRead", {
+	callback = function()
+		vim.api.nvim_create_autocmd("BufWinEnter", {
+			once = true,
+			command = "normal! zx",
+		})
+	end,
+})
 -- auto close NvimTree
 vim.api.nvim_create_autocmd("BufEnter", {
 	group = vim.api.nvim_create_augroup("NvimTreeClose", { clear = true }),

@@ -69,7 +69,7 @@ function config.lspsaga()
 			virtual_text = true,
 		},
 		diagnostic = {
-			show_code_action = false,
+			show_code_action = true,
 			show_source = true,
 			jump_num_shortcut = true,
 			keys = {
@@ -100,7 +100,6 @@ function config.lspsaga()
 			},
 		},
 		symbol_in_winbar = {
-			-- in_custom = true,
 			enable = true,
 			separator = " " .. icons.ui.Separator,
 			-- hide_keyword = true,
@@ -264,7 +263,7 @@ function config.cmp()
 end
 
 function config.luasnip()
-	local snippet_path = os.getenv("HOME") .. "/.config/nvim/my-snippets/"
+	local snippet_path = vim.fn.stdpath("config") .. "/my-snippets/"
 	if not vim.tbl_contains(vim.opt.rtp:get(), snippet_path) then
 		vim.opt.rtp:append(snippet_path)
 	end

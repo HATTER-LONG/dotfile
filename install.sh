@@ -137,6 +137,8 @@ DOTFILE_DIR="$HOME/dotfile"
 
 init() {
 	prompt "Start init..."
+	check_and_install curl
+	check_and_install wget
 	check_and_install git
 	check_and_install ssh
 	if [[ ! -d ${DOTFILE_DIR} ]]; then
@@ -205,6 +207,32 @@ zsh() {
 	execute cp -f ${DOTFILE_DIR}/zshrc/config/exports $HOME/.exports
 	execute cp -f ${DOTFILE_DIR}/zshrc/config/functions $HOME/.functions
 	execute cp -f ${DOTFILE_DIR}/zshrc/config/aliases $HOME/.aliases
+
+	prompt "Installing exa..."
+	check_and_install exa
+	prompt "Installing zoxide..."
+	check_and_install zoxide
+	prompt "Installing bat..."
+	check_and_install bat
+	if [[ $(uname -a) =~ "ubuntu" ]]; then
+		prompt "Add catbat[/usr/bin/batcat] to bat[~/.local/bin] soft link for ubuntu..."
+		if [[ ! -d ~/.local/bin ]]; then
+			mkdir -p ~/.local/bin
+		fi
+		ln -s /usr/bin/batcat ~/.local/bin/bat
+	fi
+
+	prompt "Installing vivid..."
+	if [[ $(uname -a) =~ "ubuntu" ]]; then
+		wget "https://github.com/sharkdp/vivid/releases/download/v0.8.0/vivid_0.8.0_amd64.deb"
+		sudo dpkg -i vivid_0.8.0_amd64.deb
+	else
+		check_and_install vivid
+	fi
+	if ! command -v pyenv >/dev/null; then
+		prompt "Installing pyenv..."
+		curl https://pyenv.run | bash
+	fi
 	prompt "Finished install and config ${tty_bold}zsh${tty_reset}..."
 }
 
@@ -223,6 +251,7 @@ fi
 if [[ ZSH_INSTALL -eq 1 ]]; then
 	zsh
 fi
+
 ##############################################################################
 ############                 MAIN CONFIG END                ##################
 ##############################################################################

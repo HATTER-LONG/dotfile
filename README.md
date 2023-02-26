@@ -1,5 +1,9 @@
 # dotfile
 
+## 终端一键安装
+
+`bash -c "$(curl -fsSL https://raw.githubusercontent.com/HATTER-LONG/dotfile/main/install.sh)"`
+
 ## shadowsocks 搭建与使用
 
 ### 服务器搭建

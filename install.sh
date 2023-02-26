@@ -125,6 +125,8 @@ check_and_install() {
 	if ! command -v $1 >/dev/null; then
 		prompt "Installing "$1"..."
 		package_install $1
+	else
+		echo "$1 is already installed"
 	fi
 }
 ##############################################################################
@@ -137,8 +139,10 @@ init() {
 	prompt "Start init..."
 	check_and_install git
 	check_and_install ssh
-	prompt "Download config tmp files..."
-	execute git clone https://github.com/HATTER-LONG/dotfile.git ${DOTFILE_DIR}
+	if [[ ! -d ${DOTFILE_DIR} ]]; then
+		prompt "Download config tmp files..."
+		execute git clone https://github.com/HATTER-LONG/dotfile.git ${DOTFILE_DIR}
+	fi
 	prompt "Finished init..."
 }
 
@@ -157,7 +161,7 @@ neovim() {
 
 zsh() {
 	prompt "Start install and config ${tty_bold}zsh${tty_reset}..."
-	check_and_install zsh
+	package_install zsh
 
 	prompt "Installing oh-my-zsh..."
 	if command -v curl >/dev/null 2>&1; then
@@ -182,7 +186,7 @@ zsh() {
 
 	prompt "Installing zsh-vi-mode..."
 	if [[ ! -d ~/.oh-my-zsh/custom/plugins/zsh-vi-mode ]]; then
-		execute git clone https://github.com/jeffreytse/zsh-vi-mode ${ZSH_CUSTOM:=~/.oh-my-zsh/custom}/plugins/zsh-completions
+		execute git clone https://github.com/jeffreytse/zsh-vi-mode ${ZSH_CUSTOM:=~/.oh-my-zsh/custom}/plugins/zsh-vi-mode
 	else
 		warn "Skipping already installed zsh-vi-mode"
 	fi

@@ -151,7 +151,14 @@ init() {
 neovim() {
 	prompt "Start install and config ${tty_bold}neovim${tty_reset}..."
 	if ! command -v nvim >/dev/null; then
-		package_install neovim
+		if [[ $(uname -a) =~ "ubuntu" ]]; then
+			execute sudo apt-get install software-properties-common
+			execute sudo add-apt-repository ppa:neovim-ppa/stable
+			execute sudo apt-get update
+			execute sudo apt-get install neovim python-dev python-pip python3-dev python3-pip
+		else
+			package_install neovim
+		fi
 	fi
 	if command -v curl >/dev/null 2>&1; then
 		bash -c "$(curl -fsSL https://raw.githubusercontent.com/HATTER-LONG/nvimdots/HEAD/scripts/install.sh)"

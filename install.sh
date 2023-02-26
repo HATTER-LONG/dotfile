@@ -183,7 +183,7 @@ zsh() {
 
 	prompt "Installing zsh-autosuggestions..."
 	if [[ ! -d ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions ]]; then
-		git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+		execute git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 	else
 		warn "Skipping already installed zsh-autosuggestions"
 	fi
@@ -264,7 +264,7 @@ rust() {
 }
 
 clean() {
-	execute rm -rf ${DOTFILE_DIR}
+	execute rm -rf ${DOTFILE_DIR} vivid_0.8.0_amd64.deb
 }
 
 prompt_confirm "Do you want to install and config ${tty_bold}neovim${tty_reset}?"
@@ -295,6 +295,8 @@ fi
 if [[ RUST_INSTALL -eq 1 ]]; then
 	rust
 fi
+
+clean
 ##############################################################################
 ############                 MAIN CONFIG END                ##################
 ##############################################################################

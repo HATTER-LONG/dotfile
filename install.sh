@@ -152,10 +152,10 @@ neovim() {
 	prompt "Start install and config ${tty_bold}neovim${tty_reset}..."
 	if ! command -v nvim >/dev/null; then
 		if command -v apt-get >/dev/null; then
-			execute sudo apt-get install software-properties-common
-			execute sudo add-apt-repository ppa:neovim-ppa/stable
+			execute sudo apt-get install -y software-properties-common
+			execute sudo add-apt-repository ppa:neovim-ppa/unstable
 			execute sudo apt-get update
-			execute sudo apt-get install neovim python-dev python-pip python3-dev python3-pip
+			execute sudo apt-get install -y neovim python3-dev python3-pip
 		else
 			package_install neovim
 		fi

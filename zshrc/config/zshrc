@@ -140,6 +140,8 @@ prompt pure
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+
+eval "$(zoxide init zsh)"
 source ~/.exports
 source ~/.aliases
 source ~/.functions

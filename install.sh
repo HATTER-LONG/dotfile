@@ -141,6 +141,8 @@ init() {
 	check_and_install wget
 	check_and_install git
 	check_and_install ssh
+	check_and_install zip
+	check_and_install fzf
 	if [[ ! -d ${DOTFILE_DIR} ]]; then
 		prompt "Download config tmp files..."
 		execute git clone https://github.com/HATTER-LONG/dotfile.git ${DOTFILE_DIR}
@@ -186,11 +188,18 @@ zsh() {
 		warn "Skipping already installed zsh-autosuggestions"
 	fi
 
-	prompt "Installing zsh-completions..."
-	if [[ ! -d ~/.oh-my-zsh/custom/plugins/zsh-completions ]]; then
-		execute git clone https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM:=~/.oh-my-zsh/custom}/plugins/zsh-completions
+	# prompt "Installing zsh-completions..."
+	# if [[ ! -d ~/.oh-my-zsh/custom/plugins/zsh-completions ]]; then
+	# 	execute git clone https://github.com/zsh-users/zsh-completions.git ${ZSH_CUSTOM:=~/.oh-my-zsh/custom}/plugins/zsh-completions
+	# else
+	# 	warn "Skipping already installed zsh-completions"
+	# fi
+
+	prompt "Installing zsh-syntax-highlighting..."
+	if [[ ! -d ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting ]]; then
+		execute git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:=~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 	else
-		warn "Skipping already installed zsh-completions"
+		warn "Skipping already installed zsh-syntax-highlighting"
 	fi
 
 	prompt "Installing zsh-vi-mode..."
@@ -236,11 +245,26 @@ zsh() {
 	else
 		check_and_install vivid
 	fi
+	prompt "Finished install and config ${tty_bold}zsh${tty_reset}..."
+}
+
+pyenv() {
+	prompt "Start install and config ${tty_bold}pyenv${tty_reset}..."
 	if ! command -v pyenv >/dev/null; then
 		prompt "Installing pyenv..."
 		curl https://pyenv.run | bash
 	fi
-	prompt "Finished install and config ${tty_bold}zsh${tty_reset}..."
+}
+rust() {
+	prompt "Start install and config ${tty_bold}rust${tty_reset}..."
+	if ! command -v rustup >/dev/null; then
+		prompt "Installing rust..."
+		curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+	fi
+}
+
+clean() {
+	execute rm -rf ${DOTFILE_DIR}
 }
 
 prompt_confirm "Do you want to install and config ${tty_bold}neovim${tty_reset}?"
@@ -249,6 +273,11 @@ NEOVIM_INSTALL=$?
 prompt_confirm "Do you want to install and config ${tty_bold}zsh${tty_reset}?"
 ZSH_INSTALL=$?
 
+prompt_confirm "Do you want to install and config ${tty_bold}pyenv${tty_reset}?"
+PYENV_INSTALL=$?
+
+prompt_confirm "Do you want to install and config ${tty_bold}rust${tty_reset}?"
+RUST_INSTALL=$?
 init
 
 if [[ NEOVIM_INSTALL -eq 1 ]]; then
@@ -259,6 +288,13 @@ if [[ ZSH_INSTALL -eq 1 ]]; then
 	zsh
 fi
 
+if [[ PYENV_INSTALL -eq 1 ]]; then
+	pyenv
+fi
+
+if [[ RUST_INSTALL -eq 1 ]]; then
+	rust
+fi
 ##############################################################################
 ############                 MAIN CONFIG END                ##################
 ##############################################################################

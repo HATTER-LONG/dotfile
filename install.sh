@@ -151,7 +151,7 @@ init() {
 neovim() {
 	prompt "Start install and config ${tty_bold}neovim${tty_reset}..."
 	if ! command -v nvim >/dev/null; then
-		if [[ $(uname -a) =~ "ubuntu" ]]; then
+		if command -v apt-get >/dev/null; then
 			execute sudo apt-get install software-properties-common
 			execute sudo add-apt-repository ppa:neovim-ppa/stable
 			execute sudo apt-get update
@@ -221,7 +221,7 @@ zsh() {
 	check_and_install zoxide
 	prompt "Installing bat..."
 	check_and_install bat
-	if [[ $(uname -a) =~ "ubuntu" ]]; then
+	if command -v apt-get >/dev/null; then
 		prompt "Add catbat[/usr/bin/batcat] to bat[~/.local/bin] soft link for ubuntu..."
 		if [[ ! -d ~/.local/bin ]]; then
 			mkdir -p ~/.local/bin
@@ -230,7 +230,7 @@ zsh() {
 	fi
 
 	prompt "Installing vivid..."
-	if [[ $(uname -a) =~ "ubuntu" ]]; then
+	if command -v apt-get >/dev/null; then
 		wget "https://github.com/sharkdp/vivid/releases/download/v0.8.0/vivid_0.8.0_amd64.deb"
 		sudo dpkg -i vivid_0.8.0_amd64.deb
 	else

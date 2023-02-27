@@ -137,6 +137,7 @@ DOTFILE_DIR="$HOME/dotfile"
 
 init() {
 	prompt "Start init..."
+	cd ~
 	check_and_install curl
 	check_and_install wget
 	check_and_install git

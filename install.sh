@@ -234,8 +234,8 @@ zsh() {
 	prompt "Installing vivid..."
 	if command -v apt-get >/dev/null; then
 		wget "https://github.com/sharkdp/vivid/releases/download/v0.8.0/vivid_0.8.0_amd64.deb"
-		mv vivid_0.8.0_amd64.deb ${DOTFILE_DIR}
-		execute sudo dpkg -i ${DOTFILE_DIR}/vivid_0.8.0_amd64.deb
+		execute sudo dpkg -i vivid_0.8.0_amd64.deb
+		rm vivid_0.8.0_amd64.deb
 	else
 		check_and_install vivid
 	fi

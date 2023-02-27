@@ -163,11 +163,7 @@ neovim() {
 			package_install neovim
 		fi
 	fi
-	if command -v curl >/dev/null 2>&1; then
-		bash -c "$(curl -fsSL https://raw.githubusercontent.com/HATTER-LONG/nvimdots/HEAD/scripts/install.sh)"
-	else
-		bash -c "$(wget -O- https://raw.githubusercontent.com/HATTER-LONG/nvimdots/HEAD/scripts/install.sh)"
-	fi
+	bash -c "$(curl -fsSL https://raw.githubusercontent.com/HATTER-LONG/nvimdots/HEAD/scripts/install.sh)"
 	prompt "Finished install and config ${tty_bold}neovim${tty_reset}..."
 }
 
@@ -176,11 +172,7 @@ zsh() {
 	package_install zsh
 
 	prompt "Installing oh-my-zsh..."
-	if command -v curl >/dev/null 2>&1; then
-		bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-	else
-		bash -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-	fi
+	bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
 	prompt "Installing zsh-autosuggestions..."
 	if [[ ! -d ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions ]]; then
@@ -242,7 +234,8 @@ zsh() {
 	prompt "Installing vivid..."
 	if command -v apt-get >/dev/null; then
 		wget "https://github.com/sharkdp/vivid/releases/download/v0.8.0/vivid_0.8.0_amd64.deb"
-		sudo dpkg -i vivid_0.8.0_amd64.deb
+		mv vivid_0.8.0_amd64.deb ${DOTFILE_DIR}
+		execute sudo dpkg -i ${DOTFILE_DIR}/vivid_0.8.0_amd64.deb
 	else
 		check_and_install vivid
 	fi
@@ -256,6 +249,7 @@ pyenv() {
 		curl https://pyenv.run | bash
 	fi
 }
+
 rust() {
 	prompt "Start install and config ${tty_bold}rust${tty_reset}..."
 	if ! command -v rustup >/dev/null; then
@@ -264,8 +258,15 @@ rust() {
 	fi
 }
 
+tmux() {
+	prompt "Start install and config ${tty_bold}tmux${tty_reset}..."
+	check_and_install tmux
+	execute cp -f ${DOTFILE_DIR}/tmux/tmux.conf $HOME/.tmux.conf
+	execute cp -f ${DOTFILE_DIR}/tmux/tmux.conf.local $HOME/.tmux.conf.local
+}
+
 clean() {
-	execute rm -rf ${DOTFILE_DIR} vivid_0.8.0_amd64.deb
+	execute rm -rf ${DOTFILE_DIR}
 }
 
 prompt_confirm "Do you want to install and config ${tty_bold}neovim${tty_reset}?"
@@ -279,6 +280,9 @@ PYENV_INSTALL=$?
 
 prompt_confirm "Do you want to install and config ${tty_bold}rust${tty_reset}?"
 RUST_INSTALL=$?
+
+prompt_confirm "Do you want to install and config ${tty_bold}tmux${tty_reset}?"
+TMUX_INSTALL=$?
 init
 
 if [[ NEOVIM_INSTALL -eq 1 ]]; then
@@ -295,6 +299,10 @@ fi
 
 if [[ RUST_INSTALL -eq 1 ]]; then
 	rust
+fi
+
+if [[ TMUX_INSTALL -eq 1 ]]; then
+	tmux
 fi
 
 clean

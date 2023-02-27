@@ -122,7 +122,7 @@ package_install() {
 }
 
 check_and_install() {
-	if ! command -v $1 >/dev/null; then
+	if ! which $1 2>/dev/null; then
 		prompt "Installing "$1"..."
 		package_install $1
 	else
@@ -137,7 +137,7 @@ DOTFILE_DIR="$HOME/dotfile"
 
 init() {
 	prompt "Start init..."
-	cd ~
+	cd $HOME
 	check_and_install curl
 	check_and_install wget
 	check_and_install git
@@ -245,7 +245,7 @@ zsh() {
 
 pyenv() {
 	prompt "Start install and config ${tty_bold}pyenv${tty_reset}..."
-	if ! command -v pyenv >/dev/null; then
+	if ! which pyenv 2>/dev/null; then
 		prompt "Installing pyenv..."
 		curl https://pyenv.run | bash
 	fi
@@ -276,14 +276,15 @@ NEOVIM_INSTALL=$?
 prompt_confirm "Do you want to install and config ${tty_bold}zsh${tty_reset}?"
 ZSH_INSTALL=$?
 
+prompt_confirm "Do you want to install and config ${tty_bold}tmux${tty_reset}?"
+TMUX_INSTALL=$?
+
 prompt_confirm "Do you want to install and config ${tty_bold}pyenv${tty_reset}?"
 PYENV_INSTALL=$?
 
 prompt_confirm "Do you want to install and config ${tty_bold}rust${tty_reset}?"
 RUST_INSTALL=$?
 
-prompt_confirm "Do you want to install and config ${tty_bold}tmux${tty_reset}?"
-TMUX_INSTALL=$?
 init
 
 if [[ NEOVIM_INSTALL -eq 1 ]]; then
@@ -294,16 +295,16 @@ if [[ ZSH_INSTALL -eq 1 ]]; then
 	zsh
 fi
 
+if [[ TMUX_INSTALL -eq 1 ]]; then
+	tmux
+fi
+
 if [[ PYENV_INSTALL -eq 1 ]]; then
 	pyenv
 fi
 
 if [[ RUST_INSTALL -eq 1 ]]; then
 	rust
-fi
-
-if [[ TMUX_INSTALL -eq 1 ]]; then
-	tmux
 fi
 
 clean

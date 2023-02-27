@@ -143,6 +143,7 @@ init() {
 	check_and_install ssh
 	check_and_install zip
 	check_and_install fzf
+	check_and_install ripgrep
 	if [[ ! -d ${DOTFILE_DIR} ]]; then
 		prompt "Download config tmp files..."
 		execute git clone https://github.com/HATTER-LONG/dotfile.git ${DOTFILE_DIR}

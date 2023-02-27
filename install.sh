@@ -266,6 +266,17 @@ tmux() {
 	execute cp -f ${DOTFILE_DIR}/tmux/tmux.conf.local $HOME/.tmux.conf.local
 }
 
+nodejs() {
+	prompt "Start install and config ${tty_bold}nodejs${tty_reset}..."
+	if command -v apt-get >/dev/null; then
+		prompt "Installing nodejs..."
+		curl -sL https://deb.nodesource.com/setup_19.x | sudo -E bash -
+		sudo apt-get install -y nodejs
+	else
+		package_install nodejs
+	fi
+}
+
 clean() {
 	execute rm -rf ${DOTFILE_DIR}
 }
@@ -285,6 +296,8 @@ PYENV_INSTALL=$?
 prompt_confirm "Do you want to install and config ${tty_bold}rust${tty_reset}?"
 RUST_INSTALL=$?
 
+prompt_confirm "Do you want to install and config ${tty_bold}nodejs${tty_reset}?"
+NODEJS_INSTALL=$?
 init
 
 if [[ NEOVIM_INSTALL -eq 1 ]]; then
@@ -305,6 +318,9 @@ fi
 
 if [[ RUST_INSTALL -eq 1 ]]; then
 	rust
+fi
+if [[ NODEJS_INSTALL -eq 1 ]]; then
+	nodejs
 fi
 
 clean

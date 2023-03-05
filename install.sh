@@ -145,6 +145,7 @@ init() {
 	check_and_install zip
 	check_and_install fzf
 	check_and_install ripgrep
+	check_and_install make
 	if [[ ! -d ${DOTFILE_DIR} ]]; then
 		prompt "Download config tmp files..."
 		execute git clone https://github.com/HATTER-LONG/dotfile.git ${DOTFILE_DIR}
@@ -249,13 +250,13 @@ pyenv() {
 		prompt "Installing pyenv..."
 		curl https://pyenv.run | bash
 	fi
-	if ! which apt-get 2>/dev/null; then
+	if which apt-get 2>/dev/null; then
 		prompt "Installing pyenv dependencies..."
 		execute sudo apt update
 		execute sudo apt install build-essential libssl-dev zlib1g-dev \
 			libbz2-dev libreadline-dev libsqlite3-dev curl \
 			libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
-	elif ! which brew 2>/dev/null; then
+	elif which brew 2>/dev/null; then
 		prompt "Installing pyenv dependencies..."
 		execute brew install openssl readline sqlite3 xz zlib
 	else

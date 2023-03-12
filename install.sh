@@ -121,6 +121,22 @@ package_install() {
 	fi
 }
 
+package_update() {
+	if command -v apt-get >/dev/null; then
+		execute sudo apt-get update
+	elif command -v dnf >/dev/null; then
+		execute sudo dnf check-update
+	elif command -v yum >/dev/null; then
+		execute sudo yum check-update
+	elif command -v pacman >/dev/null; then
+		execute sudo pacman -Syu
+	elif command -v brew >/dev/null; then
+		execute brew update
+	else
+		abort "Unsupported package manager"
+	fi
+}
+
 check_and_install() {
 	if ! which $1 2>/dev/null; then
 		prompt "Installing "$1"..."
@@ -138,6 +154,8 @@ DOTFILE_DIR="$HOME/dotfile"
 init() {
 	prompt "Start init..."
 	cd $HOME
+	package_update
+	check_and_install sudo
 	check_and_install curl
 	check_and_install wget
 	check_and_install git
@@ -159,7 +177,6 @@ neovim() {
 		if command -v apt-get >/dev/null; then
 			execute sudo apt-get install -y software-properties-common
 			execute sudo add-apt-repository ppa:neovim-ppa/unstable
-			execute sudo apt-get update
 			execute sudo apt-get install -y neovim python3-dev python3-pip
 		else
 			package_install neovim
@@ -252,8 +269,7 @@ pyenv() {
 	fi
 	if which apt-get 2>/dev/null; then
 		prompt "Installing pyenv dependencies..."
-		execute sudo apt update
-		execute sudo apt install build-essential libssl-dev zlib1g-dev \
+		execute sudo apt install -y build-essential libssl-dev zlib1g-dev \
 			libbz2-dev libreadline-dev libsqlite3-dev curl \
 			libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
 	elif which brew 2>/dev/null; then
@@ -262,7 +278,7 @@ pyenv() {
 	else
 		wait_for_user "Please check pyenv dependencies in https://github.com/pyenv/pyenv/wiki#suggested-build-environment"
 	fi
-
+	execute git clone https://github.com/alefpereira/pyenv-pyright.git $(pyenv root)/plugins/pyenv-pyright
 }
 
 rust() {

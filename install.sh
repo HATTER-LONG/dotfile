@@ -177,7 +177,7 @@ neovim() {
 		if command -v apt-get >/dev/null; then
 			execute sudo apt-get install -y software-properties-common
 			execute sudo add-apt-repository ppa:neovim-ppa/unstable
-			execute sudo apt-get install -y neovim python3-dev python3-pip
+			execute sudo apt-get install -y neovim python3-dev python3-pip python3-venv
 		else
 			package_install neovim
 		fi

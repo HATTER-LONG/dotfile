@@ -278,7 +278,7 @@ pyenv() {
 	else
 		wait_for_user "Please check pyenv dependencies in https://github.com/pyenv/pyenv/wiki#suggested-build-environment"
 	fi
-	execute git clone https://github.com/alefpereira/pyenv-pyright.git $(pyenv root)/plugins/pyenv-pyright
+	execute git clone https://github.com/alefpereira/pyenv-pyright.git ~/.pyenv/plugins/pyenv-pyright
 }
 
 rust() {

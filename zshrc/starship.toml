@@ -3,6 +3,9 @@
 format="""
 $docker_context$username$directory$git_branch$git_status$git_commit$all$package$cmd_duration$time$line_break$character
 """
+# format="""
+# $docker_context$username$directory$git_branch$git_status$cmd_duration$time$line_break$character
+# """
 [character]
 success_symbol = '[❯](fg:#4182a4)'
 error_symbol = '[❯](fg:#ab1d22)'
@@ -37,14 +40,14 @@ style = "fg:#ffffff bg:#3271ae"
 [git_status]
 format="[$all_status$ahead_behind]($style)[](fg:#3271ae bg:none) "
 style = "fg:#ffffff bg:#3271ae"
-ahead = "⇡🏎️💨${count}"
+ahead = "⇡🚚💨${count}"
 diverged = "⇕⇡😵${ahead_count}⇣${behind_count}"
 behind = "⇣😰${count}"
 conflicted = "😭"
 untracked = "🤔"
 stashed = "📦"
-modified = "🖍️"
-staged = '[\(🗃️$count\)](fg:#ffffff bg:#3271ae)'
+modified = "📝"
+staged = '[\(💼$count\)](fg:#ffffff bg:#3271ae)'
 renamed = "👅"
 deleted = "❌"
 up_to_date = "🚀"
@@ -92,7 +95,7 @@ style = "#4c8045"
 [cmd_duration]
 min_time = 500
 show_milliseconds = true
-format = "[](fg:#ffffff bg:none)[🛵 ](fg:#282c34 bg:#ffffff)[ ]($style)[$duration]($style)[](fg:#bc6e37 bg:none) "
+format = "[](fg:#ffffff bg:none)[🛵](fg:#282c34 bg:#ffffff)[ ]($style)[$duration]($style)[](fg:#bc6e37 bg:none) "
 style = "fg:#ffffff bg:#bc6e37"
 
 [battery]

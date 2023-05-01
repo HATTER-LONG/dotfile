@@ -1,7 +1,7 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
 format="""
-$docker_context$username$directory$git_branch$git_status$git_commit$all$package$cmd_duration$time$line_break$character
+$docker_context$hostname$username$directory$git_branch$git_status$git_commit$all$package$cmd_duration$time$line_break$character
 """
 # format="""
 # $docker_context$username$directory$git_branch$git_status$cmd_duration$time$line_break$character
@@ -13,6 +13,11 @@ vimcmd_symbol = '[❮](fg:#a85858)'
 
 [docker_context]
 format = "[](fg:#ffffff bg:none)[🐳](fg:#282c34 bg:#ffffff)[ ]($style)[$context]($style)[](fg:#106898 bg:none) "
+style = "fg:#ffffff bg:#106898"
+
+[hostname]
+disabled = false
+format="[](fg:#ffffff bg:none)[🌐](fg:#282c34 bg:#ffffff)[](fg:#ffffff bg:none)"
 style = "fg:#ffffff bg:#106898"
 
 [username]
@@ -93,8 +98,8 @@ time_format = "%T"
 style = "#4c8045"
 
 [cmd_duration]
-min_time = 500
-show_milliseconds = true
+min_time = 2_000
+show_milliseconds = false
 format = "[](fg:#ffffff bg:none)[🛵](fg:#282c34 bg:#ffffff)[ ]($style)[$duration]($style)[](fg:#bc6e37 bg:none) "
 style = "fg:#ffffff bg:#bc6e37"
 

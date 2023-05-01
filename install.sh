@@ -234,7 +234,7 @@ zsh() {
 	if ! command -v starship >/dev/null; then
 		curl -sS https://starship.rs/install.sh | sh
 		execute mkdir -p ~/.config
-		execute ln -s $(pwd)/config/starship.toml ~/.config/starship.toml
+		execute cp $(pwd)/config/starship.toml ~/.config/starship.toml
 	fi
 
 	prompt "Installing zsh config files..."

@@ -1,0 +1,114 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+format="""
+$docker_context$username$directory$git_branch$git_status$git_commit$all$package$cmd_duration$time$line_break$character
+"""
+[character]
+success_symbol = '[❯](fg:#4182a4)'
+error_symbol = '[❯](fg:#ab1d22)'
+vimcmd_symbol = '[❮](fg:#a85858)'
+
+[docker_context]
+format = "[](fg:#ffffff bg:none)[🐳](fg:#282c34 bg:#ffffff)[ ]($style)[$context]($style)[](fg:#106898 bg:none) "
+style = "fg:#ffffff bg:#106898"
+
+[username]
+disabled = false
+show_always = true
+format="[](fg:#ffffff bg:none)[$user]($style)[](fg:#ffffff bg:#284852)"
+style_user="fg:#282c34 bg:#ffffff"
+style_root="fg:#7c191e bg:#ffffff"
+
+[directory]
+format="[ $path]($style)[](fg:#284852 bg:none) "
+style="fg:#ffffff bg:#284852"
+truncate_to_repo = false
+read_only = " "
+truncation_length = 7
+truncation_symbol = "…/"
+
+
+[git_branch]
+truncation_length = 4
+truncation_symbol = ""
+format = "[](fg:#ffffff bg:none)[👾](fg:#282c34 bg:#ffffff)[ ]($style)[$branch]($style)[ | ]($style)"
+style = "fg:#ffffff bg:#3271ae"
+
+[git_status]
+# format="[$deleted]($style)[$modified]($style)[$untracked]($style)[$staged]($style)[$renamed]($style)[](fg:#3271ae bg:none)"
+format="[$all_status$ahead_behind]($style)[](fg:#3271ae bg:none) "
+style = "fg:#ffffff bg:#3271ae"
+ahead = "⇡🏎️💨${count}"
+diverged = "⇕⇡😵${ahead_count}⇣${behind_count}"
+behind = "⇣😰${count}"
+conflicted = "😭"
+untracked = "🤷"
+stashed = "📦"
+modified = "🖍️"
+staged = '[\(🗃️$count\)](fg:#ffffff bg:#3271ae)'
+renamed = "👅"
+deleted = "❌"
+up_to_date = "🚀"
+ignore_submodules = false
+
+[git_commit]
+commit_hash_length = 4
+tag_symbol = "🔖 "
+format = "[\\($hash\\)]($style) [\\($tag\\)]($style)"
+style = "green"
+
+[lua]
+format = "[](fg:#ffffff bg:none)[🌕 Lua](fg:#282c34 bg:#ffffff)[ ]($style)[$version]($style)[](fg:#f72851 bg:none) "
+style = "fg:#ffffff bg:#f72851"
+
+[cmake]
+format = "[](fg:#ffffff bg:none)[🔺 Cmake](fg:#282c34 bg:#ffffff)[ ]($style)[$version]($style)[](fg:#f72851 bg:none) "
+style = "fg:#ffffff bg:#f72851"
+
+[c]
+format = "[](fg:#ffffff bg:none)[C/C++](fg:#282c34 bg:#ffffff)[ ]($style)[$version]($style)[](fg:#6c216d bg:none) "
+style = "fg:#ffffff bg:#6c216d"
+detect_extensions = ['c', 'h', 'cpp', 'cxx']
+
+[python]
+# format = "[](fg:#ffffff bg:none)[🐍 Python](fg:#282c34 bg:#ffffff)[]($style)[${symbol}${pyenv_prefix}(${version} )(\($virtualenv\) )]($style)[](fg:#6c216d bg:none) "
+# format = "[${symbol}${pyenv_prefix}(${version} )(\($virtualenv\) )]($style)"($virtualenv)_(${version})
+format = '[](fg:#ffffff bg:none)[🐍 Py](fg:#282c34 bg:#ffffff)[ ]($style)[(${version} )(\($virtualenv\) )]($style)[](fg:#4c8045 bg:none) '
+style = "fg:#ffffff bg:#4c8045"
+pyenv_version_name = false 
+disabled = false
+
+[rust]
+format = "[](fg:#ffffff bg:none)[🦀 Rust](fg:#282c34 bg:#ffffff)[ ]($style)[$version]($style)[](fg:#ea5514 bg:none) "
+style = "fg:#ffffff bg:#ea5514"
+
+[package]
+format = "[](fg:#ffffff bg:none)[📦](fg:#282c34 bg:#ffffff)[ ]($style)[$version]($style)[](fg:#945635 bg:none) "
+style = "fg:#ffffff bg:#945635"
+
+[time]
+disabled = false
+format = "[$time]($style)"
+time_format = "%T"
+[cmd_duration]
+min_time = 500
+show_milliseconds = true
+format = "[](fg:#ffffff bg:none)[🛵 ](fg:#282c34 bg:#ffffff)[ ]($style)[$duration]($style)[](fg:#bc6e37 bg:none) "
+style = "fg:#ffffff bg:#bc6e37"
+
+[battery]
+full_symbol = "🔋"
+charging_symbol = "🔌 "
+discharging_symbol = "⚡️"
+disabled = true
+[[battery.display]]  # "bold red" style when capacity is between 0% and 10%
+threshold = 10
+style = "bold red"
+
+[[battery.display]]  # "bold yellow" style when capacity is between 10% and 30%
+threshold = 30
+style = "bold yellow"
+
+[[battery.display]]
+threshold = 100
+style = "bold green"

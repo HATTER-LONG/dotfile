@@ -100,21 +100,23 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#bac8ff,bold" #underline
 bindkey '^e' autosuggest-accept
 ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 source $ZSH/oh-my-zsh.sh
-fpath+=$HOME/.zsh/pure
-autoload -U promptinit; promptinit
-# optionally define some options
-PURE_CMD_MAX_EXEC_TIME=10
+################# start pure ########################
+# fpath+=$HOME/.zsh/pure
+# autoload -U promptinit; promptinit
+# # optionally define some options
+# PURE_CMD_MAX_EXEC_TIME=10
 
-# change the path color
-zstyle :prompt:pure:path color green 
-zstyle :prompt:pure:git:branch color white
+# # change the path color
+# zstyle :prompt:pure:path color green 
+# zstyle :prompt:pure:git:branch color white
 
-# change the color for both `prompt:success` and `prompt:error`
-zstyle ':prompt:pure:prompt:*' color cyan 
+# # change the color for both `prompt:success` and `prompt:error`
+# zstyle ':prompt:pure:prompt:*' color cyan 
 
-# turn on git stash status
-zstyle :prompt:pure:git:stash show yes
-prompt pure
+# # turn on git stash status
+# zstyle :prompt:pure:git:stash show yes
+# prompt pure
+################# end pure ########################
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
@@ -140,9 +142,8 @@ prompt pure
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-
-eval "$(zoxide init zsh)"
 source ~/.exports
 source ~/.aliases
 source ~/.functions
-
+eval "$(zoxide init zsh)"
+eval "$(starship init zsh)"

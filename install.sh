@@ -221,15 +221,22 @@ zsh() {
 		warn "Skipping already installed zsh-vi-mode"
 	fi
 
-	prompt "Installing zsh-pure..."
-	if [[ ! -d ~/.zsh/pure ]]; then
-		if [[ ! -d ~/.zsh ]]; then
-			execute mkdir -p "$HOME/.zsh"
-		fi
-		execute git clone https://github.com/sindresorhus/pure.git "$HOME/.zsh/pure"
-	else
-		warn "Skipping already installed zsh-pure"
+	# prompt "Installing zsh-pure..."
+	# if [[ ! -d ~/.zsh/pure ]]; then
+	# 	if [[ ! -d ~/.zsh ]]; then
+	# 		execute mkdir -p "$HOME/.zsh"
+	# 	fi
+	# 	execute git clone https://github.com/sindresorhus/pure.git "$HOME/.zsh/pure"
+	# else
+	# 	warn "Skipping already installed zsh-pure"
+	# fi
+	prompt "Installing starship..."
+	if ! command -v starship >/dev/null; then
+		curl -sS https://starship.rs/install.sh | sh
+		execute mkdir -p ~/.config
+		execute ln -s $(pwd)/config/starship.toml ~/.config/starship.toml
 	fi
+
 	prompt "Installing zsh config files..."
 	execute cp -f ${DOTFILE_DIR}/zshrc/config/zshrc $HOME/.zshrc
 	execute cp -f ${DOTFILE_DIR}/zshrc/config/exports $HOME/.exports

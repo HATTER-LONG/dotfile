@@ -35,14 +35,13 @@ format = "[](fg:#ffffff bg:none)[👾](fg:#282c34 bg:#ffffff)[ ]($style)[$
 style = "fg:#ffffff bg:#3271ae"
 
 [git_status]
-# format="[$deleted]($style)[$modified]($style)[$untracked]($style)[$staged]($style)[$renamed]($style)[](fg:#3271ae bg:none)"
 format="[$all_status$ahead_behind]($style)[](fg:#3271ae bg:none) "
 style = "fg:#ffffff bg:#3271ae"
 ahead = "⇡🏎️💨${count}"
 diverged = "⇕⇡😵${ahead_count}⇣${behind_count}"
 behind = "⇣😰${count}"
 conflicted = "😭"
-untracked = "🤷"
+untracked = "🤔"
 stashed = "📦"
 modified = "🖍️"
 staged = '[\(🗃️$count\)](fg:#ffffff bg:#3271ae)'
@@ -71,8 +70,6 @@ style = "fg:#ffffff bg:#6c216d"
 detect_extensions = ['c', 'h', 'cpp', 'cxx']
 
 [python]
-# format = "[](fg:#ffffff bg:none)[🐍 Python](fg:#282c34 bg:#ffffff)[]($style)[${symbol}${pyenv_prefix}(${version} )(\($virtualenv\) )]($style)[](fg:#6c216d bg:none) "
-# format = "[${symbol}${pyenv_prefix}(${version} )(\($virtualenv\) )]($style)"($virtualenv)_(${version})
 format = '[](fg:#ffffff bg:none)[🐍 Py](fg:#282c34 bg:#ffffff)[ ]($style)[(${version} )(\($virtualenv\) )]($style)[](fg:#4c8045 bg:none) '
 style = "fg:#ffffff bg:#4c8045"
 pyenv_version_name = false 
@@ -90,6 +87,8 @@ style = "fg:#ffffff bg:#945635"
 disabled = false
 format = "[$time]($style)"
 time_format = "%T"
+style = "#4c8045"
+
 [cmd_duration]
 min_time = 500
 show_milliseconds = true

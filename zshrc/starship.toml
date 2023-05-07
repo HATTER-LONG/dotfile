@@ -41,7 +41,7 @@ truncation_symbol = "…/"
 
 
 [git_branch]
-truncation_length = 4
+truncation_length = 20
 truncation_symbol = ""
 format = "[](fg:#ffffff bg:none)[👾](fg:#282c34 bg:#ffffff)[ ]($style)[$branch]($style)[ | ]($style)"
 style = "fg:#ffffff bg:#3271ae"
@@ -73,6 +73,7 @@ format = "[](fg:#ffffff bg:none)[🌕 Lua](fg:#282c34 bg:#ffffff)[ ]($styl
 style = "fg:#ffffff bg:#f72851"
 
 [cmake]
+disabled = true
 format = "[](fg:#ffffff bg:none)[🔺 Cmake](fg:#282c34 bg:#ffffff)[ ]($style)[$version]($style)[](fg:#f72851 bg:none) "
 style = "fg:#ffffff bg:#f72851"
 

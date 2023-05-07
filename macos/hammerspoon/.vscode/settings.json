@@ -1,0 +1,12 @@
+{
+    "Lua.diagnostics.globals": [
+        "hs",
+        "spoon",
+        "privatepath",
+        "custom_config",
+        "hsappM_keys",
+        "hsapp_list",
+        "hswhints_keys",
+        "privateconf"
+    ]
+}

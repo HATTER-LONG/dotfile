@@ -1,0 +1,3 @@
+[submodule "macos/hammerspoon/Spoons/VimMode.spoon"]
+	path = macos/hammerspoon/Spoons/VimMode.spoon
+	url = https://github.com/HATTER-LONG/VimMode.spoon.git

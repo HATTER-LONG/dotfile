@@ -1,5 +1,6 @@
 ---@diagnostic disable: undefined-global
 
+require("hs.ipc")
 --[ Vimouse to ctrl mouse pos by you input char]---------------------------------------------------------
 local vimouse = require("vimouse")
 vimouse("alt", "m")
@@ -15,7 +16,8 @@ vimode
 	:disableForApp("kitty")
 	:disableForApp("iTerm2")
 	:disableForApp("zoom.us")
-	:enterWithSequence("jk")
+	-- :enterWithSequence("jk", 100)
+	:bindHotKeys({ enter = { { "ctrl" }, ";" } })
 --[ End Vimmode ]---------------------------------------------------------
 --[ Stackline to yabai ]---------------------------------------------------------
 -- Stackline = require("stackline")

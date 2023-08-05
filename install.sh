@@ -291,6 +291,12 @@ pyenv() {
 	execute cp -f ${DOTFILE_DIR}/zshrc/config/zprofile $HOME/.zprofile
 }
 
+fish() {
+	prompt "Start install and config ${tty_bold}fish${tty_reset}..."
+	package_install fish
+	execute cp -f ${DOTFILE_DIR}/fishrc/config.fish $HOME/.config/fish/config.fish
+}
+
 rust() {
 	prompt "Start install and config ${tty_bold}rust${tty_reset}..."
 	if ! command -v rustup >/dev/null; then
@@ -327,6 +333,9 @@ NEOVIM_INSTALL=$?
 prompt_confirm "Do you want to install and config ${tty_bold}zsh${tty_reset}?"
 ZSH_INSTALL=$?
 
+prompt_confirm "Do you want to install and config ${tty_bold}fish${tty_reset}?"
+FISH_INSTALL=$?
+
 prompt_confirm "Do you want to install and config ${tty_bold}tmux${tty_reset}?"
 TMUX_INSTALL=$?
 
@@ -346,6 +355,10 @@ fi
 
 if [[ ZSH_INSTALL -eq 1 ]]; then
 	zsh
+fi
+
+if [[ FISH_INSTALL -eq 1 ]]; then
+	fish
 fi
 
 if [[ TMUX_INSTALL -eq 1 ]]; then

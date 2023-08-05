@@ -70,3 +70,4 @@ alias pyenv-del='pyenv virtualenv-delete'
 
 # Tools
 alias lz='lazygit'
+alias ni='ninja'

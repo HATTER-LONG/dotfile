@@ -182,7 +182,9 @@ neovim() {
 			package_install neovim
 		fi
 	fi
-	bash -c "$(curl -fsSL https://raw.githubusercontent.com/HATTER-LONG/nvimdots/HEAD/scripts/install.sh)"
+	# bash -c "$(curl -fsSL https://raw.githubusercontent.com/HATTER-LONG/nvimdots/HEAD/scripts/install.sh)"
+	execute git clone https://github.com/AstroNvim/AstroNvim ~/.config/nvim
+	execute git clone https://github.com/HATTER-LONG/AstroUserNvimConfig ~/.config/nvim/lua/user
 	prompt "Finished install and config ${tty_bold}neovim${tty_reset}..."
 }
 
@@ -286,6 +288,7 @@ pyenv() {
 		wait_for_user "Please check pyenv dependencies in https://github.com/pyenv/pyenv/wiki#suggested-build-environment"
 	fi
 	execute git clone https://github.com/alefpereira/pyenv-pyright.git ~/.pyenv/plugins/pyenv-pyright
+	execute cp -f ${DOTFILE_DIR}/zshrc/config/zprofile $HOME/.zprofile
 }
 
 rust() {

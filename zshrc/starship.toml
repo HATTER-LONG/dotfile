@@ -87,6 +87,8 @@ format = '[](fg:#ffffff bg:none)[🐍 Py](fg:#282c34 bg:#ffffff)[ ]($style
 style = "fg:#ffffff bg:#4c8045"
 pyenv_version_name = false 
 disabled = false
+detect_extensions = ["venv", "virtualenv"]
+detect_files = ["requirements.txt", "pyproject.toml", "Pipfile", ".python-version"]
 
 [rust]
 format = "[](fg:#ffffff bg:none)[🦀 Rust](fg:#282c34 bg:#ffffff)[ ]($style)[$version]($style)[](fg:#ea5514 bg:none) "

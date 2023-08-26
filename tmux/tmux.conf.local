@@ -199,7 +199,7 @@ tmux_conf_theme_pane_border_style=thin
 
 # pane borders colours:
 tmux_conf_theme_pane_border=$nord0                   # gray
-tmux_conf_theme_pane_active_border=$nord10            # light blue
+tmux_conf_theme_pane_active_border=$nord13            # light blue
 
 # pane indicator colours
 tmux_conf_theme_pane_indicator=$nord10                # light blue

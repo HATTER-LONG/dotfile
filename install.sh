@@ -182,9 +182,9 @@ neovim() {
 			package_install neovim
 		fi
 	fi
-	# bash -c "$(curl -fsSL https://raw.githubusercontent.com/HATTER-LONG/nvimdots/HEAD/scripts/install.sh)"
-	execute git clone https://github.com/AstroNvim/AstroNvim ~/.config/nvim
-	execute git clone https://github.com/HATTER-LONG/AstroUserNvimConfig ~/.config/nvim/lua/user
+	bash -c "$(curl -fsSL https://raw.githubusercontent.com/HATTER-LONG/nvimdots/HEAD/scripts/install.sh)"
+	# execute git clone https://github.com/AstroNvim/AstroNvim ~/.config/nvim
+	# execute git clone https://github.com/HATTER-LONG/AstroUserNvimConfig ~/.config/nvim/lua/user
 	prompt "Finished install and config ${tty_bold}neovim${tty_reset}..."
 }
 

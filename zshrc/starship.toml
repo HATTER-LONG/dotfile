@@ -1,8 +1,12 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
 format="""
-$container$docker_context$hostname$username$directory$git_branch$git_status$git_commit$all$package$cmd_duration$time$line_break$character
+$container$docker_context$hostname$username$directory$git_branch$git_status$git_commit$package$cmd_duration$time$line_break$character
 """
+
+# format="""
+# $container$docker_context$hostname$username$directory$git_branch$git_status$git_commit$all$package$cmd_duration$time$line_break$character
+# """
 # format="""
 # $docker_context$username$directory$git_branch$git_status$cmd_duration$time$line_break$character
 # """
@@ -63,10 +67,10 @@ up_to_date = "🚀"
 ignore_submodules = false
 
 [git_commit]
-commit_hash_length = 4
+commit_hash_length = 6
 tag_symbol = "🔖 "
-format = "[\\($hash\\)]($style) [\\($tag\\)]($style)"
-style = "green"
+format="[](fg:#3271ae bg:none)[ $hash | tag:$tag]($style)[](fg:#3271ae bg:none) "
+style = "fg:#ffffff bg:#3271ae"
 
 [lua]
 format = "[](fg:#ffffff bg:none)[🌕 Lua](fg:#282c34 bg:#ffffff)[ ]($style)[$version]($style)[](fg:#f72851 bg:none) "

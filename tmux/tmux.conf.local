@@ -322,8 +322,8 @@ tmux_conf_theme_right_separator_sub='\uE0B3'
 #     - #{username_ssh}
 
 #   ﲵ            ﮊ ﮏ ♥ ﰸ ﯅  
-tmux_conf_theme_status_left='  #S '
-tmux_conf_theme_status_right='#{prefix}#{pairing}#{synchronized}| %b%d日|  #{username}#{root} | ﯅ #{hostname} '
+tmux_conf_theme_status_left='  #S |  #{username}#{root}| #{hostname}'
+tmux_conf_theme_status_right='#{prefix}#{pairing}#{synchronized}| %b月%d日 |   #{uptime_d} day #{uptime_h} hour'
 # tmux_conf_theme_status_right='#{prefix}#{pairing}#(gitmux -cfg .gitmux.conf "#{pane_current_path}") |  #{username}#{root} | ﯅ #{hostname} '
 
 # status left style

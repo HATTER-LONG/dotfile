@@ -14,24 +14,35 @@
 
 # shellcheck disable=SC2016
 
+# space with display ctrl sample: https://github.com/koekeishiya/yabai/issues/1853
+
 sudo yabai --load-sa
 yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
 
 yabai -m space 1 --label 1_work
-yabai -m space 2 --label 2_tmp
-yabai -m space 3 --label 3_media
-yabai -m space 4 --label 4_webs
-yabai -m space 5 --label 5_tmp
+yabai -m space 2 --label 2_webs
+yabai -m space 3 --label 3_email
+yabai -m space 4 --label 4_media
+yabai -m space 5 --label 5_temp
 yabai -m space 6 --label 6_other
 yabai -m config --space media layout float
+
+yabai -m space 1_work --display 1
+yabai -m space 2_webs --display 1
+yabai -m space 3_email --display 1
+yabai -m space 4_media --display 1
+yabai -m space 5_temp --display 2
+yabai -m space 6_other --display 2
+
 #======= Rules =======================
-yabai -m signal --add event=window_destroyed active=yes action="yabai -m query --windows --window &> /dev/null || yabai -m window --focus mouse &> /dev/null || yabai -m window --focus \$(yabai -m query --windows --space | jq .[0].id) &> /dev/null"
 yabai -m signal --add event=window_minimized active=yes action="if \$(yabai -m query --windows --window \$YABAI_WINDOW_ID | jq -r '.\"is-floating\"'); then yabai -m query --windows --window &> /dev/null || yabai -m window --focus mouse &> /dev/null || yabai -m window --focus \$(yabai -m query --windows --space | jq .[0].id) &> /dev/null; fi"
-yabai -m rule --add app="^(Calculator|System Preferences|Archive Utility|Hammerspoon|Stream|uTools|关于本机|提醒事项|系统偏好设置)$" manage=off opacity=1.00 border=off
-#yabai -m rule --add app="^(Microsoft Edge|Safari浏览器)$" manage=on opacity=1.00 border=on
+yabai -m rule --add app="^(Mac Mouse Fix|Mos|Calculator|System Preferences|Archive Utility|Hammerspoon|Stream|uTools|关于本机|提醒事项|系统设置|Raycast|Finder|访达|Kaleidoscope)$" manage=off opacity=1.00 border=off
 yabai -m rule --add app="^(Code|Obsidian|iTerm2|kitty|Alacritty)$" space=1_work
-yabai -m rule --add app="^(哔哩哔哩)$" space=3_media manage=off opacity=1.00 border=off
-yabai -m rule --add app="^(UU 加速器|网易云音乐)$" space=6_other manage=on opacity=1.00 border=off
+yabai -m rule --add app="^(Microsoft Edge|Safari浏览器)$" space=2_webs
+yabai -m signal --add event=window_destroyed active=yes action="yabai -m query --windows --window &> /dev/null || yabai -m window --focus mouse &> /dev/null || yabai -m window --focus \$(yabai -m query --windows --space | jq .[0].id) &> /dev/null"
+yabai -m rule --add app="^(Mail.app)$" space=3_email
+yabai -m rule --add app="^(哔哩哔哩)$" space=4_media manage=off border=off opacity=1.00
+yabai -m rule --add app="^(UU 加速器|网易云音乐)$" space=6_other opacity=1.00 #border=off
 #======= signal =====================
 yabai -m signal --add event=application_activated app="^(Obsidian)$" action="macism com.apple.inputmethod.SCIM.ITABC"
 yabai -m signal --add event=application_activated app="^(Alacritty|iTerm2|kitty|Microsoft Edge|Safari浏览器)$" action="macism com.apple.keylayout.ABC"
@@ -48,24 +59,16 @@ yabai -m signal --add event=application_activated app="^(Alacritty|iTerm2|kitty|
 # global settings
 yabai -m config \
 	external_bar all:40:0 \
-	mouse_follows_focus off \
+	mouse_follows_focus on \
 	focus_follows_mouse off \
 	window_placement second_child \
 	window_topmost off \
-	window_shadow off \
+	window_shadow on \
 	window_animation_duration 0.22 \
 	window_opacity_duration 0.22 \
 	active_window_opacity 1 \
 	normal_window_opacity 0.95 \
 	window_opacity on \
-	insert_feedback_color 0xaad75f5f \
-	active_window_border_color 0xBF775759 \
-	normal_window_border_color 0x7f353535 \
-	window_border_width 4 \
-	window_border_radius 11 \
-	window_border_blur on \
-	window_border_hidpi on \
-	window_border on \
 	split_ratio 0.50 \
 	split_type auto \
 	auto_balance off \

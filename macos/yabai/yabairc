@@ -19,42 +19,6 @@
 sudo yabai --load-sa
 yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
 
-yabai -m space 1 --label 1_work
-yabai -m space 2 --label 2_webs
-yabai -m space 3 --label 3_email
-yabai -m space 4 --label 4_media
-yabai -m space 5 --label 5_temp
-yabai -m space 6 --label 6_other
-yabai -m config --space media layout float
-
-yabai -m space 1_work --display 1
-yabai -m space 2_webs --display 1
-yabai -m space 3_email --display 1
-yabai -m space 4_media --display 1
-yabai -m space 5_temp --display 2
-yabai -m space 6_other --display 2
-
-#======= Rules =======================
-yabai -m signal --add event=window_minimized active=yes action="if \$(yabai -m query --windows --window \$YABAI_WINDOW_ID | jq -r '.\"is-floating\"'); then yabai -m query --windows --window &> /dev/null || yabai -m window --focus mouse &> /dev/null || yabai -m window --focus \$(yabai -m query --windows --space | jq .[0].id) &> /dev/null; fi"
-yabai -m rule --add app="^(Mac Mouse Fix|Mos|Calculator|System Preferences|Archive Utility|Hammerspoon|Stream|uTools|关于本机|提醒事项|系统设置|Raycast|Finder|访达|Kaleidoscope)$" manage=off opacity=1.00 border=off
-yabai -m rule --add app="^(Code|Obsidian|iTerm2|kitty|Alacritty)$" space=1_work
-yabai -m rule --add app="^(Microsoft Edge|Safari浏览器)$" space=2_webs
-yabai -m signal --add event=window_destroyed active=yes action="yabai -m query --windows --window &> /dev/null || yabai -m window --focus mouse &> /dev/null || yabai -m window --focus \$(yabai -m query --windows --space | jq .[0].id) &> /dev/null"
-yabai -m rule --add app="^(Mail.app)$" space=3_email
-yabai -m rule --add app="^(哔哩哔哩)$" space=4_media manage=off border=off opacity=1.00
-yabai -m rule --add app="^(UU 加速器|网易云音乐)$" space=6_other opacity=1.00 #border=off
-#======= signal =====================
-yabai -m signal --add event=application_activated app="^(Obsidian)$" action="macism com.apple.inputmethod.SCIM.ITABC"
-yabai -m signal --add event=application_activated app="^(Alacritty|iTerm2|kitty|Microsoft Edge|Safari浏览器)$" action="macism com.apple.keylayout.ABC"
-
-#yabai -m signal --add event=application_deactivated app="^(Obsidian|iTerm2|kitty)$" action="macism com.apple.keylayout.ABC"
-# set special app opacity
-# yabai -m signal --add event=application_activated app="^(Microsoft Edge)$" action='jq -n --argjson windows "$(yabai -m query --windows)" "\$windows[] | select(.app == \"Microsoft Edge\").id" | xargs -I{} yabai -m window {} --opacity 1.00'
-# yabai -m signal --add event=application_deactivated app="^(Microsoft Edge)$" action='jq -n --argjson windows "$(yabai -m query --windows)" "\$windows[] | select(.app == \"Microsoft Edge\").id" | xargs -I{} yabai -m window {} --opacity 0.00'
-# yabai -m signal --add event=window_focused action="sketchybar --trigger window_focus"
-# yabai -m signal --add event=window_created action="sketchybar --trigger windows_on_spaces"
-# yabai -m signal --add event=window_destroyed action="sketchybar --trigger windows_on_spaces"
-# yabai -m signal --add event=window_created action='yabai -m query --windows --window $YABAI_WINDOW_ID | jq -er ".resizable == 0 and .floating == 0" && yabai -m window $YABAI_WINDOW_ID --toggle float'
 #======= config ======================
 # global settings
 yabai -m config \
@@ -62,7 +26,7 @@ yabai -m config \
 	mouse_follows_focus on \
 	focus_follows_mouse off \
 	window_placement second_child \
-	window_topmost off \
+	window_topmost on \
 	window_shadow on \
 	window_animation_duration 0.22 \
 	window_opacity_duration 0.22 \
@@ -82,6 +46,43 @@ yabai -m config \
 	mouse_action1 move \
 	mouse_action2 resize \
 	mouse_drop_action swap
+
+yabai -m space 1 --label 1_work
+yabai -m space 2 --label 2_webs
+yabai -m space 3 --label 3_email
+yabai -m space 4 --label 4_media
+yabai -m space 5 --label 5_temp
+yabai -m space 6 --label 6_other
+yabai -m config --space 4_media layout float
+
+yabai -m space 1_work --display 1
+yabai -m space 2_webs --display 1
+yabai -m space 3_email --display 1
+yabai -m space 4_media --display 1
+yabai -m space 5_temp --display 2
+yabai -m space 6_other --display 2
+
+#======= Rules =======================
+yabai -m signal --add event=window_minimized active=yes action="if \$(yabai -m query --windows --window \$YABAI_WINDOW_ID | jq -r '.\"is-floating\"'); then yabai -m query --windows --window &> /dev/null || yabai -m window --focus mouse &> /dev/null || yabai -m window --focus \$(yabai -m query --windows --space | jq .[0].id) &> /dev/null; fi"
+yabai -m rule --add app="^(Mac Mouse Fix|Mos|Calculator|System Preferences|Archive Utility|Hammerspoon|Stream|uTools|关于本机|提醒事项|系统设置|Raycast|Finder|访达|Kaleidoscope)$" manage=off opacity=1.00
+yabai -m rule --add app="^(Code|Obsidian|iTerm2|kitty|Alacritty)$" space=1_work
+yabai -m rule --add app="^(Microsoft Edge|Safari浏览器)$" space=2_webs
+yabai -m signal --add event=window_destroyed active=yes action="yabai -m query --windows --window &> /dev/null || yabai -m window --focus mouse &> /dev/null || yabai -m window --focus \$(yabai -m query --windows --space | jq .[0].id) &> /dev/null"
+yabai -m rule --add app="^(Mail.app)$" space=3_email
+yabai -m rule --add app="^(哔哩哔哩)$" space=4_media manage=off opacity=1.00
+yabai -m rule --add app="^(UU 加速器|网易云音乐)$" space=6_other opacity=1.00
+#======= signal =====================
+yabai -m signal --add event=application_activated app="^(Obsidian)$" action="macism com.apple.inputmethod.SCIM.ITABC"
+yabai -m signal --add event=application_activated app="^(Alacritty|iTerm2|kitty|Microsoft Edge|Safari浏览器)$" action="macism com.apple.keylayout.ABC"
+
+#yabai -m signal --add event=application_deactivated app="^(Obsidian|iTerm2|kitty)$" action="macism com.apple.keylayout.ABC"
+# set special app opacity
+# yabai -m signal --add event=application_activated app="^(Microsoft Edge)$" action='jq -n --argjson windows "$(yabai -m query --windows)" "\$windows[] | select(.app == \"Microsoft Edge\").id" | xargs -I{} yabai -m window {} --opacity 1.00'
+# yabai -m signal --add event=application_deactivated app="^(Microsoft Edge)$" action='jq -n --argjson windows "$(yabai -m query --windows)" "\$windows[] | select(.app == \"Microsoft Edge\").id" | xargs -I{} yabai -m window {} --opacity 0.00'
+# yabai -m signal --add event=window_focused action="sketchybar --trigger window_focus"
+# yabai -m signal --add event=window_created action="sketchybar --trigger windows_on_spaces"
+# yabai -m signal --add event=window_destroyed action="sketchybar --trigger windows_on_spaces"
+# yabai -m signal --add event=window_created action='yabai -m query --windows --window $YABAI_WINDOW_ID | jq -er ".resizable == 0 and .floating == 0" && yabai -m window $YABAI_WINDOW_ID --toggle float'
 
 osascript -e 'tell application id "tracesOf.Uebersicht" to refresh widget id "simple-bar-index-jsx"'
 

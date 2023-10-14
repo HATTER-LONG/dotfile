@@ -115,7 +115,7 @@ obj.highlightWindow = function(win)
 end
 
 function obj:cleanBorder()
-	cache.borderCanvas:delete()
+	-- cache.borderCanvas:delete()
 	cache.borderCanvas = nil
 end
 

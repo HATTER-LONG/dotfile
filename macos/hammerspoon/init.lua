@@ -6,6 +6,7 @@ local vimouse = require("vimouse")
 vimouse("alt", "m")
 --[ End Vimouse ]---------------------------------------------------------
 
+-- switcher.start()
 --[ Vimode ctrl your input use vim mode]---------------------------------------------------------
 local VimMode = hs.loadSpoon("VimMode")
 local vimode = VimMode:new()
@@ -23,6 +24,13 @@ vimode
 -- Stackline = require("stackline")
 -- Stackline:init()
 --[ End Stackline ]---------------------------------------------------------
+
+--[ Auto Switch input metod ]---------------------------------------------------------
+local inputSwitch = require("InputSwitchConfig")
+-- Appwatcher = hs.application.watcher.new(inputSwitch.updateFocusAppInputMethod)
+-- Appwatcher:start()
+--[ End Auto Switch input metod ]---------------------------------------------------------
+require("controlToEsc")
 
 local function reload_config()
 	hs.reload()

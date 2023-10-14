@@ -54,6 +54,7 @@ yabai -m space 4 --label 4_media
 yabai -m space 5 --label 5_temp
 yabai -m space 6 --label 6_other
 yabai -m config --space 4_media layout float
+yabai -m config --space 6_other layout float
 
 yabai -m space 1_work --display 1
 yabai -m space 2_webs --display 1
@@ -70,7 +71,7 @@ yabai -m rule --add app="^(Microsoft Edge|Safari浏览器)$" space=2_webs
 yabai -m signal --add event=window_destroyed active=yes action="yabai -m query --windows --window &> /dev/null || yabai -m window --focus mouse &> /dev/null || yabai -m window --focus \$(yabai -m query --windows --space | jq .[0].id) &> /dev/null"
 yabai -m rule --add app="^(Mail.app)$" space=3_email
 yabai -m rule --add app="^(哔哩哔哩)$" space=4_media manage=off opacity=1.00
-yabai -m rule --add app="^(UU 加速器|网易云音乐)$" space=6_other opacity=1.00
+yabai -m rule --add app="^(UU 加速器|网易云音乐|音乐)$" space=6_other manage=off opacity=1.00
 #======= signal =====================
 yabai -m signal --add event=application_activated app="^(Obsidian)$" action="macism com.apple.inputmethod.SCIM.ITABC"
 yabai -m signal --add event=application_activated app="^(Alacritty|iTerm2|kitty|Microsoft Edge|Safari浏览器)$" action="macism com.apple.keylayout.ABC"

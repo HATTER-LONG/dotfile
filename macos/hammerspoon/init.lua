@@ -30,7 +30,7 @@ local inputSwitch = require("InputSwitchConfig")
 -- Appwatcher = hs.application.watcher.new(inputSwitch.updateFocusAppInputMethod)
 -- Appwatcher:start()
 --[ End Auto Switch input metod ]---------------------------------------------------------
-require("controlToEsc")
+-- require("controlToEsc")
 
 local function reload_config()
 	hs.reload()

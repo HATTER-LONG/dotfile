@@ -109,6 +109,6 @@ Binder = hs.eventtap.new({ hs.eventtap.event.types.keyDown, hs.eventtap.event.ty
 		needSwitchInput = false
 	end
 end)
-Binder:start()
+-- Binder:start()
 
 return obj

@@ -459,7 +459,8 @@ set -g status-position top
 # set -g @continuum-boot 'on'
 # set -g @continuum-restore 'on'
 # set -g @continuum-boot-options 'kitty'
-set -as terminal-overrides ',*:Setulc=\E[58::2::%p1%{65536}%/%d::%p1%{256}%/%{255}%&%d::%p1%{255}%&%d%;m'
+set -as terminal-overrides ',*:Setulc=\E[58::2::%p1%{65536}%/%d::%p1%{256}%/%{255}%&%d::%p1%{255}%&%d%;m:Ms=\E]52;%p1%s;%p2%s\007'
+# set -as terminal-features ',rxvt-unicode-256color:clipboard'
 # List of plugins
 set -g @tpm_plugins '          \
   tmux-plugins/tpm             \

@@ -175,9 +175,10 @@ neovim() {
 	prompt "Start install and config ${tty_bold}neovim${tty_reset}..."
 	if ! command -v nvim >/dev/null; then
 		if command -v apt-get >/dev/null; then
-			execute sudo apt-get install -y software-properties-common
-			execute sudo add-apt-repository ppa:neovim-ppa/unstable
-			execute sudo apt-get install -y neovim python3-dev python3-pip python3-venv
+			# execute sudo apt-get install -y software-properties-common
+			# execute sudo add-apt-repository ppa:neovim-ppa/unstable
+			# execute sudo apt-get install -y neovim python3-dev python3-pip python3-venv
+			${DOTFILE_DIR}/tools/update_neovim.sh 1
 		else
 			package_install neovim
 		fi
@@ -349,6 +350,10 @@ prompt_confirm "Do you want to install and config ${tty_bold}nodejs${tty_reset}?
 NODEJS_INSTALL=$?
 init
 
+if [[ NODEJS_INSTALL -eq 1 ]]; then
+	nodejs
+fi
+
 if [[ NEOVIM_INSTALL -eq 1 ]]; then
 	neovim
 fi
@@ -372,11 +377,8 @@ fi
 if [[ RUST_INSTALL -eq 1 ]]; then
 	rust
 fi
-if [[ NODEJS_INSTALL -eq 1 ]]; then
-	nodejs
-fi
 
-clean
+# clean
 ##############################################################################
 ############                 MAIN CONFIG END                ##################
 ##############################################################################

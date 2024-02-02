@@ -3,7 +3,7 @@ export CMAKE_GENERATOR=Ninja
 [ -z "$TMUX" ] && export PATH=$HOME/.local/bin:$HOME/WorkSpace/tools/usr/bin:$PATH
 export TERM="xterm-256color"
 export EDITOR="nvim"
-. "$HOME/.cargo/env" 
+[ -d "$HOME/.cargo" ] && . "$HOME/.cargo/env"
 #bat
 export BAT_THEME="Nord"
 #fzf

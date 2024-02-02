@@ -164,10 +164,12 @@ init() {
 	check_and_install fzf
 	check_and_install ripgrep
 	check_and_install make
+
 	if [[ ! -d ${DOTFILE_DIR} ]]; then
 		prompt "Download config tmp files..."
 		execute git clone https://github.com/HATTER-LONG/dotfile.git ${DOTFILE_DIR}
 	fi
+	${DOTFILE_DIR}/tools/update_lazygit.sh
 	prompt "Finished init..."
 }
 

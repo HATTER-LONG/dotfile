@@ -316,7 +316,7 @@ nodejs() {
 	prompt "Start install and config ${tty_bold}nodejs${tty_reset}..."
 	if command -v apt-get >/dev/null; then
 		prompt "Installing nodejs..."
-		curl -sL https://deb.nodesource.com/setup_19.x | sudo -E bash -
+		curl -sL https://deb.nodesource.com/setup_21.x | sudo -E bash -
 		sudo apt-get install -y nodejs
 	else
 		package_install nodejs

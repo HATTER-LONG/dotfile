@@ -13,6 +13,7 @@
 ### 服务器搭建
 
 1. 脚本安装 shadowsocks-libev：`wget --no-check-certificate -O shadowsocks-all.sh https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks-all.sh`
+   - 注意新版本 Ubuntu 需要将 python 都改为 python3.
 2. 使用 ofb tls 方式进行混淆加密。
 3. 使用脚本安装后会自动设置开机启动。
 4. 配置文件在：`/etc/shadowsocks-libev/config.json`

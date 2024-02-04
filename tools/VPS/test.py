@@ -5,9 +5,9 @@ import unittest
 from sshdconf import SSHDConf
 
 SSHD_CONFIG_PATH = "/etc/ssh/sshd_config"
-SSHD_BACK_CONFIG_PATH = "/etc/ssh/sshd_config.bak"
+SSHD_BACK_CONFIG_PATH = "/etc/ssh/sshd_config.mybak"
 SSHD_TEST_CONFIG_PATH = "./sshd_config"
-SSHD_TEST_BACK_CONFIG_PATH = "./sshd_config.bak"
+SSHD_TEST_BACK_CONFIG_PATH = "./sshd_config.mybak"
 
 
 class sshdConfigCtrlTest(unittest.TestCase):
@@ -58,6 +58,13 @@ class sshdConfigCtrlTest(unittest.TestCase):
         self.assertEqual(sshd.get("NeedToComment"), "yes", "modify failed")
         sshd.comment("NeedToComment")
         self.assertEqual(sshd.get("NeedToComment"), "yes (comment)", "modify failed")
+
+    def test_modify_after_backup(self):
+        sshd = SSHDConf(SSHD_TEST_CONFIG_PATH, SSHD_TEST_BACK_CONFIG_PATH)
+        sshd.backup()
+        self.assertTrue(os.path.exists(SSHD_TEST_BACK_CONFIG_PATH))
+        self.assertTrue(sshd.modify("NeedToComment", "yes"), "modify failed")
+        self.assertTrue(os.path.exists(SSHD_TEST_BACK_CONFIG_PATH))
 
 
 if __name__ == "__main__":

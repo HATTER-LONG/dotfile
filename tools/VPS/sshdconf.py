@@ -1,6 +1,9 @@
 import fileinput
 import os
 import shutil
+from datetime import datetime
+
+from prettytable import PrettyTable
 
 SSHD_CONFIG_PATH = "/etc/ssh/sshd_config"
 SSHD_BACK_CONFIG_PATH = "/etc/ssh/sshd_config.bak"
@@ -17,6 +20,10 @@ class SSHDConf:
 
     def backup(self):
         shutil.copyfile(self.path, self.bakpath)
+
+    def generate_backup_filename(self, original_filename=""):
+        timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
+        return f"{original_filename}.{timestamp}.bak"
 
     def delbackup(self):
         os.remove(self.bakpath)
@@ -56,3 +63,77 @@ class SSHDConf:
                     print("#" + line, end="")
                 else:
                     print(line, end="")
+
+
+KEYS = [
+    "Port",
+    "LoginGraceTime",
+    "PermitRootLogin",
+    "PasswordAuthentication",
+    "PermitEmptyPasswords",
+    "X11Forwarding",
+    "TCPKeepAlive",
+    "ClientAliveInterval",
+    "ClientAliveCountMax",
+    "UseDNS",
+    "AllowUsers",
+]
+
+
+class checkSSHDConfig:
+    def __init__(self, path="", backup_path=""):
+        if path != "" and backup_path != "":
+            self.sshd = SSHDConf(path, backup_path)
+        else:
+            self.sshd = SSHDConf()
+
+    def __get_keylist_info__(self, keys: list):
+        result = {}
+        for key in keys:
+            result[key] = self.sshd.get(key)
+        return result
+
+    def show_info_table(self, keys: list = KEYS):
+        result = self.__get_keylist_info__(keys)
+        table = PrettyTable()
+        table.field_names = ["SSHD CFG NAME", "VALUE"]
+        for key in keys:
+            table.add_row([key, result[key]])
+        print(table)
+
+    def auto_modify_sshd_config(self):
+        self.sshd.backup()
+        result = [
+            self.sshd.modify("Port", "22"),
+            self.sshd.modify("LoginGraceTime", "2m"),
+            self.sshd.modify("PermitRootLogin", "no"),
+            self.sshd.modify("PasswordAuthentication", "no"),
+            self.sshd.modify("PermitEmptyPasswords", "no"),
+            self.sshd.modify("X11Forwarding", "no"),
+            self.sshd.modify("TCPKeepAlive", "yes"),
+            self.sshd.modify("ClientAliveInterval", "300"),
+            self.sshd.modify("ClientAliveCountMax", "10"),
+            self.sshd.modify("UseDNS", "no"),
+            self.sshd.modify("AllowUsers", "root"),
+        ]
+
+        # 检查所有返回值是否都为 True
+        if all(result):
+            return True
+        else:
+            return False
+
+    def custom_modif_sshd_config(self, custom_dict: dict):
+        self.sshd.backup()
+        for key, value in custom_dict.items():
+            self.sshd.modify(key, value)
+
+
+if __name__ == "__main__":
+    if not os.path.exists("./sshd_config"):
+        shutil.copyfile("/etc/ssh/sshd_config", "./sshd_config")
+    cs = checkSSHDConfig("./sshd_config", "./sshd_config.mybak")
+    cs.show_info_table()
+    cs.auto_modify_sshd_config()
+    print("after modify:")
+    cs.show_info_table()

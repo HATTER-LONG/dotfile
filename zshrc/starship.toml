@@ -1,7 +1,7 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
 format="""
-$container$docker_context$hostname$username$directory$git_branch$git_status$git_commit$package$cmd_duration$time$line_break$character
+$container$docker_context$hostname$username$directory$git_branch$git_status$git_commit$python$rust$package$cmd_duration$time$line_break$character
 """
 
 # format="""

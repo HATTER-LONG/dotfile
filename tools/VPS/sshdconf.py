@@ -3,8 +3,6 @@ import os
 import shutil
 from datetime import datetime
 
-from prettytable import PrettyTable
-
 SSHD_CONFIG_PATH = "/etc/ssh/sshd_config"
 SSHD_BACK_CONFIG_PATH = "/etc/ssh/sshd_config.mybak"
 
@@ -95,11 +93,8 @@ class checkSSHDConfig:
 
     def show_info_table(self, keys: list = KEYS):
         result = self.__get_keylist_info__(keys)
-        table = PrettyTable()
-        table.field_names = ["SSHD CFG NAME", "VALUE"]
         for key in keys:
-            table.add_row([key, result[key]])
-        print(table)
+            print(f"{key: <20} : {result[key]}")
 
     def auto_modify_sshd_config(self):
         self.sshd.backup()

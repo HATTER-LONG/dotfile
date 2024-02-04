@@ -106,7 +106,6 @@ class checkSSHDConfig:
         result = [
             self.sshd.modify("Port", "22"),
             self.sshd.modify("LoginGraceTime", "2m"),
-            self.sshd.modify("PermitRootLogin", "no"),
             self.sshd.modify("PasswordAuthentication", "no"),
             self.sshd.modify("PermitEmptyPasswords", "no"),
             self.sshd.modify("X11Forwarding", "no"),
@@ -114,7 +113,7 @@ class checkSSHDConfig:
             self.sshd.modify("ClientAliveInterval", "300"),
             self.sshd.modify("ClientAliveCountMax", "10"),
             self.sshd.modify("UseDNS", "no"),
-            self.sshd.modify("AllowUsers", "root"),
+            # self.sshd.modify("AllowUsers", "root"),
         ]
 
         # 检查所有返回值是否都为 True

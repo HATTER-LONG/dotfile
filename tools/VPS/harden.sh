@@ -4,6 +4,17 @@ script_dir=$(cd $(dirname $0) && pwd)
 
 source ${script_dir}/../headfile.sh
 
+DOTFILE_DIR="$HOME/dotfile"
+
+setup() {
+	if [[ ! -d ${DOTFILE_DIR} ]]; then
+		prompt "Download config tmp files..."
+		execute git clone https://github.com/HATTER-LONG/dotfile.git ${DOTFILE_DIR}
+	fi
+}
+
+setup
+
 ##############################################################################
 ############                  START                         ##################
 ##############################################################################
@@ -32,11 +43,13 @@ UFW=$?
 if [[ SSHD_CFG -eq 1 ]]; then
 	prompt_INFO "Start to harden SSHD CFG"
 	harden_SSHD_cfg
-	prompt_INFO "Finish to harden SSHD CFG\n"
+	prompt_INFO "Finish to harden SSHD CFG"
+	echo "\n"
 fi
 
 if [[ UFW -eq 1 ]]; then
 	prompt_INFO "Start to harden port by UFW"
 	harden_port_by_UFW
-	prompt_INFO "Finish to harden port by UFW\n"
+	prompt_INFO "Finish to harden port by UFW"
+	echo "\n"
 fi

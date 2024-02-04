@@ -1,13 +1,21 @@
 #!/bin/bash
 
-script_dir=$(cd $(dirname $0) && pwd)
+DOTFILE_DIR="$HOME/dotfile"
 
-source ${script_dir}/tools/headfile.sh
+setup() {
+	if [[ ! -d ${DOTFILE_DIR} ]]; then
+		echo "Download config tmp files..."
+		git clone https://github.com/HATTER-LONG/dotfile.git ${DOTFILE_DIR}
+	fi
+}
+
+setup
+
+source ${DOTFILE_DIR}/tools/headfile.sh
+
 ##############################################################################
 ############                 MAIN CONFIG START              ##################
 ##############################################################################
-
-DOTFILE_DIR="$HOME/dotfile"
 
 init() {
 	prompt "Start init..."
@@ -24,10 +32,6 @@ init() {
 	check_and_install make
 	check_and_install python3
 
-	if [[ ! -d ${DOTFILE_DIR} ]]; then
-		prompt "Download config tmp files..."
-		execute git clone https://github.com/HATTER-LONG/dotfile.git ${DOTFILE_DIR}
-	fi
 	${DOTFILE_DIR}/tools/update_lazygit.sh
 	prompt "Finished init..."
 }

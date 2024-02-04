@@ -6,7 +6,7 @@ from datetime import datetime
 from prettytable import PrettyTable
 
 SSHD_CONFIG_PATH = "/etc/ssh/sshd_config"
-SSHD_BACK_CONFIG_PATH = "/etc/ssh/sshd_config.bak"
+SSHD_BACK_CONFIG_PATH = "/etc/ssh/sshd_config.mybak."
 
 
 class SSHDConf:
@@ -19,7 +19,7 @@ class SSHDConf:
         self.bakpath = bakpath
 
     def backup(self):
-        shutil.copyfile(self.path, self.bakpath)
+        shutil.copyfile(self.path, self.bakpath + self.generate_backup_filename())
 
     def generate_backup_filename(self, original_filename=""):
         timestamp = datetime.now().strftime("%Y%m%d%H%M%S")

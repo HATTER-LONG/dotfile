@@ -41,6 +41,10 @@ chomp() {
 	printf "%s" "${1/"$'\n'"/}"
 }
 
+prompt_INFO() {
+	printf "${tty_yellow}==>${tty_bold} %s${tty_reset}\n" "$(shell_join "$@")"
+}
+
 prompt() {
 	printf "${tty_blue}==>${tty_bold} %s${tty_reset}\n" "$(shell_join "$@")"
 }

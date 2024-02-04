@@ -1,7 +1,30 @@
 import os
+import subprocess
 
 from myprint import pError, pInfo, pSuccess
 from sshdconf import checkSSHDConfig
+
+
+import platform
+
+
+def restart_sshd():
+    system_platform = platform.system().lower()
+
+    if system_platform == "linux":
+        try:
+            subprocess.run(["sudo", "systemctl", "restart", "ssh"])
+        except FileNotFoundError:
+            subprocess.run(["sudo", "/etc/init.d/ssh", "restart"])
+            # or
+            # subprocess.run(["sudo", "service", "ssh", "restart"])
+
+    elif system_platform == "windows":
+        subprocess.run(["sc", "stop", "sshd"])
+        subprocess.run(["sc", "start", "sshd"])
+
+    else:
+        pError("Unsupported operating system")
 
 
 def harden_SSHD():
@@ -27,6 +50,8 @@ def harden_SSHD():
         return
     sshd.show_info_table()
     pSuccess("Harden SSHD config successfully!")
+    pInfo("Restarting SSHD service...")
+    restart_sshd()
 
 
 if __name__ == "__main__":

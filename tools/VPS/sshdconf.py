@@ -6,7 +6,7 @@ from datetime import datetime
 from prettytable import PrettyTable
 
 SSHD_CONFIG_PATH = "/etc/ssh/sshd_config"
-SSHD_BACK_CONFIG_PATH = "/etc/ssh/sshd_config.mybak."
+SSHD_BACK_CONFIG_PATH = "/etc/ssh/sshd_config.mybak"
 
 
 class SSHDConf:
@@ -106,6 +106,7 @@ class checkSSHDConfig:
         result = [
             self.sshd.modify("Port", "22"),
             self.sshd.modify("LoginGraceTime", "2m"),
+            self.sshd.modify("PermitRootLogin", "prohibit-password"),
             self.sshd.modify("PasswordAuthentication", "no"),
             self.sshd.modify("PermitEmptyPasswords", "no"),
             self.sshd.modify("X11Forwarding", "no"),

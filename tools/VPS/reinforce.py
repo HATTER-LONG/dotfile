@@ -1,11 +1,9 @@
 import os
+import platform
 import subprocess
 
 from myprint import pError, pInfo, pSuccess
 from sshdconf import checkSSHDConfig
-
-
-import platform
 
 
 def restart_sshd():

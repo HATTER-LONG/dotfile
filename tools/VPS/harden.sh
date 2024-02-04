@@ -41,6 +41,10 @@ chomp() {
 	printf "%s" "${1/"$'\n'"/}"
 }
 
+prompt_INFO() {
+	printf "${tty_yellow}==>${tty_bold} %s${tty_reset}\n" "$(shell_join "$@")"
+}
+
 prompt() {
 	printf "${tty_blue}==>${tty_bold} %s${tty_reset}\n" "$(shell_join "$@")"
 }
@@ -171,9 +175,13 @@ prompt_confirm "Do you want to harden port by ${tty_bold}UFW${tty_reset}?"
 UFW=$?
 
 if [[ SSHD_CFG -eq 1 ]]; then
+	prompt_INFO "Start to harden SSHD CFG"
 	harden_SSHD_cfg
+	prompt_INFO "Finish to harden SSHD CFG\n"
 fi
 
 if [[ UFW -eq 1 ]]; then
+	prompt_INFO "Start to harden port by UFW"
 	harden_port_by_UFW
+	prompt_INFO "Finish to harden port by UFW\n"
 fi

@@ -43,7 +43,7 @@ def pWarning(message):
 
 
 def pInfo(message):
-    print_colored_timestamp(message, color=Color.BLUE)
+    print_colored_timestamp(message, color=Color.WHITE)
 
 
 def pSuccess(message):

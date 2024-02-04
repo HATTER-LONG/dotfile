@@ -164,6 +164,7 @@ init() {
 	check_and_install fzf
 	check_and_install ripgrep
 	check_and_install make
+	check_and_install python3
 
 	if [[ ! -d ${DOTFILE_DIR} ]]; then
 		prompt "Download config tmp files..."

@@ -11,7 +11,7 @@ def harden_SSHD():
         return
     home_dir = os.path.expanduser("~")
     ssh_public_key_path = os.path.join(home_dir, ".ssh", "id_rsa.pub")
-    ssh_auth_key_path = os.path.join(home_dir, ".ssh", "authrized_keys")
+    ssh_auth_key_path = os.path.join(home_dir, ".ssh", "authorized_keys")
     if not os.path.isfile(ssh_public_key_path) and not os.path.exists(
         ssh_auth_key_path
     ):

@@ -4,6 +4,10 @@
 
 `bash -c "$(curl -fsSL https://raw.githubusercontent.com/HATTER-LONG/dotfile/main/install.sh)"`
 
+## 防护加强
+
+`bash -c "$(curl -fsSL https://raw.githubusercontent.com/HATTER-LONG/dotfile/main/tools/VPS/harden.sh)"`
+
 ## shadowsocks 搭建与使用
 
 ### 服务器搭建

@@ -4,8 +4,8 @@ DOTFILE_DIR="$HOME/dotfile"
 
 setup() {
 	if [[ ! -d ${DOTFILE_DIR} ]]; then
-		prompt "Download config tmp files..."
-		execute git clone https://github.com/HATTER-LONG/dotfile.git ${DOTFILE_DIR}
+		echo "Download config tmp files..."
+		git clone https://github.com/HATTER-LONG/dotfile.git ${DOTFILE_DIR}
 	fi
 }
 

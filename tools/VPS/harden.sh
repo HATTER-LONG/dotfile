@@ -26,6 +26,7 @@ harden_port_by_UFW() {
 	execute ufw default deny incoming
 	execute ufw default allow outgoing
 	execute ufw allow 22
+	execute ufw allow 36009
 	execute ufw --force enable
 	execute ufw status
 }
@@ -42,12 +43,12 @@ if [[ SSHD_CFG -eq 1 ]]; then
 	prompt_INFO "Start to harden SSHD CFG"
 	harden_SSHD_cfg
 	prompt_INFO "Finish to harden SSHD CFG"
-	echo "\n"
+	echo ""
 fi
 
 if [[ UFW -eq 1 ]]; then
 	prompt_INFO "Start to harden port by UFW"
 	harden_port_by_UFW
 	prompt_INFO "Finish to harden port by UFW"
-	echo "\n"
+	echo ""
 fi

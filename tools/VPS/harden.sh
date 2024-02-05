@@ -18,7 +18,7 @@ source ${DOTFILE_DIR}/tools/headfile.sh
 ##############################################################################
 
 harden_SSHD_cfg() {
-	python3 ./reinforce.py
+	python3 ${DOTFILE_DIR}/tools/VPS/reinforce.py
 }
 
 harden_port_by_UFW() {

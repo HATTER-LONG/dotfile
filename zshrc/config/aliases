@@ -14,7 +14,7 @@ alias 4='cd -4'
 alias 5='cd -5'
 
 # Easy report
-alias ls='exa -Fh --color=auto --icons ' 
+alias ls='eza --color=auto --icons ' 
 # --group-directories-first
 alias grep='grep --color=auto'
 alias l='ls -l --long --header --git'

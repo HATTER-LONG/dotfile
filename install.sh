@@ -111,8 +111,8 @@ zsh() {
 	execute cp -f ${DOTFILE_DIR}/zshrc/config/functions $HOME/.functions
 	execute cp -f ${DOTFILE_DIR}/zshrc/config/aliases $HOME/.aliases
 
-	prompt "Installing exa..."
-	check_and_install exa
+	prompt "Installing eza..."
+	check_and_install eza
 	prompt "Installing zoxide..."
 	check_and_install zoxide
 	prompt "Installing bat..."

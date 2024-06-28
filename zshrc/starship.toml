@@ -1,7 +1,7 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
 format="""
-$container$docker_context$hostname$username$directory$git_branch$git_status$git_commit$python$rust$package$cmd_duration$time$line_break$character
+$container$docker_context$hostname$username$directory$git_branch$git_status$git_commit$python$conda$rust$package$cmd_duration$time$line_break$character
 """
 
 # format="""
@@ -130,3 +130,7 @@ style = "bold yellow"
 [[battery.display]]
 threshold = 100
 style = "bold green"
+
+[conda]
+format = '[](fg:#ffffff bg:none)[$symbol](fg:#282c34 bg:#ffffff)[ ]($style)[$environment]($style)[](fg:#4c8045 bg:none) '
+style = "fg:#ffffff bg:#238055"

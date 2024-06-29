@@ -51,7 +51,7 @@ local lastCode = nil
 local canvasTable = nil
 local deleteUI = function()
 	if canvasTable ~= nil then
-		canvasTable:delete(ui.hideFadeOut)
+		-- canvasTable:delete(ui.hideFadeOut)
 		canvasTable = nil
 	end
 	uiObj = {}

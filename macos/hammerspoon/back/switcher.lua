@@ -173,10 +173,8 @@ local function setFrames(nwindows, drawings, ui)
 		end
 		dr.selRectFrame = selFrame
 		dr.selThumbFrame = geom.copy(selFrame):setw(selSize):seth(selSize):move(selPadding, selPadding + selTitleHeight)
-		dr.selIconFrame = geom.copy(dr.selThumbFrame)
-			:setw(selSize / 2)
-			:seth(selSize / 2)
-			:move(selSize / 4, selSize / 2 + selPadding)
+		dr.selIconFrame =
+			geom.copy(dr.selThumbFrame):setw(selSize / 2):seth(selSize / 2):move(selSize / 4, selSize / 2 + selPadding)
 		dr.highlightFrame = geom.copy(thumbFrame)
 			:move(-padding / 2, -padding / 2 - titleHeight - titlePadding)
 			:setw(size + padding)
@@ -312,7 +310,8 @@ local function show(self, dir)
 					t.thumb = drawing.image(tempframe, UNAVAILABLE)
 				end
 				if ui.showTitles then
-					t.titleRect = drawing.rectangle(tempframe)
+					t.titleRect = drawing
+						.rectangle(tempframe)
 						:setRoundedRectRadii(ui.titleRectRadius, ui.titleRectRadius)
 						:setFillColor(ui.titleBackgroundColor)
 						:setStroke(false)
@@ -469,13 +468,15 @@ local function setUiPrefs(self)
 	end
 	drawings.background = drawing.rectangle(tempframe):setFillColor(ui.backgroundColor):setStroke(false)
 	drawings.highlightRect = drawing.rectangle(tempframe):setFillColor(ui.highlightColor):setStroke(false)
-	drawings.selRect = drawing.rectangle(tempframe)
+	drawings.selRect = drawing
+		.rectangle(tempframe)
 		:setRoundedRectRadii(selectedRectRadius, selectedRectRadius)
 		:setStroke(false)
 		:setFillColor(ui.backgroundColor)
 	drawings.selThumb = drawing.image(tempframe, UNAVAILABLE)
 	drawings.selIcon = drawing.image(tempframe, UNAVAILABLE)
-	drawings.selTitleRect = drawing.rectangle(tempframe)
+	drawings.selTitleRect = drawing
+		.rectangle(tempframe)
 		:setFillColor(ui.titleBackgroundColor)
 		:setStroke(false)
 		:setRoundedRectRadii(selectedRectRadius, selectedRectRadius)
@@ -536,10 +537,12 @@ function switcher.new(wf, uiPrefs, logname, loglevel)
 		rawset(self.ui, k, getColor(v))
 	end
 	setUiPrefs(self)
-	self.screenWatcher = screen.watcher.new(function()
-		self.drawings.lastn = -1
-		self.drawings.screenFrame = nil
-	end):start()
+	self.screenWatcher = screen.watcher
+		.new(function()
+			self.drawings.lastn = -1
+			self.drawings.screenFrame = nil
+		end)
+		:start()
 	return self
 end
 

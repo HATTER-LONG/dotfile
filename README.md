@@ -43,4 +43,3 @@
 cp -rf ./tmux/tmux.conf ~/.tmux.conf
 cp -rf ./tmux/tmux.conf.local ~/.tmux.conf.local
 ```
-

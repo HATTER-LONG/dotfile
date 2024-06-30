@@ -8,6 +8,13 @@
 
 `bash -c "$(curl -fsSL https://raw.githubusercontent.com/HATTER-LONG/dotfile/main/tools/VPS/harden.sh)"`
 
+## V2Ray
+
+[参考](https://github.com/233boy/Xray/wiki/Xray%E6%90%AD%E5%BB%BA%E8%AF%A6%E7%BB%86%E5%9B%BE%E6%96%87%E6%95%99%E7%A8%8B)
+
+1. root 下一键安装：`bash <(wget -qO- -o- https://github.com/233boy/Xray/raw/main/install.sh`
+2. 开启 bbr 优化：xray bbr
+
 ## shadowsocks 搭建与使用
 
 ### 服务器搭建

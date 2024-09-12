@@ -110,6 +110,7 @@ zsh() {
 	execute cp -f ${DOTFILE_DIR}/zshrc/config/exports $HOME/.exports
 	execute cp -f ${DOTFILE_DIR}/zshrc/config/functions $HOME/.functions
 	execute cp -f ${DOTFILE_DIR}/zshrc/config/aliases $HOME/.aliases
+	execute cp -f ${DOTFILE_DIR}/zshrc/config/vimrc $HOME/.vimrc
 
 	prompt "Installing eza..."
 	check_and_install eza

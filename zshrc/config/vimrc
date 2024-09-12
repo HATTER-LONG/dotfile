@@ -1,0 +1,92 @@
+"==============================
+" General
+"==============================
+
+" should be at the start of .vimrc
+set nocompatible
+
+set encoding=utf-8
+set fileencodings=utf-8
+scriptencoding utf-8
+
+set ts=4
+set sw=4
+set expandtab
+set background=dark
+set wrap
+set cin
+set guicursor=n:block-blinkon100
+set guicursor+=i:ver25
+set backspace=2
+set mouse=a
+set undofile
+set undodir=~/.vim/undodir
+set background=dark
+set termguicolors
+
+
+" reload changed files
+set autoread
+au CursorHold,CursorHoldI * checktime
+
+" enable relative line numbers
+set number relativenumber
+
+" switch to absolute line numbers when tab is not on focus
+augroup numbertoggle
+  autocmd!
+  autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &nu && mode() != "i" | set rnu   | endif
+  autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &nu                  | set nornu | endif
+augroup END
+
+" fix copy-paste
+set t_BE=
+
+syntax enable
+
+" disable preview window on autocomplete
+set completeopt-=preview
+
+" look for local .vimrc
+set exrc
+set secure
+
+" share system clipboard
+autocmd VimLeave * call system("xsel -ib", getreg("+"))
+vnoremap Y "+y
+
+" store swap files
+"set directory=~/.vim/swapfiles/
+
+" edit json
+let g:vim_json_conceal=0
+
+" center searches
+nmap gg ggzz
+nmap  n nzz
+nmap  N Nzz
+set scrolloff=4
+
+highlight LineNr ctermfg=Grey guifg=#5eacd3
+" 设置当前行号颜色
+highlight CursorLineNr ctermfg=Yellow guifg=#ffcc00
+
+set cursorline
+highlight CursorLine cterm=NONE ctermbg=darkgrey guibg=#2E2E2E
+
+highlight Visual cterm=NONE ctermbg=darkblue guibg=#44475a
+
+nmap H ^
+nmap L $
+vmap H ^
+vmap L $
+imap jk <ESC>
+
+vmap p pgvy
+
+nmap <C-s> :w<CR>
+imap <C-s> <ESC>:w<CR>
+
+nmap <C-l> <C-w>l
+nmap <C-h> <C-w>h
+

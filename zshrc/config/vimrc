@@ -42,7 +42,6 @@ augroup END
 " fix copy-paste
 set t_BE=
 
-syntax enable
 
 " disable preview window on autocomplete
 set completeopt-=preview
@@ -66,6 +65,10 @@ nmap gg ggzz
 nmap  n nzz
 nmap  N Nzz
 set scrolloff=4
+
+" disable automatic folding
+set foldmethod=manual
+set nofoldenable
 
 highlight LineNr ctermfg=Grey guifg=#5eacd3
 " 设置当前行号颜色

@@ -130,8 +130,23 @@ init() {
 		check_and_install "${pkg}"
 	done
 
-	"${DOTFILE_DIR}/tools/update_lazygit.sh"
-	"${DOTFILE_DIR}/tools/install_ninja.sh"
+	# lazygit: try package manager first, fall back to custom script
+	if ! command -v lazygit >/dev/null 2>&1; then
+		( check_and_install lazygit ) || true
+	fi
+	if ! command -v lazygit >/dev/null 2>&1; then
+		prompt "lazygit not available via package manager, installing from binary..."
+		"${DOTFILE_DIR}/tools/update_lazygit.sh"
+	fi
+
+	# ninja: try package manager first, fall back to custom script
+	if ! command -v ninja >/dev/null 2>&1; then
+		( check_and_install ninja-build ) || true
+	fi
+	if ! command -v ninja >/dev/null 2>&1; then
+		prompt "ninja not available via package manager, installing from binary..."
+		"${DOTFILE_DIR}/tools/install_ninja.sh"
+	fi
 
 	prompt "System initialisation finished."
 }

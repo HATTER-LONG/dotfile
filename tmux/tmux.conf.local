@@ -323,7 +323,7 @@ tmux_conf_theme_right_separator_sub='\uE0B3'
 
 #   ﲵ            ﮊ ﮏ ♥ ﰸ ﯅  
 tmux_conf_theme_status_left='  #S |  #{username}#{root}| #{hostname}'
-tmux_conf_theme_status_right='#{prefix}#{pairing}#{synchronized}| %b月%d日 |   #{uptime_d} day #{uptime_h} hour'
+tmux_conf_theme_status_right='#{prefix}#{pairing}#{synchronized}| %b%d日 |   #{uptime_d} day #{uptime_h} hour'
 # tmux_conf_theme_status_right='#{prefix}#{pairing}#(gitmux -cfg .gitmux.conf "#{pane_current_path}") |  #{username}#{root} | ﯅ #{hostname} '
 
 # status left style
@@ -414,7 +414,7 @@ tmux_conf_theme_clock_style='24'
 # on Linux, this requires xsel or xclip
 tmux_conf_copy_to_os_clipboard=true
 
-# test 
+# test
 ## 此时s1/s4字体颜色为1，背景色为2,字体加粗
 ## s2/s5的字体颜色为2，背景色为3,字体正常
 ## s3/s6/s6ss1的字体颜色为3,背景色为1,字体正常
@@ -433,7 +433,7 @@ tmux_conf_copy_to_os_clipboard=true
 # this is the place to override or undo settings
 
 # increase history size
-set -g history-limit 10000
+set -g history-limit 50000
 
 # start with mouse mode enabled
 set -g mouse on
@@ -470,4 +470,3 @@ set -g @tpm_plugins '          \
 
     # Initialize TMUX plugin manager (keep this line at the very bottom of tmux.conf)
     run '~/.tmux/plugins/tpm/tpm'
-

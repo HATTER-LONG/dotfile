@@ -81,6 +81,9 @@ nmap L $
 vmap H ^
 vmap L $
 imap jk <ESC>
+" Insert mode: Ctrl+J/K to move cursor right/left
+inoremap <C-j> <Right>
+inoremap <C-k> <Left>
 
 vmap p pgvy
 
@@ -89,4 +92,3 @@ imap <C-s> <ESC>:w<CR>
 
 nmap <C-l> <C-w>l
 nmap <C-h> <C-w>h
-

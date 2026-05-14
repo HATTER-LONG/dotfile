@@ -1,0 +1,133 @@
+// Zed keymap
+//
+// For information on binding keys, see the Zed
+// documentation: https://zed.dev/docs/key-bindings
+//
+// To see the default key bindings run `zed: open default keymap`
+// from the command palette.
+[
+  // global keymap
+  {
+    "bindings": {
+      "ctrl-q": ["workspace::SendKeystrokes", "escape"],
+      "ctrl-h": "workspace::ActivatePaneLeft",
+      "ctrl-l": "workspace::ActivatePaneRight",
+      "ctrl-k": "workspace::ActivatePaneUp",
+      "ctrl-j": "workspace::ActivatePaneDown",
+      "f11": "debugger::StepInto",
+    },
+  },
+  {
+    "unbind": {
+      "f11": "zed::ToggleFullScreen",
+    },
+  },
+  {
+    "context": "ProjectPanel && not_editing",
+    "bindings": {
+      "a": "project_panel::NewFile",
+      "A": "project_panel::NewDirectory",
+      "r": "project_panel::Rename",
+      "d": "project_panel::Delete",
+      "x": "project_panel::Cut",
+      "c": "project_panel::Copy",
+      "p": "project_panel::Paste",
+    },
+  },
+  // editor keymap
+  {
+    "context": "Editor && !menu",
+    "bindings": {
+      "ctrl-c": "editor::Copy",
+      "ctrl-x": "editor::Cut",
+      "ctrl-v": "editor::Paste",
+      "ctrl-f": "buffer_search::Deploy",
+      "ctrl-s": "workspace::Save",
+      "ctrl-a": "editor::SelectAll",
+    },
+  },
+
+  {
+    "context": "Editor && vim_mode == visual && !menu",
+    "bindings": {
+      "q": ["workspace::SendKeystrokes", "escape"],
+      "p": ["workspace::SendKeystrokes", "\" _ d P"],
+    },
+  },
+  {
+    "context": "Editor && vim_mode == insert",
+    "bindings": {
+      "j k": "vim::NormalBefore",
+      "ctrl-j": "editor::MoveRight",
+      "ctrl-k": "editor::MoveLeft",
+    },
+  },
+  // editor with vim normal mode
+  {
+    "context": "Editor && vim_mode == normal && !VimWaiting && !menu",
+    "bindings": {
+      "alt-h": "pane::ActivatePreviousItem",
+      "alt-l": "pane::ActivateNextItem",
+
+      "shift-q": "pane::CloseActiveItem",
+
+      "space /": "pane::DeploySearch",
+
+      "space e": "pane::RevealInProjectPanel",
+      "space g": "git_panel::ToggleFocus",
+      "ctrl-o": "pane::GoBack",
+
+      // +LSP
+      "space c a": "editor::ToggleCodeActions",
+      "space r": "editor::Rename",
+      "g d": "editor::GoToDefinition",
+      "g D": "editor::GoToDefinitionSplit",
+      "g h": "editor::GoToImplementation",
+      "g H": "editor::GoToImplementationSplit",
+      "g t": "editor::GoToTypeDefinition",
+      "g T": "editor::GoToTypeDefinitionSplit",
+      "g r": "editor::FindAllReferences",
+
+      "g ]": "editor::GoToDiagnostic",
+      "g [": "editor::GoToPreviousDiagnostic",
+
+      "g i": "editor::SwitchSourceHeader",
+      // Symbol search
+      "space o": "outline::Toggle",
+      "space a s": "project_symbols::Toggle",
+      // Diagnostic
+      "space x x": "diagnostics::Deploy",
+      // +Git
+      // Git prev/next hunk
+      "] h": "editor::GoToHunk",
+      "[ h": "editor::GoToPreviousHunk",
+      "space d f": "git::Diff",
+      // TODO: git diff is not ready yet, refer https://github.com/zed-industries/zed/issues/8665#issuecomment-2194000497
+    },
+  },
+  // editor with vim visual or normal mode
+  {
+    "context": "VimControl && !menu",
+    "bindings": {
+      "L": ["workspace::SendKeystrokes", "$"],
+      "H": ["workspace::SendKeystrokes", "^"],
+      "s": "vim::PushSneak",
+      "shift-s": "vim::PushSneakBackward",
+    },
+  },
+  // workspace or editor with vim normal mode
+  {
+    "context": "Workspace && !Editor && !Terminal || Editor && !menu && vim_mode == normal",
+    "bindings": {
+      "space f f": "file_finder::Toggle",
+      "ctrl-\\": "terminal_panel::Toggle",
+    },
+  },
+  {
+    "context": "Terminal",
+    "bindings": {
+      "ctrl-q": "terminal_panel::Toggle",
+      "ctrl-\\": "terminal_panel::Toggle",
+    },
+  },
+]

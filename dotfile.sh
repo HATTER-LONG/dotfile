@@ -272,6 +272,16 @@ kitty() {
 	prompt "Finished install and config ${tty_bold}kitty${tty_reset}."
 }
 
+opencode() {
+	prompt "Start deploy ${tty_bold}opencode${tty_reset} config..."
+
+	execute mkdir -p "${HOME}/.config/opencode"
+	execute cp -f "${DOTFILE_DIR}/opencode/opencode.jsonc" "${HOME}/.config/opencode/opencode.jsonc"
+	execute cp -f "${DOTFILE_DIR}/opencode/.gitignore" "${HOME}/.config/opencode/.gitignore"
+
+	prompt "Finished deploy ${tty_bold}opencode${tty_reset} config."
+}
+
 rust() {
 	prompt "Start install and config ${tty_bold}rust${tty_reset}..."
 
@@ -359,6 +369,10 @@ main() {
 
 	if prompt_confirm "Do you want to install ${tty_bold}fonts${tty_reset} (TTF)?"; then
 		fonts
+	fi
+
+	if prompt_confirm "Do you want to deploy ${tty_bold}opencode${tty_reset} config?"; then
+		opencode
 	fi
 
 	if prompt_confirm "Do you want to install and config ${tty_bold}rust${tty_reset}?"; then

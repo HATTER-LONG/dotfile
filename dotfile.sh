@@ -113,7 +113,7 @@ init() {
 	local pkg
 	local -a base_packages=(
 		sudo
-		vim
+		vim-gtk3
 		curl
 		wget
 		git

@@ -95,3 +95,5 @@ imap <C-s> <ESC>:w<CR>
 
 nmap <C-l> <C-w>l
 nmap <C-h> <C-w>h
+
+set clipboard=unnamedplus

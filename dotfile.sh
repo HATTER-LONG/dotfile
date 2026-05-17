@@ -293,6 +293,32 @@ rust() {
 	prompt "Finished install and config ${tty_bold}rust${tty_reset}."
 }
 
+node() {
+	prompt "Start install and config ${tty_bold}Node.js${tty_reset} (via nvm)..."
+
+	local nvm_dir="${NVM_DIR:-${HOME}/.nvm}"
+
+	if [[ ! -s "${nvm_dir}/nvm.sh" ]]; then
+		prompt "Installing nvm..."
+		curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash
+	fi
+
+	# Load nvm into the current shell
+	export NVM_DIR="${nvm_dir}"
+	[[ -s "${NVM_DIR}/nvm.sh" ]] && source "${NVM_DIR}/nvm.sh"
+
+	if ! command -v nvm >/dev/null 2>&1; then
+		warn "nvm failed to load, skipping Node.js installation"
+		return 0
+	fi
+
+	prompt "Installing Node.js LTS via nvm..."
+	nvm install --lts
+	nvm alias default lts/*
+
+	prompt "Finished install and config ${tty_bold}Node.js${tty_reset} (nvm)."
+}
+
 tmux() {
 	prompt "Start install and config ${tty_bold}tmux${tty_reset}..."
 
@@ -377,6 +403,10 @@ main() {
 
 	if prompt_confirm "Do you want to install and config ${tty_bold}rust${tty_reset}?"; then
 		rust
+	fi
+
+	if prompt_confirm "Do you want to install and config ${tty_bold}Node.js${tty_reset} (via nvm)?"; then
+		node
 	fi
 
 	prompt "All done! Enjoy your new environment."

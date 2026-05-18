@@ -277,7 +277,6 @@ opencode() {
 
 	execute mkdir -p "${HOME}/.config/opencode"
 	execute cp -f "${DOTFILE_DIR}/opencode/opencode.jsonc" "${HOME}/.config/opencode/opencode.jsonc"
-	execute cp -f "${DOTFILE_DIR}/opencode/.gitignore" "${HOME}/.config/opencode/.gitignore"
 
 	prompt "Finished deploy ${tty_bold}opencode${tty_reset} config."
 }
@@ -314,7 +313,6 @@ node() {
 
 	prompt "Installing Node.js LTS via nvm..."
 	nvm install --lts
-	nvm alias default lts/*
 
 	prompt "Finished install and config ${tty_bold}Node.js${tty_reset} (nvm)."
 }

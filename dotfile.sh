@@ -281,6 +281,15 @@ opencode() {
 	prompt "Finished deploy ${tty_bold}opencode${tty_reset} config."
 }
 
+cargo() {
+	prompt "Start deploy ${tty_bold}cargo${tty_reset} config..."
+
+	execute mkdir -p "${HOME}/.cargo"
+	execute cp -f "${DOTFILE_DIR}/cargo/config.toml" "${HOME}/.cargo/config.toml"
+
+	prompt "Finished deploy ${tty_bold}cargo${tty_reset} config."
+}
+
 rust() {
 	prompt "Start install and config ${tty_bold}rust${tty_reset}..."
 
@@ -397,6 +406,10 @@ main() {
 
 	if prompt_confirm "Do you want to deploy ${tty_bold}opencode${tty_reset} config?"; then
 		opencode
+	fi
+
+	if prompt_confirm "Do you want to deploy ${tty_bold}cargo${tty_reset} config?"; then
+		cargo
 	fi
 
 	if prompt_confirm "Do you want to install and config ${tty_bold}rust${tty_reset}?"; then

@@ -31,3 +31,8 @@ export PIP_REQUIRE_VIRTUALENV=true
 
 #nodejs
 export ELECTRON_MIRROR=https://npmmirror.com/mirrors/electron/
+
+#rust
+export RUSTUP_UPDATE_ROOT=https://mirrors.tuna.tsinghua.edu.cn/rustup/rustup
+export RUSTUP_DIST_SERVER=https://mirrors.tuna.tsinghua.edu.cn/rustup
+

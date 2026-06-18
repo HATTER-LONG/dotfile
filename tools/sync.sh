@@ -16,7 +16,8 @@
 #   opencode     opencode config
 #   zed          zed config
 #   starship     starship prompt config
-#   config       All .config/ files (kitty + opencode + zed + starship)
+#   cargo        cargo config
+#   config       All .config/ files (kitty + opencode + zed + starship + cargo)
 #   all          Everything (default)
 #
 
@@ -67,6 +68,10 @@ declare -ra STARSHIP_MAP=(
 	"zshrc/starship.toml:.config/starship.toml"
 )
 
+declare -ra CARGO_MAP=(
+	"cargo/config.toml:.cargo/config.toml"
+)
+
 # ── Helpers ────────────────────────────────────────────────────────────────
 
 resolve_maps() {
@@ -78,14 +83,15 @@ resolve_maps() {
 		opencode) printf '%s\n' "${OPENCODE_MAP[@]}" ;;
 		zed)     printf '%s\n' "${ZED_MAP[@]}" ;;
 		starship) printf '%s\n' "${STARSHIP_MAP[@]}" ;;
-		config)  printf '%s\n' "${KITTY_MAP[@]}" "${OPENCODE_MAP[@]}" "${ZED_MAP[@]}" "${STARSHIP_MAP[@]}" ;;
-		all)     printf '%s\n' "${ZSH_MAP[@]}" "${TMUX_MAP[@]}" "${KITTY_MAP[@]}" "${OPENCODE_MAP[@]}" "${ZED_MAP[@]}" "${STARSHIP_MAP[@]}" ;;
+		cargo)   printf '%s\n' "${CARGO_MAP[@]}" ;;
+		config)  printf '%s\n' "${KITTY_MAP[@]}" "${OPENCODE_MAP[@]}" "${ZED_MAP[@]}" "${STARSHIP_MAP[@]}" "${CARGO_MAP[@]}" ;;
+		all)     printf '%s\n' "${ZSH_MAP[@]}" "${TMUX_MAP[@]}" "${KITTY_MAP[@]}" "${OPENCODE_MAP[@]}" "${ZED_MAP[@]}" "${STARSHIP_MAP[@]}" "${CARGO_MAP[@]}" ;;
 		*)       printf '\n' ;;
 	esac
 }
 
 list_components() {
-	echo "Available components: zsh, tmux, kitty, opencode, zed, starship, config, all"
+	echo "Available components: zsh, tmux, kitty, opencode, zed, starship, cargo, config, all"
 }
 
 timestamp() {
@@ -235,7 +241,8 @@ Components:
   opencode          opencode AI config
   zed               zed editor config
   starship          starship prompt config
-  config            All .config/ files (kitty + opencode + zed + starship)
+  cargo             cargo config
+  config            All .config/ files (kitty + opencode + zed + starship + cargo)
   all               Everything (default)
 
 Component file mappings:
@@ -265,6 +272,9 @@ Component file mappings:
 
   starship:
     zshrc/starship.toml             → ~/.config/starship.toml
+
+  cargo:
+    cargo/config.toml               → ~/.cargo/config.toml
 
 Notes:
   - push creates a timestamped backup (.bak.YYYYMMDDHHMMSS) only when

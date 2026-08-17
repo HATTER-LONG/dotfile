@@ -10,8 +10,6 @@
   "cli_default_open_behavior": "existing_window",
   "icon_theme": "Material Icon Theme",
   "agent_ui_font_size": 16.0,
-  "proxy": "",
-  "diff_view_style": "split",
   "git_panel": {
     "dock": "left",
   },
@@ -19,6 +17,17 @@
     "dock": "left",
   },
   "agent": {
+    "tool_permissions": {
+      "tools": {
+        "terminal": {
+          "always_allow": [
+            {
+              "pattern": "^cargo\\s+check(\\s|$)"
+            }
+          ]
+        }
+      }
+    },
     "default_model": {
       "provider": "deepseek",
       "model": "deepseek-v4-pro",
@@ -27,8 +36,6 @@
     },
     "dock": "right",
     "sidebar_side": "right",
-    "favorite_models": [],
-    "model_parameters": [],
   },
   "telemetry": {
     "diagnostics": false,
@@ -45,19 +52,15 @@
     "light": "One Light",
     "dark": "Catppuccin Macchiato",
   },
-  "vim": {
-    "use_system_clipboard": "always",
-  },
   "edit_predictions": {
     "open_ai_compatible_api": {
+      "max_output_tokens": 1024,
       "prompt_format": "deepseek_coder",
       "model": "deepseek-v4-flash",
       "api_url": "https://api.deepseek.com/beta/completions",
     },
     "provider": "open_ai_compatible_api",
-    "mode": "eager",
   },
-  "always_treat_brackets_as_autoclosed": false,
   "colorize_brackets": true,
   "theme_overrides": {
     "Catppuccin Macchiato": {

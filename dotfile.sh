@@ -108,79 +108,17 @@ init() {
 
 	cd "${HOME}"
 
-	package_update
-
-	local pkg
-	local -a base_packages=(
-		sudo
-		vim-gtk3
-		curl
-		wget
-		git
-		ssh
-		zip
-		fzf
-		ripgrep
-		make
-		cmake
-		python3
-	)
-
-	for pkg in "${base_packages[@]}"; do
-		check_and_install "${pkg}"
-	done
-
-	# lazygit: try package manager first, fall back to custom script
-	if ! command -v lazygit >/dev/null 2>&1; then
-		( check_and_install lazygit ) || true
-	fi
-	if ! command -v lazygit >/dev/null 2>&1; then
-		prompt "lazygit not available via package manager, installing from binary..."
-		"${DOTFILE_DIR}/tools/update_lazygit.sh"
-	fi
-
-	# ninja: try package manager first, fall back to custom script
-	if ! command -v ninja >/dev/null 2>&1; then
-		( check_and_install ninja-build ) || true
-	fi
-	if ! command -v ninja >/dev/null 2>&1; then
-		prompt "ninja not available via package manager, installing from binary..."
-		"${DOTFILE_DIR}/tools/install_ninja.sh"
-	fi
-
 	prompt "System initialisation finished."
 }
 
 zsh() {
 	prompt "Start install and config ${tty_bold}zsh${tty_reset}..."
 
-	package_install zsh
-
-	prompt "Installing oh-my-zsh..."
-	bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-
-	# ----- Zsh plugins -----
-	local zsh_custom="${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}"
-
-	prompt "Installing zsh-autosuggestions..."
-	clone_if_missing \
-		"https://github.com/zsh-users/zsh-autosuggestions" \
-		"${zsh_custom}/plugins/zsh-autosuggestions"
-
-	prompt "Installing zsh-syntax-highlighting..."
-	clone_if_missing \
-		"https://github.com/zsh-users/zsh-syntax-highlighting.git" \
-		"${zsh_custom}/plugins/zsh-syntax-highlighting"
-
-	prompt "Installing zsh-vi-mode..."
-	clone_if_missing \
-		"https://github.com/jeffreytse/zsh-vi-mode" \
-		"${zsh_custom}/plugins/zsh-vi-mode"
 
 	# ----- Starship prompt -----
 	prompt "Installing starship..."
 	if ! command -v starship >/dev/null 2>&1; then
-		curl -sS https://starship.rs/install.sh | sh
+		#curl -sS https://starship.rs/install.sh | sh
 		execute mkdir -p "${HOME}/.config"
 		execute cp -f "${DOTFILE_DIR}/zshrc/starship.toml" "${HOME}/.config/starship.toml"
 	fi
@@ -227,42 +165,6 @@ zsh() {
 
 kitty() {
 	prompt "Start install and config ${tty_bold}kitty${tty_reset}..."
-
-	local kitty_install_dir="${HOME}/.local/kitty.app"
-	local kitty_bin_dir="${kitty_install_dir}/bin"
-
-	if [[ ! -d "${kitty_install_dir}" ]]; then
-		prompt "Downloading and installing kitty binary..."
-		curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
-	else
-		prompt_INFO "kitty already installed at ${kitty_install_dir}, updating..."
-		curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
-	fi
-
-	# ----- Symlink binaries into PATH -----
-	prompt "Creating symlinks for kitty and kitten..."
-	execute mkdir -p "${HOME}/.local/bin"
-	execute ln -sf "${kitty_bin_dir}/kitty" "${HOME}/.local/bin/kitty"
-	execute ln -sf "${kitty_bin_dir}/kitten" "${HOME}/.local/bin/kitten"
-
-	# ----- Desktop integration -----
-	if [[ -f "${kitty_install_dir}/share/applications/kitty.desktop" ]]; then
-		prompt "Installing kitty desktop entry..."
-		execute mkdir -p "${HOME}/.local/share/applications"
-		execute cp -f "${kitty_install_dir}/share/applications/kitty.desktop" \
-			"${HOME}/.local/share/applications/kitty.desktop"
-		execute cp -f "${kitty_install_dir}/share/applications/kitty-open.desktop" \
-			"${HOME}/.local/share/applications/kitty-open.desktop"
-
-		# Fix icon and exec paths in the desktop files
-		local kitty_icon="${kitty_install_dir}/share/icons/hicolor/256x256/apps/kitty.png"
-		sed -i "s|Icon=kitty|Icon=${kitty_icon}|" \
-			"${HOME}/.local/share/applications/kitty.desktop" \
-			"${HOME}/.local/share/applications/kitty-open.desktop" 2>/dev/null || true
-		sed -i "s|Exec=kitty|Exec=${kitty_bin_dir}/kitty|" \
-			"${HOME}/.local/share/applications/kitty.desktop" \
-			"${HOME}/.local/share/applications/kitty-open.desktop" 2>/dev/null || true
-	fi
 
 	# ----- Config -----
 	prompt "Deploying kitty config..."

@@ -19,7 +19,7 @@ if test -x "$fnm_path/fnm"
         set -gx PATH "$fnm_path" $PATH
     end
 end
-if command -q fnm
+if command -q fnm; and not set -q FNM_MULTISHELL_PATH
     fnm env --use-on-cd --shell fish | source
 end
 

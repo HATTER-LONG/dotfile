@@ -337,11 +337,12 @@ rust() {
 	prompt "Finished install and config ${tty_bold}rust${tty_reset}."
 }
 
-node() {
+nodejs() {
 	prompt "Start install and config ${tty_bold}Node.js${tty_reset} (via fnm)..."
 
-	local fnm_dir="${XDG_DATA_HOME:-${HOME}/.local/share}/fnm"
+	local fnm_dir="${FNM_DIR:-${XDG_DATA_HOME:-${HOME}/.local/share}/fnm}"
 	local fnm_bin="${fnm_dir}/fnm"
+	local node_mirror="${FNM_NODE_DIST_MIRROR:-https://nodejs.org/dist}"
 
 	if ! command -v fnm >/dev/null 2>&1 && [[ ! -x "${fnm_bin}" ]]; then
 		prompt "Installing fnm ${FNM_VERSION}..."
@@ -371,14 +372,29 @@ node() {
 		abort "fnm failed to install or is not executable."
 	fi
 
-	prompt "Installing Node.js LTS via fnm (timeout: ${FNM_INSTALL_TIMEOUT}s)..."
-	if ! FNM_NODE_DIST_MIRROR="${FNM_NODE_DIST_MIRROR:-https://nodejs.org/dist}" \
-		run_with_timeout "${FNM_INSTALL_TIMEOUT}" "${fnm_bin}" \
-		install --lts --progress never; then
-		abort "Node.js LTS installation timed out or failed. Re-run later or set FNM_NODE_DIST_MIRROR to a trusted mirror."
+	prompt "Resolving the latest Node.js LTS via fnm..."
+	local latest_lts
+	if ! latest_lts="$(FNM_NODE_DIST_MIRROR="${node_mirror}" FNM_LOGLEVEL=quiet \
+		run_with_timeout 120 "${fnm_bin}" list-remote --lts --latest)"; then
+		abort "Failed to resolve the latest Node.js LTS. Re-run later or set FNM_NODE_DIST_MIRROR to a trusted mirror."
+	fi
+	latest_lts="${latest_lts%%[[:space:]]*}"
+	if [[ -z "${latest_lts}" || "${latest_lts}" != v* ]]; then
+		abort "fnm returned an invalid Node.js LTS version: ${latest_lts:-<empty>}"
 	fi
 
-	"${fnm_bin}" default lts-latest
+	if [[ -x "${fnm_dir}/node-versions/${latest_lts}/installation/bin/node" ]]; then
+		prompt_INFO "Skipping already installed: Node.js ${latest_lts}"
+	else
+		prompt "Installing Node.js ${latest_lts} via fnm (timeout: ${FNM_INSTALL_TIMEOUT}s)..."
+		if ! FNM_NODE_DIST_MIRROR="${node_mirror}" FNM_LOGLEVEL=error \
+			run_with_timeout "${FNM_INSTALL_TIMEOUT}" "${fnm_bin}" \
+			install "${latest_lts}" --progress never; then
+			abort "Node.js LTS installation timed out or failed. Re-run later or set FNM_NODE_DIST_MIRROR to a trusted mirror."
+		fi
+	fi
+
+	"${fnm_bin}" default "${latest_lts}"
 	eval "$("${fnm_bin}" env --shell bash)"
 	"${fnm_bin}" use default >/dev/null
 
@@ -499,7 +515,7 @@ server() {
 	prompt "Starting non-interactive server setup..."
 	server_init
 	fish
-	node
+	nodejs
 	zellij
 	fonts
 	prompt "Server setup finished. Start a new Fish session with: fish"
@@ -575,7 +591,7 @@ main() {
 	fi
 
 	if prompt_confirm "Do you want to install and config ${tty_bold}Node.js${tty_reset} (via fnm)?"; then
-		node
+		nodejs
 	fi
 
 	prompt "All done! Enjoy your new environment."

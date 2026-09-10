@@ -171,7 +171,7 @@ FNM_PATH="${XDG_DATA_HOME:-${HOME}/.local/share}/fnm"
 if [[ -x "${FNM_PATH}/fnm" ]]; then
   export PATH="${FNM_PATH}:${PATH}"
 fi
-if command -v fnm >/dev/null 2>&1; then
+if command -v fnm >/dev/null 2>&1 && [[ -z "${FNM_MULTISHELL_PATH:-}" ]]; then
   eval "$(fnm env --use-on-cd --shell zsh)"
 fi
 

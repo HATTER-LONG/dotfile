@@ -204,7 +204,7 @@ server_init() {
 	prompt "Minimal server base finished."
 }
 
-fish() {
+install_fish() {
 	prompt "Start install and config ${tty_bold}fish${tty_reset}..."
 
 	check_and_install fish
@@ -214,7 +214,7 @@ fish() {
 	prompt "Finished install and config ${tty_bold}fish${tty_reset}."
 }
 
-zsh() {
+install_zsh() {
 	prompt "Start install and config ${tty_bold}zsh${tty_reset}..."
 
 	check_and_install zsh
@@ -287,7 +287,7 @@ zsh() {
 	prompt "Finished install and config ${tty_bold}zsh${tty_reset}."
 }
 
-kitty() {
+install_kitty() {
 	prompt "Start install and config ${tty_bold}kitty${tty_reset}..."
 
 	if ! command -v kitty >/dev/null 2>&1; then
@@ -308,7 +308,7 @@ kitty() {
 	prompt "Finished install and config ${tty_bold}kitty${tty_reset}."
 }
 
-opencode() {
+deploy_opencode() {
 	prompt "Start deploy ${tty_bold}opencode${tty_reset} config..."
 
 	execute mkdir -p "${HOME}/.config/opencode"
@@ -317,7 +317,7 @@ opencode() {
 	prompt "Finished deploy ${tty_bold}opencode${tty_reset} config."
 }
 
-cargo() {
+deploy_cargo() {
 	prompt "Start deploy ${tty_bold}cargo${tty_reset} config..."
 
 	execute mkdir -p "${HOME}/.cargo"
@@ -326,7 +326,7 @@ cargo() {
 	prompt "Finished deploy ${tty_bold}cargo${tty_reset} config."
 }
 
-rust() {
+install_rust() {
 	prompt "Start install and config ${tty_bold}rust${tty_reset}..."
 
 	if ! command -v rustup >/dev/null 2>&1; then
@@ -401,7 +401,7 @@ nodejs() {
 	prompt "Finished install and config ${tty_bold}Node.js $(node --version)${tty_reset} (fnm)."
 }
 
-zellij() {
+install_zellij() {
 	prompt "Start install ${tty_bold}Zellij${tty_reset}..."
 
 	if command -v zellij >/dev/null 2>&1; then
@@ -454,7 +454,7 @@ zellij() {
 	prompt "Finished install ${tty_bold}Zellij${tty_reset}."
 }
 
-tmux() {
+install_tmux() {
 	prompt "Start install and config ${tty_bold}tmux${tty_reset}..."
 
 	check_and_install tmux
@@ -464,7 +464,7 @@ tmux() {
 	prompt "Finished install and config ${tty_bold}tmux${tty_reset}."
 }
 
-fonts() {
+install_fonts() {
 	prompt "Start installing ${tty_bold}fonts${tty_reset}..."
 
 	local font_src_dir="${DOTFILE_DIR}/font"
@@ -514,10 +514,10 @@ clean() {
 server() {
 	prompt "Starting non-interactive server setup..."
 	server_init
-	fish
+	install_fish
 	nodejs
-	zellij
-	fonts
+	install_zellij
+	install_fonts
 	prompt "Server setup finished. Start a new Fish session with: fish"
 }
 
@@ -555,39 +555,39 @@ main() {
 
 	# Prompt for each optional component
 	if prompt_confirm "Do you want to install and config ${tty_bold}zsh${tty_reset}?"; then
-		zsh
+		install_zsh
 	fi
 
 	if prompt_confirm "Do you want to install and config ${tty_bold}fish${tty_reset}?"; then
-		fish
+		install_fish
 	fi
 
 	if prompt_confirm "Do you want to install and config ${tty_bold}tmux${tty_reset}?"; then
-		tmux
+		install_tmux
 	fi
 
 	if prompt_confirm "Do you want to install ${tty_bold}Zellij${tty_reset}?"; then
-		zellij
+		install_zellij
 	fi
 
 	if prompt_confirm "Do you want to install and config ${tty_bold}kitty${tty_reset}?"; then
-		kitty
+		install_kitty
 	fi
 
 	if prompt_confirm "Do you want to install ${tty_bold}fonts${tty_reset} (TTF)?"; then
-		fonts
+		install_fonts
 	fi
 
 	if prompt_confirm "Do you want to deploy ${tty_bold}opencode${tty_reset} config?"; then
-		opencode
+		deploy_opencode
 	fi
 
 	if prompt_confirm "Do you want to deploy ${tty_bold}cargo${tty_reset} config?"; then
-		cargo
+		deploy_cargo
 	fi
 
 	if prompt_confirm "Do you want to install and config ${tty_bold}rust${tty_reset}?"; then
-		rust
+		install_rust
 	fi
 
 	if prompt_confirm "Do you want to install and config ${tty_bold}Node.js${tty_reset} (via fnm)?"; then

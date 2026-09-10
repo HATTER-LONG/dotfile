@@ -124,11 +124,11 @@ zsh() {
 	fi
 
 	# ----- Shell configuration files -----
-	prompt "Installing zsh config files..."
-	execute cp -f "${DOTFILE_DIR}/zshrc/config/zshrc"    "${HOME}/.zshrc"
-	execute cp -f "${DOTFILE_DIR}/zshrc/config/exports"  "${HOME}/.exports"
-	execute cp -f "${DOTFILE_DIR}/zshrc/config/functions" "${HOME}/.functions"
-	execute cp -f "${DOTFILE_DIR}/zshrc/config/aliases"  "${HOME}/.aliases"
+	prompt "Installing zsh config files (symlinked)..."
+	link_file "${DOTFILE_DIR}/zshrc/config/zshrc"    "${HOME}/.zshrc"
+	link_file "${DOTFILE_DIR}/zshrc/config/exports"  "${HOME}/.exports"
+	link_file "${DOTFILE_DIR}/zshrc/config/functions" "${HOME}/.functions"
+	link_file "${DOTFILE_DIR}/zshrc/config/aliases"  "${HOME}/.aliases"
 	execute cp -f "${DOTFILE_DIR}/zshrc/config/vimrc"    "${HOME}/.vimrc"
 
 	# ----- Modern CLI replacements -----

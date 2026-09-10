@@ -3,10 +3,11 @@
 # dotfile.sh — Dotfile bootstrapping and installation script.
 #
 # Clones the dotfile repository (if needed), sources shared helpers, and
-# interactively installs and configures a curated set of development tools.
+# installs and configures a curated set of development tools.
 #
 # Usage:
 #   ./dotfile.sh          Interactive mode (prompts for each component)
+#   ./dotfile.sh --server Non-interactive server setup
 #   ./dotfile.sh --help   Show this help message
 
 # ============================================================================
@@ -25,6 +26,8 @@ else
 	readonly DOTFILE_DIR="${HOME}/dotfile"
 fi
 readonly HEADFILE="${DOTFILE_DIR}/tools/headfile.sh"
+readonly FNM_VERSION="${FNM_VERSION:-v1.39.0}"
+readonly FNM_INSTALL_TIMEOUT="${FNM_INSTALL_TIMEOUT:-900}"
 
 # ============================================================================
 # Bootstrap — clone the repo and source shared helpers
@@ -108,6 +111,38 @@ clone_if_missing() {
 	execute git clone "${repo_url}" "${target_dir}"
 }
 
+# Run a command with a hard deadline. GNU timeout is normally available on
+# Linux servers; gtimeout is provided by coreutils on macOS. The fallback
+# watchdog keeps the install bounded on minimal systems as well.
+run_with_timeout() {
+	local seconds="$1"
+	shift
+
+	if command -v timeout >/dev/null 2>&1; then
+		timeout --foreground "${seconds}s" "$@"
+		return
+	fi
+	if command -v gtimeout >/dev/null 2>&1; then
+		gtimeout --foreground "${seconds}s" "$@"
+		return
+	fi
+
+	"$@" &
+	local command_pid=$!
+	(
+		sleep "${seconds}"
+		kill -TERM "${command_pid}" 2>/dev/null || true
+		sleep 2
+		kill -KILL "${command_pid}" 2>/dev/null || true
+	) &
+	local watchdog_pid=$!
+	local status=0
+	wait "${command_pid}" || status=$?
+	kill "${watchdog_pid}" 2>/dev/null || true
+	wait "${watchdog_pid}" 2>/dev/null || true
+	return "${status}"
+}
+
 # ============================================================================
 # Core installation functions
 # ============================================================================
@@ -126,6 +161,7 @@ init() {
 		"wget:wget"
 		"git:git"
 		"zip:zip"
+		"unzip:unzip"
 		"fzf:fzf"
 		"rg:ripgrep"
 		"make:make"
@@ -137,7 +173,45 @@ init() {
 		check_and_install "${command_name}" "${package##*:}"
 	done
 
+	# Vim belongs to the base setup, so server/Fish users get the repository
+	# configuration without having to install Zsh.
+	link_file "${DOTFILE_DIR}/zshrc/config/vimrc" "${HOME}/.vimrc"
+
 	prompt "System initialisation finished."
+}
+
+server_init() {
+	prompt "Installing the minimal server base..."
+
+	package_update
+
+	local command_name package
+	local -a server_packages=(
+		"git:git"
+		"curl:curl"
+		"wget:wget"
+		"vim:vim"
+		"tar:tar"
+		"unzip:unzip"
+		"fc-cache:fontconfig"
+	)
+	for package in "${server_packages[@]}"; do
+		command_name="${package%%:*}"
+		check_and_install "${command_name}" "${package##*:}"
+	done
+
+	link_file "${DOTFILE_DIR}/zshrc/config/vimrc" "${HOME}/.vimrc"
+	prompt "Minimal server base finished."
+}
+
+fish() {
+	prompt "Start install and config ${tty_bold}fish${tty_reset}..."
+
+	check_and_install fish
+	execute mkdir -p "${HOME}/.config/fish"
+	link_file "${DOTFILE_DIR}/fishrc/config.fish" "${HOME}/.config/fish/config.fish"
+
+	prompt "Finished install and config ${tty_bold}fish${tty_reset}."
 }
 
 zsh() {
@@ -188,7 +262,6 @@ zsh() {
 	link_file "${DOTFILE_DIR}/zshrc/config/functions" "${HOME}/.functions"
 	link_file "${DOTFILE_DIR}/zshrc/config/aliases"  "${HOME}/.aliases"
 	link_file "${DOTFILE_DIR}/zshrc/config/zprofile" "${HOME}/.zprofile"
-	execute cp -f "${DOTFILE_DIR}/zshrc/config/vimrc"    "${HOME}/.vimrc"
 
 	# ----- Modern CLI replacements -----
 	prompt "Installing eza..."
@@ -265,28 +338,104 @@ rust() {
 }
 
 node() {
-	prompt "Start install and config ${tty_bold}Node.js${tty_reset} (via nvm)..."
+	prompt "Start install and config ${tty_bold}Node.js${tty_reset} (via fnm)..."
 
-	local nvm_dir="${NVM_DIR:-${HOME}/.nvm}"
+	local fnm_dir="${XDG_DATA_HOME:-${HOME}/.local/share}/fnm"
+	local fnm_bin="${fnm_dir}/fnm"
 
-	if [[ ! -s "${nvm_dir}/nvm.sh" ]]; then
-		prompt "Installing nvm..."
-		curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash
+	if ! command -v fnm >/dev/null 2>&1 && [[ ! -x "${fnm_bin}" ]]; then
+		prompt "Installing fnm ${FNM_VERSION}..."
+		local fnm_installer
+		fnm_installer="$(mktemp "${TMPDIR:-/tmp}/fnm-install.XXXXXX")"
+		if ! curl -fL --connect-timeout 10 --max-time 120 --retry 3 \
+			-o "${fnm_installer}" "https://fnm.vercel.app/install"; then
+			rm -f "${fnm_installer}"
+			abort "Failed to download the fnm installer."
+		fi
+		if ! run_with_timeout 180 bash "${fnm_installer}" \
+			--install-dir "${fnm_dir}" \
+			--release "${FNM_VERSION}" \
+			--skip-shell \
+			--force-install; then
+			rm -f "${fnm_installer}"
+			abort "fnm installation timed out or failed."
+		fi
+		rm -f "${fnm_installer}"
 	fi
 
-	# Load nvm into the current shell
-	export NVM_DIR="${nvm_dir}"
-	[[ -s "${NVM_DIR}/nvm.sh" ]] && source "${NVM_DIR}/nvm.sh"
+	if command -v fnm >/dev/null 2>&1; then
+		fnm_bin="$(command -v fnm)"
+	elif [[ -x "${fnm_bin}" ]]; then
+		export PATH="${fnm_dir}:${PATH}"
+	else
+		abort "fnm failed to install or is not executable."
+	fi
 
-	if ! command -v nvm >/dev/null 2>&1; then
-		warn "nvm failed to load, skipping Node.js installation"
+	prompt "Installing Node.js LTS via fnm (timeout: ${FNM_INSTALL_TIMEOUT}s)..."
+	if ! FNM_NODE_DIST_MIRROR="${FNM_NODE_DIST_MIRROR:-https://nodejs.org/dist}" \
+		run_with_timeout "${FNM_INSTALL_TIMEOUT}" "${fnm_bin}" \
+		install --lts --progress never; then
+		abort "Node.js LTS installation timed out or failed. Re-run later or set FNM_NODE_DIST_MIRROR to a trusted mirror."
+	fi
+
+	"${fnm_bin}" default lts-latest
+	eval "$("${fnm_bin}" env --shell bash)"
+	"${fnm_bin}" use default >/dev/null
+
+	prompt "Finished install and config ${tty_bold}Node.js $(node --version)${tty_reset} (fnm)."
+}
+
+zellij() {
+	prompt "Start install ${tty_bold}Zellij${tty_reset}..."
+
+	if command -v zellij >/dev/null 2>&1; then
+		prompt_INFO "Skipping already installed: zellij"
 		return 0
 	fi
 
-	prompt "Installing Node.js LTS via nvm..."
-	nvm install --lts
+	local arch target asset base_url temp_dir
+	case "$(uname -m)" in
+		x86_64|amd64) arch="x86_64" ;;
+		aarch64|arm64) arch="aarch64" ;;
+		*) abort "Unsupported Zellij CPU architecture: $(uname -m)" ;;
+	esac
+	case "$(uname -s)" in
+		Linux) target="${arch}-unknown-linux-musl" ;;
+		Darwin) target="${arch}-apple-darwin" ;;
+		*) abort "Unsupported Zellij operating system: $(uname -s)" ;;
+	esac
 
-	prompt "Finished install and config ${tty_bold}Node.js${tty_reset} (nvm)."
+	asset="zellij-${target}.tar.gz"
+	base_url="https://github.com/zellij-org/zellij/releases/latest/download"
+	temp_dir="$(mktemp -d "${TMPDIR:-/tmp}/zellij-install.XXXXXX")"
+	if ! curl -fL --connect-timeout 10 --max-time 300 --retry 3 \
+		-o "${temp_dir}/${asset}" "${base_url}/${asset}" ||
+		! curl -fL --connect-timeout 10 --max-time 60 --retry 3 \
+		-o "${temp_dir}/${asset}.sha256sum" "${base_url}/${asset%.tar.gz}.sha256sum"; then
+		rm -rf "${temp_dir}"
+		abort "Failed to download Zellij."
+	fi
+
+	if ! (
+		cd "${temp_dir}"
+		if command -v sha256sum >/dev/null 2>&1; then
+			sha256sum -c "${asset}.sha256sum"
+		else
+			shasum -a 256 -c "${asset}.sha256sum"
+		fi
+		tar -xzf "${asset}" zellij
+	); then
+		rm -rf "${temp_dir}"
+		abort "Zellij checksum verification or extraction failed."
+	fi
+	execute mkdir -p "${HOME}/.local/bin"
+	if ! install -m 0755 "${temp_dir}/zellij" "${HOME}/.local/bin/zellij"; then
+		rm -rf "${temp_dir}"
+		abort "Failed to install Zellij into ${HOME}/.local/bin."
+	fi
+	rm -rf "${temp_dir}"
+
+	prompt "Finished install ${tty_bold}Zellij${tty_reset}."
 }
 
 tmux() {
@@ -346,6 +495,16 @@ clean() {
 	execute rm -rf "${DOTFILE_DIR}"
 }
 
+server() {
+	prompt "Starting non-interactive server setup..."
+	server_init
+	fish
+	node
+	zellij
+	fonts
+	prompt "Server setup finished. Start a new Fish session with: fish"
+}
+
 # ============================================================================
 # Main entry point — interactive prompts and dispatch
 # ============================================================================
@@ -355,7 +514,16 @@ dotfile.sh — interactive development-environment installer
 
 Usage:
   ./dotfile.sh          Install or configure selected components
+  ./dotfile.sh --server Install the server preset without prompts
   ./dotfile.sh --help   Show this help
+
+Server preset:
+  git, fish, fnm + Node.js LTS, Zellij, fonts, Vim + vimrc, curl, wget
+
+Environment overrides:
+  FNM_VERSION               fnm release tag (default: v1.39.0)
+  FNM_INSTALL_TIMEOUT       Node installation deadline in seconds (default: 900)
+  FNM_NODE_DIST_MIRROR      Trusted Node.js distribution mirror
 
 Supported package managers:
   apt, dnf, yum, pacman, Homebrew
@@ -374,8 +542,16 @@ main() {
 		zsh
 	fi
 
+	if prompt_confirm "Do you want to install and config ${tty_bold}fish${tty_reset}?"; then
+		fish
+	fi
+
 	if prompt_confirm "Do you want to install and config ${tty_bold}tmux${tty_reset}?"; then
 		tmux
+	fi
+
+	if prompt_confirm "Do you want to install ${tty_bold}Zellij${tty_reset}?"; then
+		zellij
 	fi
 
 	if prompt_confirm "Do you want to install and config ${tty_bold}kitty${tty_reset}?"; then
@@ -398,7 +574,7 @@ main() {
 		rust
 	fi
 
-	if prompt_confirm "Do you want to install and config ${tty_bold}Node.js${tty_reset} (via nvm)?"; then
+	if prompt_confirm "Do you want to install and config ${tty_bold}Node.js${tty_reset} (via fnm)?"; then
 		node
 	fi
 
@@ -408,9 +584,19 @@ main() {
 # ---------------------------------------------------------------------------
 # Dispatch: honour an explicit --help / -h flag; otherwise run main.
 # ---------------------------------------------------------------------------
-if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
-	print_help
-	exit 0
-fi
-
-main "$@"
+case "${1:-}" in
+	--help|-h)
+		print_help
+		;;
+	--server)
+		server
+		;;
+	"")
+		main
+		;;
+	*)
+		printf "ERROR: Unknown option: %s\n\n" "$1" >&2
+		print_help >&2
+		exit 2
+		;;
+esac

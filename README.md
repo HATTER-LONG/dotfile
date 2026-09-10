@@ -20,18 +20,44 @@ cd ~/dotfile
 bash dotfile.sh
 ```
 
+## Server 快速安装
+
+非交互安装 Git、Fish、fnm + Node.js LTS、Zellij、仓库字体、Vim/vimrc、curl 和 wget：
+
+```bash
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/HATTER-LONG/dotfile/main/server-install.sh)"
+# 只有 wget 时：
+bash -c "$(wget -qO- https://raw.githubusercontent.com/HATTER-LONG/dotfile/main/server-install.sh)"
+```
+
+在已克隆的仓库中也可以直接执行：
+
+```bash
+bash server-install.sh
+# 或：bash dotfile.sh --server
+```
+
+fnm 和 Node.js LTS 均使用非交互安装；Node 下载默认最多等待 15 分钟，超时会明确失败，不会一直卡住。可按网络情况调整超时或使用你信任的镜像：
+
+```bash
+FNM_INSTALL_TIMEOUT=600 bash dotfile.sh --server
+FNM_NODE_DIST_MIRROR=https://nodejs.org/dist bash dotfile.sh --server
+```
+
 ### 可选组件
 
 | 组件 | 说明 |
 |---|---|
 | `init` | 基础环境 (vim, curl, git, fzf, ripgrep, make, cmake, python3 等) |
 | `zsh` | Zsh + oh-my-zsh + 插件 + starship + eza/zoxide/bat/vivid |
+| `fish` | Fish + 配置文件（通过 fnm 自动切换 Node.js） |
 | `tmux` | Tmux + 配置文件 |
+| `zellij` | Zellij 最新预编译版本（校验 SHA-256） |
 | `kitty` | Kitty 终端模拟器 + 配置文件 |
 | `fonts` | 开发字体 (见下方字体列表) |
 | `opencode` | OpenCode AI 助手配置 |
 | `rust` | Rust 工具链 (rustup) |
-| `node` | Node.js (通过 nvm 安装 LTS 版本) |
+| `node` | Node.js (通过 fnm 安装 LTS 版本) |
 
 ## 字体
 

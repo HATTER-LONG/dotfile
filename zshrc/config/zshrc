@@ -167,9 +167,13 @@ ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 [[ -r "${HOME}/.functions" ]] && source "${HOME}/.functions"
 command -v starship >/dev/null 2>&1 && eval "$(starship init zsh)"
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+FNM_PATH="${XDG_DATA_HOME:-${HOME}/.local/share}/fnm"
+if [[ -x "${FNM_PATH}/fnm" ]]; then
+  export PATH="${FNM_PATH}:${PATH}"
+fi
+if command -v fnm >/dev/null 2>&1; then
+  eval "$(fnm env --use-on-cd --shell zsh)"
+fi
 
 if command -v micromamba >/dev/null 2>&1; then
 	export MAMBA_ROOT_PREFIX="${MAMBA_ROOT_PREFIX:-${HOME}/micromamba}"

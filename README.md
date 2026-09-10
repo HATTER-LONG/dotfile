@@ -121,7 +121,14 @@ Modern CLI 工具 (自动安装)：
 
 ### Fish
 
-`fishrc/config.fish` — Fish shell 配置文件。
+Fish 使用原生配置，不直接加载 Zsh 语法文件：
+
+- `fishrc/config.fish` — fnm 和基础 PATH 初始化
+- `fishrc/conf.d/exports.fish` — 环境变量、工具初始化
+- `fishrc/conf.d/aliases.fish` — `ls`/`l`/`la`、Git、Vim 等快捷命令
+- `fishrc/conf.d/functions.fish` — `mkd`、`readme`、`weather`、`ip-address`
+
+`ls` 会依次尝试 `eza`、`exa`，均未安装时自动使用系统 `ls`。
 
 ### Vim
 

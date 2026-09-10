@@ -208,8 +208,15 @@ install_fish() {
 	prompt "Start install and config ${tty_bold}fish${tty_reset}..."
 
 	check_and_install fish
-	execute mkdir -p "${HOME}/.config/fish"
+	execute mkdir -p "${HOME}/.config/fish/conf.d"
 	link_file "${DOTFILE_DIR}/fishrc/config.fish" "${HOME}/.config/fish/config.fish"
+
+	local fish_config
+	for fish_config in exports aliases functions; do
+		link_file \
+			"${DOTFILE_DIR}/fishrc/conf.d/${fish_config}.fish" \
+			"${HOME}/.config/fish/conf.d/${fish_config}.fish"
+	done
 
 	prompt "Finished install and config ${tty_bold}fish${tty_reset}."
 }

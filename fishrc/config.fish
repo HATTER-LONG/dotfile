@@ -1,12 +1,3 @@
-if status is-interactive
-    # Commands to run in interactive sessions can go here
-    if command -q nvim
-        alias v='nvim'
-    else
-        alias v='vim'
-    end
-end
-
 # fnm + automatic Node.js version switching.
 set -l fnm_path
 if set -q XDG_DATA_HOME

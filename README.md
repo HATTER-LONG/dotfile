@@ -2,10 +2,12 @@
 
 跨平台开发环境一键配置，支持 Ubuntu / Debian / Fedora / macOS。
 
-## 终端一键安装
+## 终端安装
+
+需要预先安装 Git：
 
 ```bash
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/HATTER-LONG/dotfile/main/install.sh)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/HATTER-LONG/dotfile/main/dotfile.sh)"
 ```
 
 ## 交互式安装 (推荐)
@@ -15,17 +17,17 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/HATTER-LONG/dotfile/main
 ```bash
 git clone https://github.com/HATTER-LONG/dotfile.git ~/dotfile
 cd ~/dotfile
-bash dotifile.sh
+bash dotfile.sh
 ```
 
 ### 可选组件
 
 | 组件 | 说明 |
 |---|---|
-| `init` | 基础环境 (curl, git, fzf, ripgrep, python3, lazygit, ninja 等) |
+| `init` | 基础环境 (vim, curl, git, fzf, ripgrep, make, cmake, python3 等) |
 | `zsh` | Zsh + oh-my-zsh + 插件 + starship + eza/zoxide/bat/vivid |
 | `tmux` | Tmux + 配置文件 |
-| `kitty` | Kitty 终端模拟器 (二进制安装 + 桌面集成 + 配置文件) |
+| `kitty` | Kitty 终端模拟器 + 配置文件 |
 | `fonts` | 开发字体 (见下方字体列表) |
 | `opencode` | OpenCode AI 助手配置 |
 | `rust` | Rust 工具链 (rustup) |
@@ -33,7 +35,7 @@ bash dotifile.sh
 
 ## 字体
 
-`font/` 目录包含以下字体，可通过 `dotifile.sh` 的 fonts 选项安装：
+`font/` 目录包含以下字体，可通过 `dotfile.sh` 的 fonts 选项安装：
 
 - **Fantasque Sans Mono** — 编程字体 (Regular, Bold, Italic, BoldItalic)
 - **LXGW WenKai Mono** — 中文等宽字体 (Light, Medium, Regular)
@@ -60,7 +62,7 @@ Components:
 
 ### update_lazygit.sh / install_ninja.sh
 
-从 GitHub 二进制发布版安装 lazygit / ninja 的备用脚本，当包管理器不可用时使用。
+从 GitHub 二进制发布版安装 lazygit / ninja 的 Linux x86_64 辅助脚本。
 
 ### update_neovim.sh
 

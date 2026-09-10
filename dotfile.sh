@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 #
-# dotifile.sh — Dotfile bootstrapping and installation script.
+# dotfile.sh — Dotfile bootstrapping and installation script.
 #
 # Clones the dotfile repository (if needed), sources shared helpers, and
 # interactively installs and configures a curated set of development tools.
 #
 # Usage:
-#   ./dotifile.sh          Interactive mode (prompts for each component)
-#   ./dotifile.sh --help   Show this help message
+#   ./dotfile.sh          Interactive mode (prompts for each component)
+#   ./dotfile.sh --help   Show this help message
 
 # ============================================================================
 # Strict mode
@@ -18,7 +18,12 @@ IFS=$'\n\t'
 # ============================================================================
 # Constants
 # ============================================================================
-readonly DOTFILE_DIR="${HOME}/dotfile"
+readonly SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" 2>/dev/null && pwd)"
+if [[ -f "${SCRIPT_DIR}/tools/headfile.sh" ]]; then
+	readonly DOTFILE_DIR="${SCRIPT_DIR}"
+else
+	readonly DOTFILE_DIR="${HOME}/dotfile"
+fi
 readonly HEADFILE="${DOTFILE_DIR}/tools/headfile.sh"
 
 # ============================================================================
@@ -27,6 +32,10 @@ readonly HEADFILE="${DOTFILE_DIR}/tools/headfile.sh"
 bootstrap() {
 	if [[ ! -d "${DOTFILE_DIR}" ]]; then
 		printf "==> Downloading dotfile repository...\n"
+		if ! command -v git >/dev/null 2>&1; then
+			printf "ERROR: git is required for the remote bootstrap.\n" >&2
+			exit 1
+		fi
 		git clone https://github.com/HATTER-LONG/dotfile.git "${DOTFILE_DIR}"
 	fi
 
@@ -108,20 +117,69 @@ init() {
 
 	cd "${HOME}"
 
+	package_update
+
+	local command_name package
+	local -a base_packages=(
+		"vim:vim"
+		"curl:curl"
+		"wget:wget"
+		"git:git"
+		"zip:zip"
+		"fzf:fzf"
+		"rg:ripgrep"
+		"make:make"
+		"cmake:cmake"
+		"python3:python3"
+	)
+	for package in "${base_packages[@]}"; do
+		command_name="${package%%:*}"
+		check_and_install "${command_name}" "${package##*:}"
+	done
+
 	prompt "System initialisation finished."
 }
 
 zsh() {
 	prompt "Start install and config ${tty_bold}zsh${tty_reset}..."
 
+	check_and_install zsh
+
+	# Install oh-my-zsh without changing the login shell or replacing the
+	# repository-managed ~/.zshrc. Skip it when it is already present.
+	if [[ ! -f "${HOME}/.oh-my-zsh/oh-my-zsh.sh" ]]; then
+		prompt "Installing oh-my-zsh..."
+		RUNZSH=no CHSH=no KEEP_ZSHRC=yes \
+			sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+	else
+		prompt_INFO "Skipping already installed: ${HOME}/.oh-my-zsh"
+	fi
+
+	# ----- Zsh plugins -----
+	local zsh_custom="${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}"
+
+	prompt "Installing zsh-autosuggestions..."
+	clone_if_missing \
+		"https://github.com/zsh-users/zsh-autosuggestions" \
+		"${zsh_custom}/plugins/zsh-autosuggestions"
+
+	prompt "Installing zsh-syntax-highlighting..."
+	clone_if_missing \
+		"https://github.com/zsh-users/zsh-syntax-highlighting.git" \
+		"${zsh_custom}/plugins/zsh-syntax-highlighting"
+
+	prompt "Installing zsh-vi-mode..."
+	clone_if_missing \
+		"https://github.com/jeffreytse/zsh-vi-mode" \
+		"${zsh_custom}/plugins/zsh-vi-mode"
 
 	# ----- Starship prompt -----
 	prompt "Installing starship..."
 	if ! command -v starship >/dev/null 2>&1; then
-		#curl -sS https://starship.rs/install.sh | sh
-		execute mkdir -p "${HOME}/.config"
-		execute cp -f "${DOTFILE_DIR}/zshrc/starship.toml" "${HOME}/.config/starship.toml"
+		curl -fsSL https://starship.rs/install.sh | sh -s -- -y
 	fi
+	execute mkdir -p "${HOME}/.config"
+	execute cp -f "${DOTFILE_DIR}/zshrc/starship.toml" "${HOME}/.config/starship.toml"
 
 	# ----- Shell configuration files -----
 	prompt "Installing zsh config files (symlinked)..."
@@ -129,6 +187,7 @@ zsh() {
 	link_file "${DOTFILE_DIR}/zshrc/config/exports"  "${HOME}/.exports"
 	link_file "${DOTFILE_DIR}/zshrc/config/functions" "${HOME}/.functions"
 	link_file "${DOTFILE_DIR}/zshrc/config/aliases"  "${HOME}/.aliases"
+	link_file "${DOTFILE_DIR}/zshrc/config/zprofile" "${HOME}/.zprofile"
 	execute cp -f "${DOTFILE_DIR}/zshrc/config/vimrc"    "${HOME}/.vimrc"
 
 	# ----- Modern CLI replacements -----
@@ -139,32 +198,34 @@ zsh() {
 	check_and_install zoxide
 
 	prompt "Installing bat..."
-	check_and_install bat
-	if command -v apt-get >/dev/null 2>&1; then
+	if ! command -v bat >/dev/null 2>&1 && ! command -v batcat >/dev/null 2>&1; then
+		package_install bat
+	fi
+	if command -v batcat >/dev/null 2>&1 && ! command -v bat >/dev/null 2>&1; then
 		prompt "Creating bat symlink for Ubuntu (batcat -> bat)..."
 		execute mkdir -p "${HOME}/.local/bin"
-		ln -sf /usr/bin/batcat "${HOME}/.local/bin/bat"
+		execute ln -sf "$(command -v batcat)" "${HOME}/.local/bin/bat"
 	fi
 
 	# ----- Vivid (LS_COLORS generator) -----
 	prompt "Installing vivid..."
-	if command -v apt-get >/dev/null 2>&1; then
-		local vivid_version="0.8.0"
-		local vivid_deb="vivid_${vivid_version}_amd64.deb"
-		local vivid_url="https://github.com/sharkdp/vivid/releases/download/v${vivid_version}/${vivid_deb}"
-
-		wget "${vivid_url}"
-		execute sudo dpkg -i "${vivid_deb}"
-		rm -f "${vivid_deb}"
-	else
-		check_and_install vivid
-	fi
+	check_and_install vivid
 
 	prompt "Finished install and config ${tty_bold}zsh${tty_reset}."
 }
 
 kitty() {
 	prompt "Start install and config ${tty_bold}kitty${tty_reset}..."
+
+	if ! command -v kitty >/dev/null 2>&1; then
+		if command -v brew >/dev/null 2>&1; then
+			execute brew install --cask kitty
+		else
+			package_install kitty
+		fi
+	else
+		prompt_INFO "Skipping already installed: kitty"
+	fi
 
 	# ----- Config -----
 	prompt "Deploying kitty config..."
@@ -242,7 +303,12 @@ fonts() {
 	prompt "Start installing ${tty_bold}fonts${tty_reset}..."
 
 	local font_src_dir="${DOTFILE_DIR}/font"
-	local font_dst_dir="${HOME}/.local/share/fonts"
+	local font_dst_dir
+	if [[ "$(uname -s)" == "Darwin" ]]; then
+		font_dst_dir="${HOME}/Library/Fonts"
+	else
+		font_dst_dir="${HOME}/.local/share/fonts"
+	fi
 
 	if [[ ! -d "${font_src_dir}" ]]; then
 		warn "Font source directory not found: ${font_src_dir}"
@@ -267,11 +333,9 @@ fonts() {
 		execute cp -f "${font_file}" "${font_dst_dir}/"
 	done
 
-	prompt "Updating font cache..."
 	if command -v fc-cache >/dev/null 2>&1; then
+		prompt "Updating font cache..."
 		fc-cache -fv
-	else
-		execute fc-cache -fv
 	fi
 
 	prompt "Finished installing ${tty_bold}fonts${tty_reset}."
@@ -285,6 +349,22 @@ clean() {
 # ============================================================================
 # Main entry point — interactive prompts and dispatch
 # ============================================================================
+print_help() {
+	cat <<'HELP'
+dotfile.sh — interactive development-environment installer
+
+Usage:
+  ./dotfile.sh          Install or configure selected components
+  ./dotfile.sh --help   Show this help
+
+Supported package managers:
+  apt, dnf, yum, pacman, Homebrew
+
+The script uses its own repository directory when run from a clone. When run
+through stdin, it clones the repository to ~/dotfile first.
+HELP
+}
+
 main() {
 	# Always run the base init step
 	init
@@ -329,7 +409,7 @@ main() {
 # Dispatch: honour an explicit --help / -h flag; otherwise run main.
 # ---------------------------------------------------------------------------
 if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
-	sed -n '/^# /,/^$/p' "$0" | sed 's/^# //'
+	print_help
 	exit 0
 fi
 

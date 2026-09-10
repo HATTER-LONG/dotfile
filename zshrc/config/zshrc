@@ -118,9 +118,8 @@ ZSH_HIGHLIGHT_STYLES[cursor-matchingbracket]=fg=237,bold,bg=74
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#bac8ff,bold" #underline
 #zstyle -s ':prezto:module:autosuggestions:color' found \
 #  'ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE' || ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'
-bindkey '^e' autosuggest-accept
 ZSH_AUTOSUGGEST_STRATEGY=(history completion)
-source $ZSH/oh-my-zsh.sh
+[[ -r "${ZSH}/oh-my-zsh.sh" ]] && source "${ZSH}/oh-my-zsh.sh"
 ################# start pure ########################
 # fpath+=$HOME/.zsh/pure
 # autoload -U promptinit; promptinit
@@ -163,11 +162,17 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-source ~/.exports
-source ~/.aliases
-source ~/.functions
-eval "$(starship init zsh)"
+[[ -r "${HOME}/.exports" ]] && source "${HOME}/.exports"
+[[ -r "${HOME}/.aliases" ]] && source "${HOME}/.aliases"
+[[ -r "${HOME}/.functions" ]] && source "${HOME}/.functions"
+command -v starship >/dev/null 2>&1 && eval "$(starship init zsh)"
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+if command -v micromamba >/dev/null 2>&1; then
+	export MAMBA_ROOT_PREFIX="${MAMBA_ROOT_PREFIX:-${HOME}/micromamba}"
+	eval "$(micromamba shell hook --shell zsh --root-prefix "${MAMBA_ROOT_PREFIX}")"
+fi
+(( ${+widgets[autosuggest-accept]} )) && bindkey '^e' autosuggest-accept

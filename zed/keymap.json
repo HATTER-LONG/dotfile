@@ -130,4 +130,16 @@
       "ctrl-\\": "terminal_panel::Toggle",
     },
   },
+  {
+    "context": "Workspace && debugger_session",
+    "bindings": {
+      "f10": "debugger::StepOver"
+    }
+  },
+  {
+    "context": "Workspace && debugger_session",
+    "unbind": {
+      "f7": "debugger::StepOver"
+    }
+  }
 ]

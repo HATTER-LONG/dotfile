@@ -109,17 +109,28 @@ abort() {
 	exit 1
 }
 
+execute_as_root() {
+	if [[ "${EUID}" -eq 0 ]]; then
+		execute "$@"
+	elif command -v sudo >/dev/null 2>&1; then
+		execute sudo "$@"
+	else
+		abort "Root privileges are required, but sudo is not installed."
+	fi
+}
+
 package_install() {
-	if command -v apt-get >/dev/null; then
-		execute sudo apt-get install -y $1
+	local package="$1"
+	if command -v apt-get >/dev/null 2>&1; then
+		execute_as_root apt-get install -y "${package}"
 	elif command -v dnf >/dev/null; then
-		execute sudo dnf install -y $1
+		execute_as_root dnf install -y "${package}"
 	elif command -v yum >/dev/null; then
-		execute sudo yum install -y $1
+		execute_as_root yum install -y "${package}"
 	elif command -v pacman >/dev/null; then
-		execute sudo pacman -S $1
+		execute_as_root pacman -S --needed --noconfirm "${package}"
 	elif command -v brew >/dev/null; then
-		execute brew install $1
+		execute brew install "${package}"
 	else
 		abort "Unsupported package manager"
 	fi
@@ -127,13 +138,13 @@ package_install() {
 
 package_update() {
 	if command -v apt-get >/dev/null; then
-		execute sudo apt-get update
+		execute_as_root apt-get update
 	elif command -v dnf >/dev/null; then
-		execute sudo dnf check-update
+		execute_as_root dnf makecache
 	elif command -v yum >/dev/null; then
-		execute sudo yum check-update
+		execute_as_root yum makecache
 	elif command -v pacman >/dev/null; then
-		execute sudo pacman -Syu
+		execute_as_root pacman -Syu --noconfirm
 	elif command -v brew >/dev/null; then
 		execute brew update
 	else
@@ -142,10 +153,12 @@ package_update() {
 }
 
 check_and_install() {
-	if ! which $1 2>/dev/null; then
-		prompt "Installing "$1"..."
-		package_install $1
+	local command_name="$1"
+	local package="${2:-$1}"
+	if ! command -v "${command_name}" >/dev/null 2>&1; then
+		prompt "Installing ${package}..."
+		package_install "${package}"
 	else
-		echo "$1 is already installed"
+		prompt_INFO "Skipping already installed: ${command_name}"
 	fi
 }

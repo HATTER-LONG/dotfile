@@ -56,7 +56,6 @@ declare -ra KITTY_MAP=(
 
 declare -ra OPENCODE_MAP=(
 	"opencode/opencode.jsonc:.config/opencode/opencode.jsonc"
-	"opencode/.gitignore:.config/opencode/.gitignore"
 )
 
 declare -ra ZED_MAP=(
@@ -264,7 +263,6 @@ Component file mappings:
 
   opencode:
     opencode/opencode.jsonc         → ~/.config/opencode/opencode.jsonc
-    opencode/.gitignore             → ~/.config/opencode/.gitignore
 
   zed:
     zed/settings.json               → ~/.config/zed/settings.json

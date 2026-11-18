@@ -1,0 +1,3 @@
+let g:dotfile_server_vim = 1
+let s:repo = fnamemodify(resolve(expand('<sfile>:p')), ':h:h')
+execute 'source' fnameescape(s:repo . '/zshrc/config/vimrc')

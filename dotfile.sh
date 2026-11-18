@@ -183,39 +183,45 @@ init() {
 server_init() {
 	prompt "Installing the minimal server base..."
 
-	package_update
+	if is_rocky_9; then
+		install_rocky_server_packages
+	else
+		package_update
 
-	local command_name package
-	local -a server_packages=(
-		"git:git"
-		"curl:curl"
-		"wget:wget"
-		"vim:vim"
-		"tar:tar"
-		"unzip:unzip"
-		"fc-cache:fontconfig"
-	)
-	for package in "${server_packages[@]}"; do
-		command_name="${package%%:*}"
-		check_and_install "${command_name}" "${package##*:}"
-	done
+		local command_name package
+		local -a server_packages=(
+			"git:git"
+			"curl:curl"
+			"wget:wget"
+			"vim:vim"
+			"tar:tar"
+			"unzip:unzip"
+			"fc-cache:fontconfig"
+		)
+		for package in "${server_packages[@]}"; do
+			command_name="${package%%:*}"
+			check_and_install "${command_name}" "${package##*:}"
+		done
+	fi
 
-	link_file "${DOTFILE_DIR}/zshrc/config/vimrc" "${HOME}/.vimrc"
+	execute mkdir -p "${HOME}/.vim/undodir"
+	link_file "${DOTFILE_DIR}/server/vimrc" "${HOME}/.vimrc"
 	prompt "Minimal server base finished."
 }
 
 install_fish() {
+	local config_dir="${XDG_CONFIG_HOME:-${HOME}/.config}"
 	prompt "Start install and config ${tty_bold}fish${tty_reset}..."
 
 	check_and_install fish
-	execute mkdir -p "${HOME}/.config/fish/conf.d"
-	link_file "${DOTFILE_DIR}/fishrc/config.fish" "${HOME}/.config/fish/config.fish"
+	execute mkdir -p "${config_dir}/fish/conf.d"
+	link_file "${DOTFILE_DIR}/fishrc/config.fish" "${config_dir}/fish/config.fish"
 
 	local fish_config
 	for fish_config in exports aliases functions; do
 		link_file \
 			"${DOTFILE_DIR}/fishrc/conf.d/${fish_config}.fish" \
-			"${HOME}/.config/fish/conf.d/${fish_config}.fish"
+			"${config_dir}/fish/conf.d/${fish_config}.fish"
 	done
 
 	prompt "Finished install and config ${tty_bold}fish${tty_reset}."
@@ -519,13 +525,35 @@ clean() {
 }
 
 server() {
+	local install_node=true change_shell=false
+	while [[ $# -gt 0 ]]; do
+		case "$1" in
+			--skip-node) install_node=false ;;
+			--set-default-shell) change_shell=true ;;
+			--help|-h) print_help; return 0 ;;
+			*) abort "Unknown server option: $1" ;;
+		esac
+		shift
+	done
+
+	# shellcheck source=tools/server-terminal.sh
+	source "${DOTFILE_DIR}/tools/server-terminal.sh"
+	export PATH="${HOME}/.local/bin:${PATH}"
 	prompt "Starting non-interactive server setup..."
 	server_init
 	install_fish
-	nodejs
-	install_zellij
+	install_server_releases
+	configure_server_fish
+	if [[ "$install_node" == true ]]; then
+		nodejs
+	fi
 	install_fonts
-	prompt "Server setup finished. Start a new Fish session with: fish"
+	if [[ "$change_shell" == true ]]; then
+		set_default_fish_shell
+		prompt "Server setup finished. Fish starts on your next login."
+	else
+		prompt "Server setup finished. Start a new Fish session with: fish"
+	fi
 }
 
 # ============================================================================
@@ -537,16 +565,22 @@ dotfile.sh — interactive development-environment installer
 
 Usage:
   ./dotfile.sh          Install or configure selected components
-  ./dotfile.sh --server Install the server preset without prompts
+  ./dotfile.sh --server [--skip-node] [--set-default-shell]
+                        Install the server preset without prompts
   ./dotfile.sh --help   Show this help
 
 Server preset:
-  git, fish, fnm + Node.js LTS, Zellij, fonts, Vim + vimrc, curl, wget
+  Fish with Vi bindings, Starship, Zellij, fonts, Vim, Git, curl, and wget.
+  Use --skip-node to omit fnm and Node.js LTS.
+  Use --set-default-shell for Fish to start on the next login.
 
 Environment overrides:
   FNM_VERSION               fnm release tag (default: v1.39.0)
   FNM_INSTALL_TIMEOUT       Node installation deadline in seconds (default: 900)
   FNM_NODE_DIST_MIRROR      Trusted Node.js distribution mirror
+  DOTFILE_ROCKY_MIRROR       Rocky Linux 9 mirror root for this installation
+  DOTFILE_EPEL_MIRROR        EPEL 9 architecture repository URL for this installation
+  DOTFILE_ASSET_DIR         Local directory of official release archives
 
 Supported package managers:
   apt, dnf, yum, pacman, Homebrew
@@ -612,7 +646,8 @@ case "${1:-}" in
 		print_help
 		;;
 	--server)
-		server
+		shift
+		server "$@"
 		;;
 	"")
 		main

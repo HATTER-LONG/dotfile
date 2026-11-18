@@ -59,4 +59,4 @@ else
 	repository_dir="${REPOSITORY_DIR}"
 fi
 
-exec bash "${repository_dir}/dotfile.sh" --server
+exec bash "${repository_dir}/dotfile.sh" --server "$@"

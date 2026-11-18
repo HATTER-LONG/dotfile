@@ -22,26 +22,34 @@ bash dotfile.sh
 
 ## Server 快速安装
 
-非交互安装 Git、Fish、fnm + Node.js LTS、Zellij、仓库字体、Vim/vimrc、curl 和 wget：
+服务器配置包含 Fish、Starship、Zellij、Vim、字体和基础命令。Fish 默认从 Vi 插入模式开始，`jk` 进入 Normal 模式，Normal 模式显示红色 `❮` 和方块光标。插入模式的 `Ctrl+E` 接受行尾自动建议。有 `fzf` 时，`Ctrl+R`、`Ctrl+T` 和 `Alt+C` 分别打开历史、文件和目录搜索。Starship 提示符显示路径和 Git 状态，省略主机名。
+
+在已克隆的仓库中，复用无 Node.js 的服务器配置：
 
 ```bash
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/HATTER-LONG/dotfile/main/server-install.sh)"
-# 只有 wget 时：
-bash -c "$(wget -qO- https://raw.githubusercontent.com/HATTER-LONG/dotfile/main/server-install.sh)"
+bash server-install.sh --skip-node --set-default-shell
+# 等价命令
+bash dotfile.sh --server --skip-node --set-default-shell
 ```
 
-在已克隆的仓库中也可以直接执行：
+`--set-default-shell` 将当前账号的登录 Shell 改为 Fish，下次 SSH 登录生效。省略该参数时可运行 `fish` 进入。默认 server 安装仍包含 fnm 和 Node.js LTS。Node 下载可通过 `FNM_INSTALL_TIMEOUT` 和 `FNM_NODE_DIST_MIRROR` 调整。
+
+### Rocky Linux 9
+
+Rocky 9 会按需安装 EPEL 与 Fish、fzf、ripgrep、fd、bat、zoxide、Ninja。下面的镜像只用于本次 DNF 操作，RPM 签名校验保持开启。
 
 ```bash
-bash server-install.sh
-# 或：bash dotfile.sh --server
+DOTFILE_ROCKY_MIRROR=https://mirrors.aliyun.com/rockylinux/9 \
+DOTFILE_EPEL_MIRROR=https://mirrors.bfsu.edu.cn/epel/9/Everything/x86_64/ \
+bash server-install.sh --skip-node --set-default-shell
 ```
 
-fnm 和 Node.js LTS 均使用非交互安装；Node 下载默认最多等待 15 分钟，超时会明确失败，不会一直卡住。可按网络情况调整超时或使用你信任的镜像：
+ARM64 使用镜像里对应的 `aarch64` 目录。服务器直接访问 GitHub 较慢时，可以把仓库和官方发布归档传到服务器，设置 `DOTFILE_ASSET_DIR` 指向保存归档的目录。安装使用脚本中固定的版本、官方文件名和 SHA-256。Linux x86_64 还会安装 eza、vivid 和 lazygit。具体归档见 [server-terminal.sh](tools/server-terminal.sh)。
+
+也可以用远程入口启动安装：
 
 ```bash
-FNM_INSTALL_TIMEOUT=600 bash dotfile.sh --server
-FNM_NODE_DIST_MIRROR=https://nodejs.org/dist bash dotfile.sh --server
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/HATTER-LONG/dotfile/main/server-install.sh)" -- --skip-node --set-default-shell
 ```
 
 ### 可选组件

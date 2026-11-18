@@ -1,0 +1,72 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+format = """
+$username\
+$directory\
+$git_branch\
+$git_state\
+$git_status\
+$cmd_duration\
+$line_break\
+$python\
+$character"""
+
+[username]
+format = "[$user]($style)  "
+style_user = "fg:#a6adc8"
+style_root = "bold fg:#f38ba8"
+
+[directory]
+style = "bold fg:#89b4fa"
+
+[character]
+success_symbol = "[❯](bold fg:#94e2d5)"
+error_symbol = "[❯](bold fg:#f38ba8)"
+vimcmd_symbol = "[❮](bold fg:#f38ba8)"
+
+[git_branch]
+format = "[$branch]($style)"
+style = "fg:#cba6f7"
+
+[git_status]
+format = "[[(*$conflicted$untracked$modified$staged$renamed$deleted)](fg:#f5c2e7) ($ahead_behind$stashed)]($style)"
+style = "fg:#94e2d5"
+conflicted = "​"
+untracked = "​"
+modified = "​"
+staged = "​"
+renamed = "​"
+deleted = "​"
+stashed = "≡"
+
+[git_state]
+format = '\([$state( $progress_current/$progress_total)]($style)\) '
+style = "fg:#a6adc8"
+
+[cmd_duration]
+format = "[$duration]($style) "
+style = "fg:#f9e2af"
+
+[jj_bookmark]
+format = "[$bookmark(@$remote)$diverged( \\(+$overflow_count others\\))]($style)"
+style = "bright-black"
+
+[jj_status]
+format = "[[(*$all)](218)]($style)"
+style = "cyan"
+conflicted = "​"
+description_empty = ""
+description_present = ""
+hidden = "​"
+immutable = "​"
+added = "​"
+copied = ""
+deleted = "​"
+modified = "​"
+renamed = "​"
+
+[python]
+format = "[$virtualenv]($style) "
+style = "fg:#a6adc8"
+detect_extensions = []
+detect_files = []
